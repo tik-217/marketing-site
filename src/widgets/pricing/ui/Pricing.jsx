@@ -14,7 +14,7 @@ export function Pricing() {
           Модуль 0, маркетинговый анализ, входит в любой проект. Бриф по вашему бизнесу, анализ
           целевой аудитории, анализ конкурентов, анализ ниши и УТП.
         </p>
-        <p style={{ color: 'var(--text-secondary)' }}>Каждый добавленный модуль включает свою дополнительные этапы.</p>
+        <p style={{ color: 'var(--text-secondary)' }}>Каждый добавленный модуль включает свои дополнительные этапы.</p>
       </div>
 
       <div className="tabs">
@@ -58,12 +58,12 @@ export function Pricing() {
       )}
 
       <a
-        href="https://disk.yandex.ru/d/zuFRI3cpumXScQ"
+        href="https://app.notion.com/p/3d742da791da8084b0afce388482a84a?source=copy_link"
         target="_blank"
         rel="noopener noreferrer"
         className="pricing-note"
       >
-        Ссылка-превью на публичную страницу анализа ЦА как образец объема работы
+        Ссылка-превью страницу Анализ ЦА: банкротство физических лиц
       </a>
     </Section>
   )

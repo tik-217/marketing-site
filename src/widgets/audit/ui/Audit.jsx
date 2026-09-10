@@ -31,8 +31,7 @@ export function Audit({ id }) {
         <Eyebrow inverse>Аудит</Eyebrow>
         <h2 className="audit__heading">Проведу аудит за 24 час перед стартом работ</h2>
         <p className="audit__lead">
-          Пришлите ссылку на сайт или на кабинет Директа. Посмотрю их вместе с конкурентами и
-          отправлю, что можно улучшить.
+            Посмотрю ваш сайт, рекламу и конкурентов, покажу места, где теряется клиенты.
         </p>
       </div>
 
@@ -40,7 +39,7 @@ export function Audit({ id }) {
         {sent ? (
           <div className="stack" style={{ gap: 'var(--space-3)', padding: '24px 0' }}>
             <h3 className="audit-form__success-title">Заявка отправлена</h3>
-            <p style={{ color: 'var(--text-secondary)' }}>Отвечаю в течение рабочего дня.</p>
+            <p style={{ color: 'var(--text-secondary)' }}>Отвечаю в течение 30-ти минут.</p>
           </div>
         ) : (
           <>
@@ -63,7 +62,7 @@ export function Audit({ id }) {
                 </a>
               </p>
             ) : (
-              <p className="audit-form__help">Отвечаю в течение рабочего дня</p>
+              <p className="audit-form__help">Отвечаю в течение 30-ти минут.</p>
             )}
           </>
         )}

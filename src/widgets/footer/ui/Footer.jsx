@@ -1,4 +1,5 @@
 import { contacts } from '../../../shared/config/contacts'
+import { InstagramIcon, TelegramIcon } from '../../../shared/ui'
 
 export function Footer() {
   return (
@@ -11,8 +12,18 @@ export function Footer() {
         </span>
         <span className="site-footer__spacer" />
         <a href={'tel:+79180220901'} className="site-footer__phone">{contacts.phone}</a>
-        <a href={contacts.telegramUrl} target="_blank" rel="noopener noreferrer" className="text-link">
-          Telegram
+        <a href={contacts.telegramUrl} target="_blank" rel="noopener noreferrer" className="social-link">
+          <TelegramIcon />
+          <span>Telegram</span>
+        </a>
+        <a
+          href={contacts.instagramUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="social-link"
+        >
+          <InstagramIcon />
+          <span>Instagram</span>
         </a>
       </div>
     </footer>

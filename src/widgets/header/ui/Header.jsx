@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { contacts } from '../../../shared/config/contacts'
+import { InstagramIcon, TelegramIcon } from '../../../shared/ui'
 
 export function Header() {
   const [hidden, setHidden] = useState(false)
@@ -34,9 +35,26 @@ export function Header() {
         <span className="site-header__divider">|</span>
         <span className="site-header__role">Маркетолог</span>
         <span className="site-header__spacer" />
-        <a href={contacts.telegramUrl} target="_blank" rel="noopener noreferrer" className="text-link">
-          Telegram
-        </a>
+        <div className="site-header__socials">
+          <a
+            href={contacts.telegramUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="social-link social-link--icon"
+            aria-label="Telegram Тиграна Габуляна"
+          >
+            <TelegramIcon />
+          </a>
+          <a
+            href={contacts.instagramUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="social-link social-link--icon"
+            aria-label="Instagram Тиграна Габуляна"
+          >
+            <InstagramIcon />
+          </a>
+        </div>
       </div>
     </header>
   )
