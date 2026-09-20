@@ -254,12 +254,18 @@
   display: none;
 }
 
-.case-slider__slide {
+.case-slider__image-link {
   flex: 0 0 100%;
+  width: 100%;
+  scroll-snap-align: start;
+  display: block;
+  cursor: zoom-in;
+}
+
+.case-slider__slide {
   width: 100%;
   aspect-ratio: 16 / 9;
   object-fit: contain;
-  scroll-snap-align: start;
   display: block;
 }
 
@@ -339,6 +345,11 @@
   letter-spacing: var(--tracking-wide);
   text-transform: uppercase;
   color: var(--text-secondary);
+
+    a {
+        display: inline;
+        width: fit-content;
+    }
 }
 
 /* ---------- situations ---------- */

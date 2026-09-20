@@ -4,7 +4,7 @@ import { CaseCard } from './CaseCard'
 
 export function Cases() {
   return (
-    <Section containerClassName="stack">
+    <Section id="cases" containerClassName="stack">
       <h2 className="section-heading">Суммарный доход моих клиентов больше 5 млн. руб.</h2>
       <div className="cases-grid">
         {cases.map((item) => (

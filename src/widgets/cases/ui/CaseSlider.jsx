@@ -28,7 +28,16 @@ export function CaseSlider({ slides }) {
     <div className="case-slider">
       <div className="case-slider__track" ref={trackRef} onScroll={handleScroll}>
         {slides.map((slide) => (
-          <img key={slide.src} src={slide.src} alt={slide.alt} className="case-slider__slide" />
+          <a
+            key={slide.src}
+            href={slide.src}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="case-slider__image-link"
+            aria-label={`Открыть изображение в полном размере: ${slide.alt}`}
+          >
+            <img src={slide.src} alt={slide.alt} className="case-slider__slide" loading="lazy" />
+          </a>
         ))}
       </div>
       {hasControls && (

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { modules, packages } from '../../../entities/pricing'
 import { Section } from '../../../shared/ui'
+import { documentLinks } from '../../../shared/config/documentLinks'
 import { PackageCard } from './PackageCard'
 
 export function Pricing() {
@@ -63,7 +64,7 @@ export function Pricing() {
       )}
 
       <a
-        href="https://app.notion.com/p/3d742da791da8084b0afce388482a84a?source=copy_link"
+        href={documentLinks.bankruptcy.audience}
         target="_blank"
         rel="noopener noreferrer"
         className="pricing-note"

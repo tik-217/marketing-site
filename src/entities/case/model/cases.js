@@ -2,12 +2,14 @@ import caseLegalAudience from '../../../shared/assets/images/case-legal-audience
 import caseLegalBrief from '../../../shared/assets/images/case-legal-brief.avif'
 import caseLegalCompetitors from '../../../shared/assets/images/case-legal-competitors.avif'
 import caseLegalUsp from '../../../shared/assets/images/case-legal-usp.avif'
-import caseBarsDirect from '../../../shared/assets/images/case-bars-direct.avif'
-import caseBarsMetrika from '../../../shared/assets/images/case-bars-metrika.avif'
-import casePetrovBrief from '../../../shared/assets/images/case-petrov-brief.avif'
-import casePetrovAnalysis from '../../../shared/assets/images/case-petrov-analysis.avif'
+import caseLegalDirect from '../../../shared/assets/images/case-legal-direct.avif'
+import caseLegalMetrika from '../../../shared/assets/images/case-legal-metrika.avif'
+import caseBankruptcyBrief from '../../../shared/assets/images/case-bankruptcy-brief.png'
+import caseBankruptcyAudience from '../../../shared/assets/images/case-bankruptcy-audience.png'
+import caseBankruptcyCompetitors from '../../../shared/assets/images/case-bankruptcy-competitors.png'
+import caseBankruptcyUsp from '../../../shared/assets/images/case-bankruptcy-usp.png'
+import { documentLinks } from '../../../shared/config/documentLinks'
 
-// TODO: у карточки банкротства нужны скриншоты Яндекс Метрики и кабинета Директа, срок результата.
 export const cases = [
   {
     id: 'legal',
@@ -17,31 +19,35 @@ export const cases = [
       { src: caseLegalAudience, alt: 'Описание целевой аудитории' },
       { src: caseLegalCompetitors, alt: 'Анализ конкурентов' },
       { src: caseLegalUsp, alt: 'Уникальное торговое предложение' },
-      { src: caseBarsDirect, alt: 'Кампании в кабинете Яндекс Директа' },
-      { src: caseBarsMetrika, alt: 'Конверсии в Яндекс Метрике' },
+      { src: caseLegalDirect, alt: 'Кампании в кабинете Яндекс Директа' },
+      { src: caseLegalMetrika, alt: 'Конверсии в Яндекс Метрике' },
     ],
     description:
       'Компания запускала новое направление и не знала, есть ли на него спрос. Первый звонок из Директа принес нового клиента.',
     meta: [
-      'Срок: 3 месяца',
-      { href: 'https://app.notion.com/p/3e142da791da81758018e68c178af27e?source=copy_link', label: 'Бриф' },
-      { href: 'https://app.notion.com/p/3e142da791da81f68d99f284eb547932?source=copy_link', label: 'Анализ ЦА' },
-      { href: 'https://app.notion.com/p/3e142da791da81dea645f771f3e9fcf6?source=copy_link', label: 'Анализ конкурентов' },
-      { href: 'https://app.notion.com/p/3e142da791da814d957be6bbca5f7288?source=copy_link', label: 'УТП' },
+      'Срок: 3 месяца. В работе',
+      { href: documentLinks.legal.brief, label: 'Бриф' },
+      { href: documentLinks.legal.audience, label: 'Анализ ЦА' },
+      { href: documentLinks.legal.competitors, label: 'Анализ конкурентов' },
+      { href: documentLinks.legal.usp, label: 'УТП' },
     ],
   },
   {
     id: 'bankruptcy',
-    title: 'Банкротство физлиц, Александр Петров',
+    title: 'Банкротство физических лиц',
     slides: [
-      { src: casePetrovBrief, alt: 'Бриф по рекламе для банкротства физлиц' },
-      { src: casePetrovAnalysis, alt: 'Анализ целевой аудитории, банкротство физических лиц' },
+      { src: caseBankruptcyBrief, alt: 'Обезличенный бриф по рекламе для банкротства физических лиц' },
+      { src: caseBankruptcyAudience, alt: 'Анализ целевой аудитории для услуги банкротства физических лиц' },
+      { src: caseBankruptcyCompetitors, alt: 'Анализ конкурентов в нише банкротства физических лиц' },
+      { src: caseBankruptcyUsp, alt: 'Уникальное торговое предложение для услуги банкротства физических лиц' },
     ],
     description: 'Запуск рекламы в Директе с нуля в нише, где рынок продает заявки поштучно. В работе.',
     meta: [
       'Срок: в работе',
-      { href: 'https://app.notion.com/p/3d742da791da8084b0afce388482a84a?source=copy_link', label: 'Анализ ЦА' },
-      { href: 'https://app.notion.com/p/3e142da791da81a29180fdf4d441731f?source=copy_link', label: 'Бриф' },
+      { href: documentLinks.bankruptcy.brief, label: 'Бриф' },
+      { href: documentLinks.bankruptcy.audience, label: 'Анализ ЦА' },
+      { href: documentLinks.bankruptcy.competitors, label: 'Анализ конкурентов' },
+      { href: documentLinks.bankruptcy.usp, label: 'УТП' },
     ],
   },
 ]
