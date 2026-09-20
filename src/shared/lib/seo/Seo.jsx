@@ -8,7 +8,7 @@ export function Seo({
   image = siteConfig.ogImage,
   noIndex = false,
 }) {
-  const fullTitle = title ? `${title} — ${siteConfig.name}` : siteConfig.title
+  const fullTitle = title ? `${title}, ${siteConfig.name}` : siteConfig.title
   const canonicalUrl = new URL(path, siteConfig.url).toString()
   const imageUrl = new URL(image, siteConfig.url).toString()
 

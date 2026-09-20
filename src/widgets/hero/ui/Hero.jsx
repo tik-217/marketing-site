@@ -1,26 +1,23 @@
-import { contacts } from '../../../shared/config/contacts'
-import { Button, Section } from '../../../shared/ui'
+import { CtaButton, Section } from '../../../shared/ui'
 import heroImage from '../../../shared/assets/images/tigran-full.avif'
 
 export function Hero() {
   return (
     <Section flush containerClassName="hero">
-      <h1 className="hero__headline">
-        Строю канал продаж
-        <br />и упаковываю <br />смыслы
-      </h1>
+      <h1 className="hero__headline">Собираю маркетинг для юристов, от анализа рынка до заявок</h1>
       <p className="hero__lead">
-        Настраиваю рекламу и собираю сайт на основе маркетингового анализа. Результат — готовая
-        воронка с настроенным трафиком
+        Анализ ниши, смыслы, сайт и Яндекс Директ делаю лично я. Домен и рекламный кабинет
+        регистрируются на вас и остаются вашими навсегда.
       </p>
+      {/* TODO: рядом с фото нужен открытый прототип сайта или экран Директа, материала пока нет. */}
       <div className="hero__media">
         <img src={heroImage} alt="Габулян Тигран" className="hero__media-image" />
       </div>
       <div className="hero__cta">
-        <Button href="#audit">{contacts.ctaLabel}</Button>
+        <CtaButton />
         <p className="hero__help">
-          Проведу аудит за 24 часа бесплатно. Посмотрю ваш сайт, рекламу и конкурентов, покажу
-          места, где теряется клиенты.
+          Посмотрю ваш сайт, рекламу и конкурентов, пришлю список мест, где вы теряете заявки.
+          Бесплатно, за 24 часа.
         </p>
       </div>
     </Section>

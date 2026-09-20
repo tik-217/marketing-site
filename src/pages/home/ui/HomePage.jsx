@@ -4,8 +4,8 @@ import { Hero } from '../../../widgets/hero'
 import { Cases } from '../../../widgets/cases'
 import { Situations } from '../../../widgets/situations'
 import { Comparison } from '../../../widgets/comparison'
-import { Solo } from '../../../widgets/solo'
 import { Pricing } from '../../../widgets/pricing'
+import { Guarantees } from '../../../widgets/guarantees'
 import { Audit } from '../../../widgets/audit'
 import { Process } from '../../../widgets/process'
 import { Boundaries } from '../../../widgets/boundaries'
@@ -24,14 +24,13 @@ export function HomePage() {
           <Cases />
           <Situations />
           <Comparison />
-          <Solo />
           <Pricing />
-          <Audit id="audit" />
+          <Guarantees />
           <Process />
           <Boundaries />
           <About />
           <Faq />
-          <Audit />
+          <Audit id="audit" />
         </main>
         <Footer />
       </div>

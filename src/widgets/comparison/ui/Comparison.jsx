@@ -1,6 +1,5 @@
 import { useState } from 'react'
-import { contacts } from '../../../shared/config/contacts'
-import { Button, Section } from '../../../shared/ui'
+import { CtaButton, Section } from '../../../shared/ui'
 import { comparisonOptions } from '../model/comparisonOptions'
 import { ComparisonPanel } from './ComparisonPanel'
 
@@ -9,7 +8,7 @@ export function Comparison() {
 
   return (
     <Section containerClassName="stack">
-      <h2 className="section-heading">Комплексная система маркетинга под ключ</h2>
+      <h2 className="section-heading">Три способа получить заявки и что остается у вас после каждого</h2>
 
       <div className="tabs comparison-tabs">
         {comparisonOptions.map((option) => (
@@ -32,12 +31,11 @@ export function Comparison() {
 
       <p style={{ color: 'var(--text-secondary)', maxWidth: '58ch' }}>
         Когда рекламу настраивает один человек, сайт делает второй, а тексты пишет третий, каждый
-        отвечает за свой кусок и никто за результат целиком.
+        отвечает за свой кусок и никто за результат целиком. Сайт не знает, что обещает реклама,
+        реклама ведет на страницу, которая говорит о другом.
       </p>
 
-      <Button href="#audit" className="comparison-cta">
-        {contacts.ctaLabel}
-      </Button>
+      <CtaButton className="comparison-cta" />
     </Section>
   )
 }

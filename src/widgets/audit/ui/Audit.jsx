@@ -10,7 +10,8 @@ export function Audit({ id }) {
 
   async function handleSubmit(event) {
     event.preventDefault()
-    const contact = new FormData(event.target).get('contact')?.toString().trim()
+    const formData = new FormData(event.target)
+    const contact = formData.get('contact')?.toString().trim()
     if (!contact) return
 
     setIsSubmitting(true)
@@ -29,9 +30,10 @@ export function Audit({ id }) {
     <Section id={id} inverse containerClassName="audit">
       <div className="audit__copy">
         <Eyebrow inverse>Аудит</Eyebrow>
-        <h2 className="audit__heading">Проведу аудит за 24 час перед стартом работ</h2>
+        <h2 className="audit__heading">Покажу, где ваш сайт и реклама теряют заявки</h2>
         <p className="audit__lead">
-            Посмотрю ваш сайт, рекламу и конкурентов, покажу места, где теряется клиенты.
+          Пришлите ссылку на сайт или на кабинет Директа. Посмотрю их вместе с конкурентами и
+          вернусь со списком точек роста. Бесплатно и без обязательств.
         </p>
       </div>
 
@@ -43,11 +45,10 @@ export function Audit({ id }) {
           </div>
         ) : (
           <>
-            <h3 className="audit-form__title">Выявить точки роста за 24 часа</h3>
             <input
               type="text"
               name="contact"
-              placeholder="Телефон или ник в телеграме"
+              placeholder="Телеграм или телефон"
               className="audit-form__input"
               required
             />

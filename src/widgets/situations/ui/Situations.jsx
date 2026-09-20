@@ -1,4 +1,4 @@
-import { Section } from '../../../shared/ui'
+import { CtaButton, Section } from '../../../shared/ui'
 import { situations } from '../model/situations'
 
 export function Situations() {
@@ -13,6 +13,7 @@ export function Situations() {
           </div>
         ))}
       </div>
+      <CtaButton style={{ alignSelf: 'flex-start' }} />
     </Section>
   )
 }

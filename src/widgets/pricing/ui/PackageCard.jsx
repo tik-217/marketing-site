@@ -1,5 +1,4 @@
-import { contacts } from '../../../shared/config/contacts'
-import { Button } from '../../../shared/ui'
+import { CtaButton } from '../../../shared/ui'
 
 export function PackageCard({ title, oldPrice, price, items, note, inverse }) {
   return (
@@ -21,9 +20,7 @@ export function PackageCard({ title, oldPrice, price, items, note, inverse }) {
           ),
         )}
       </ul>
-      <Button href="#audit" block className="package-card__cta">
-        {contacts.ctaLabel}
-      </Button>
+      <CtaButton block className="package-card__cta" />
       {note && <p className="package-card__note">{note}</p>}
     </div>
   )
