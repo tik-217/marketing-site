@@ -20,6 +20,8 @@ import caseBankruptcyCompetitorsMobile from '../../../shared/assets/images/case-
 import caseBankruptcyUspMobile from '../../../shared/assets/images/case-bankruptcy-usp-mobile.png'
 import { documentLinks } from '../../../shared/config/documentLinks'
 
+// TODO: под ссылками "Бриф", "Анализ ЦА", "Анализ конкурентов", "УТП" нужна одна находка из каждого документа.
+// TODO: у второго кейса добавить цифру по обращениям после первого месяца рекламы, тогда вернуть фразу про тестовый период.
 export const cases = [
   {
     id: 'legal',
@@ -33,7 +35,7 @@ export const cases = [
       { src: caseLegalMetrika, mobileSrc: caseLegalMetrikaMobile, alt: 'Конверсии в Яндекс Метрике' },
     ],
     description:
-      'Компания запускала новое направление и не знала, есть ли на него спрос. Первый звонок из Директа принес нового клиента.',
+      '3-й месяц. Новое направление без проверенного спроса. Первое обращение из Директа принесло клиента.',
     meta: [
       'Срок: 3 месяца. В работе',
       { href: documentLinks.legal.brief, label: 'Бриф' },
@@ -51,7 +53,7 @@ export const cases = [
       { src: caseBankruptcyCompetitors, mobileSrc: caseBankruptcyCompetitorsMobile, alt: 'Анализ конкурентов в нише банкротства физических лиц' },
       { src: caseBankruptcyUsp, mobileSrc: caseBankruptcyUspMobile, alt: 'Уникальное торговое предложение для услуги банкротства физических лиц' },
     ],
-    description: 'Запуск рекламы в Директе с нуля в нише, где рынок продает заявки поштучно. В работе.',
+    description: 'Запуск с нуля в нише, где заявки продают поштучно.',
     meta: [
       'Срок: в работе',
       { href: documentLinks.bankruptcy.brief, label: 'Бриф' },

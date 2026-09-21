@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { sendTelegramMessage } from '../../../shared/api/telegram'
 import { contacts } from '../../../shared/config/contacts'
 import { Button, Eyebrow, Section } from '../../../shared/ui'
@@ -41,7 +42,7 @@ export function Audit({ id }) {
         {sent ? (
           <div className="stack" style={{ gap: 'var(--space-3)', padding: '24px 0' }}>
             <h3 className="audit-form__success-title">Заявка отправлена</h3>
-            <p style={{ color: 'var(--text-secondary)' }}>Отвечаю в течение 30-ти минут.</p>
+            <p style={{ color: 'var(--text-secondary)' }}>Отвечу в течение 30 минут. Документ пришлю в течение 24 часов после доступов.</p>
           </div>
         ) : (
           <>
@@ -52,6 +53,15 @@ export function Audit({ id }) {
               className="audit-form__input"
               required
             />
+            <label className="audit-form__consent">
+              <input type="checkbox" name="consent" required />
+              <span>
+                Согласен на обработку персональных данных и принимаю{' '}
+                <Link to="/privacy" target="_blank" rel="noopener noreferrer">
+                  политику
+                </Link>
+              </span>
+            </label>
             <Button as="button" type="submit" block className="audit-form__submit" disabled={isSubmitting}>
               {isSubmitting ? 'Отправляю…' : contacts.ctaLabel}
             </Button>
@@ -63,7 +73,7 @@ export function Audit({ id }) {
                 </a>
               </p>
             ) : (
-              <p className="audit-form__help">Отвечаю в течение 30-ти минут.</p>
+              <p className="audit-form__help">Отвечу в течение 30 минут. Документ пришлю в течение 24 часов после доступов.</p>
             )}
           </>
         )}

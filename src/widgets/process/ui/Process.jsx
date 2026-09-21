@@ -4,7 +4,7 @@ import { steps } from '../model/steps'
 export function Process() {
   return (
     <Section containerClassName="stack">
-      <h2 className="section-heading">Как проходит подготовка к работе</h2>
+      <h2 className="section-heading">От первого разговора до договора три дня</h2>
       <div className="process-list">
         {steps.map((step) => (
           <div className="process-row" key={step.index}>
