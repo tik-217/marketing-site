@@ -1,4 +1,4 @@
-import { Section } from '../../../shared/ui'
+import { CtaButton, Section } from '../../../shared/ui'
 import { boundaries } from '../model/boundaries'
 
 export function Boundaries() {
@@ -10,6 +10,7 @@ export function Boundaries() {
           <li key={item}>{item}</li>
         ))}
       </ul>
+      <CtaButton className="boundaries-cta" />
     </Section>
   )
 }

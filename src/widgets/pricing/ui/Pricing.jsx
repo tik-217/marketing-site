@@ -1,11 +1,26 @@
-import { useState } from 'react'
-import { modules, packages } from '../../../entities/pricing'
-import { Section } from '../../../shared/ui'
-import { documentLinks } from '../../../shared/config/documentLinks'
-import { PackageCard } from './PackageCard'
+import { useLayoutEffect, useRef, useState } from 'react'
+import { modules, packageDiscount, packageModules, packages } from '../../../entities/pricing'
+import { CtaButton, Section } from '../../../shared/ui'
+import { PackageComparison } from './PackageComparison'
 
 export function Pricing() {
   const [tab, setTab] = useState('modules')
+  const [openModuleId, setOpenModuleId] = useState(null)
+  const moduleRefs = useRef(new Map())
+  const pendingScrollId = useRef(null)
+
+  useLayoutEffect(() => {
+    if (!pendingScrollId.current || pendingScrollId.current !== openModuleId) return undefined
+
+    const moduleElement = moduleRefs.current.get(openModuleId)
+    pendingScrollId.current = null
+
+    const frame = window.requestAnimationFrame(() => {
+      moduleElement?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    })
+
+    return () => window.cancelAnimationFrame(frame)
+  }, [openModuleId])
 
   return (
     <Section containerClassName="stack">
@@ -42,35 +57,125 @@ export function Pricing() {
 
       {tab === 'modules' ? (
         <div className="pricing-table">
-          <div className="pricing-table__head">
-            <span>Модуль</span>
-            <span>Что входит</span>
-            <span style={{ textAlign: 'right' }}>Цена</span>
-          </div>
-          {modules.map((module) => (
-            <div className="pricing-row" key={module.id}>
-              <span className="pricing-row__title">{module.title}</span>
-              <span className="pricing-row__desc">{module.description}</span>
-              <span className="pricing-row__price">{module.price}</span>
-            </div>
-          ))}
+          {modules.map((module) => {
+            const isOpen = openModuleId === module.id
+            const panelId = `module-${module.id}-details`
+
+            return (
+              <section
+                className={isOpen ? 'pricing-row is-open' : 'pricing-row'}
+                key={module.id}
+                ref={(element) => {
+                  if (element) moduleRefs.current.set(module.id, element)
+                  else moduleRefs.current.delete(module.id)
+                }}
+              >
+                <button
+                  type="button"
+                  className="pricing-row__summary"
+                  aria-expanded={isOpen}
+                  aria-controls={panelId}
+                  onClick={() => {
+                    const nextModuleId = isOpen ? null : module.id
+                    pendingScrollId.current = nextModuleId
+                    setOpenModuleId(nextModuleId)
+                  }}
+                >
+                  <span className="pricing-row__heading">
+                    <span className="pricing-row__title">{module.title}</span>
+                    {module.duration && <span className="pricing-row__duration">{module.duration}</span>}
+                  </span>
+                  <span className="pricing-row__price">{module.price}</span>
+                  <span className="pricing-row__toggle" aria-hidden="true">
+                    {isOpen ? '−' : '+'}
+                  </span>
+                </button>
+
+                {isOpen && (
+                  <div className="pricing-row__panel" id={panelId}>
+                    <p className="pricing-row__note">{module.description}</p>
+                    {module.phases ? (
+                      <div className="pricing-phases">
+                        {module.phases.map((phase) => (
+                          <section className="pricing-phase" key={phase.title}>
+                            <header className="pricing-phase__header">
+                              <h3 className="pricing-phase__title">{phase.title}</h3>
+                              <span className="pricing-phase__days">{phase.days}</span>
+                            </header>
+                            <div className="pricing-phase__steps">
+                              {phase.steps.map((step) => (
+                                <article className="pricing-step" key={step.number}>
+                                  <div className="pricing-step__heading">
+                                    <h4 className="pricing-step__title">
+                                      {step.number}. {step.title}
+                                    </h4>
+                                    {step.days && <span className="pricing-step__days">{step.days}</span>}
+                                  </div>
+                                  <p className="pricing-step__description">{step.description}</p>
+                                  {step.includes && (
+                                    <p className="pricing-step__meta">
+                                      <strong>Внутри</strong> {step.includes}
+                                    </p>
+                                  )}
+                                  {step.result && (
+                                    <p className="pricing-step__result">
+                                      <strong>Результат.</strong> {step.result}
+                                    </p>
+                                  )}
+                                </article>
+                              ))}
+                            </div>
+                          </section>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="pricing-row__details">
+                        {module.groups.map((group, index) => (
+                          <article className="pricing-detail" key={group.title}>
+                            <span className="pricing-detail__index">{String(index + 1).padStart(2, '0')}</span>
+                            <h3 className="pricing-detail__title">{group.title}</h3>
+                            <ul className="pricing-detail__list">
+                              {group.items.map((item) => (
+                                <li key={item}>{item}</li>
+                              ))}
+                            </ul>
+                          </article>
+                        ))}
+                      </div>
+                    )}
+                    {module.outcome && (
+                      <aside className="pricing-outcome">
+                        <div>
+                          <h3 className="pricing-outcome__title">{module.outcome.title}</h3>
+                          <p>{module.outcome.description}</p>
+                        </div>
+                        <div className="pricing-outcome__terms">
+                          <h3>{module.outcome.termsTitle}</h3>
+                          <p>{module.outcome.terms}</p>
+                        </div>
+                      </aside>
+                    )}
+                    {module.footerBlocks && (
+                      <aside className="pricing-outcome pricing-outcome--details">
+                        {module.footerBlocks.map((block) => (
+                          <div key={block.title}>
+                            <h3 className="pricing-outcome__title">{block.title}</h3>
+                            <p>{block.description}</p>
+                          </div>
+                        ))}
+                      </aside>
+                    )}
+                    <CtaButton className="pricing-cta" />
+                  </div>
+                )}
+              </section>
+            )
+          })}
         </div>
       ) : (
-        <div className="pricing-packages">
-          {packages.map((pkg) => (
-            <PackageCard key={pkg.id} {...pkg} />
-          ))}
-        </div>
+        <PackageComparison modules={packageModules} packages={packages} discount={packageDiscount} />
       )}
 
-      <a
-        href={documentLinks.bankruptcy.audience}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="pricing-note"
-      >
-        Пример анализа целевой аудитории, банкротство физических лиц
-      </a>
     </Section>
   )
 }

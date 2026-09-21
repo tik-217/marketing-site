@@ -1,46 +1,55 @@
-const analysis = {
-  label: 'Маркетинговый анализ',
-  note: 'Бриф, анализ ЦА, анализ конкурентов, анализ ниши, формирование УТП',
-}
-
-const site = {
-  label: 'Сайт',
-  note: 'Копирайтинг, последовательность смысловых блоков, прототип, дизайн, верстка, размещение в интернете',
-}
-
-const ads = {
-  label: 'Реклама в Яндекс Директе',
-  note: 'Семантическое ядро, прототипы объявлений, рекламные баннеры, настройка кампаний, ежедневные отчеты. Продлевается ежемесячно, 30 000 ₽/мес',
-}
-
-const identity = {
-  label: 'Айдентика',
-  note: 'Логотип, фирменный стиль, брендбук, адаптация стиля под площадки',
-}
+export const packageModules = [
+  { id: 'analysis', label: 'Анализ', price: '50 000 ₽' },
+  { id: 'ads', label: 'Реклама', price: '40 000 ₽/мес' },
+  { id: 'site', label: 'Сайт', price: '70 000 ₽' },
+  { id: 'telegram', label: 'ТГ-канал', price: '70 000 ₽/мес' },
+  { id: 'identity', label: 'Айдентика', price: '40 000 ₽' },
+]
 
 export const packages = [
   {
-    id: 'start',
-    title: 'Старт',
-    price: '120 000 ₽',
-    items: [analysis, site],
-    note: 'Еще нет ни сайта, ни маркетинга',
-    inverse: false,
+    id: 'direct',
+    title: 'Директ',
+    situation: 'Сайт есть, заявок мало',
+    includedModules: ['analysis', 'ads'],
+    modulesTotal: '90 000 ₽',
+    price: '82 800 ₽',
+    monthly: '40 000 ₽',
+    duration: 'около 28',
   },
   {
     id: 'traffic',
     title: 'Трафик',
-    price: '150 000 ₽',
-    items: [analysis, site, ads],
-    note: 'Нужны заявки сразу после запуска',
-    inverse: true,
+    situation: 'Сайта нет, нужны заявки',
+    includedModules: ['analysis', 'ads', 'site'],
+    modulesTotal: '160 000 ₽',
+    price: '147 200 ₽',
+    monthly: '40 000 ₽',
+    duration: 'около 42',
   },
   {
-    id: 'turnkey',
-    title: 'Под ключ',
-    price: '190 000 ₽',
-    items: [analysis, site, ads, identity],
-    note: 'Бренд, сайт и реклама для нового бизнеса',
-    inverse: false,
+    id: 'system',
+    title: 'Система',
+    situation: 'Нужны заявки и доверие',
+    includedModules: ['analysis', 'ads', 'site', 'telegram'],
+    modulesTotal: '230 000 ₽',
+    price: '211 600 ₽',
+    monthly: '110 000 ₽',
+    duration: 'около 42',
+  },
+  {
+    id: 'launch',
+    title: 'Запуск с нуля',
+    situation: 'Новый бизнес',
+    includedModules: ['analysis', 'ads', 'site', 'telegram', 'identity'],
+    modulesTotal: '270 000 ₽',
+    price: '248 400 ₽',
+    monthly: '110 000 ₽',
+    duration: 'около 55',
   },
 ]
+
+export const packageDiscount = {
+  title: 'Скидка 8% действует только при заказе пакетом',
+  description: 'Услуги можно собрать раздельно, но скидка тогда не сохраняется.',
+}

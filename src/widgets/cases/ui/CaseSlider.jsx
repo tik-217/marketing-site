@@ -35,8 +35,15 @@ export function CaseSlider({ slides }) {
             rel="noopener noreferrer"
             className="case-slider__image-link"
             aria-label={`Открыть изображение в полном размере: ${slide.alt}`}
+            onClick={(event) => {
+              const image = event.currentTarget.querySelector('img')
+              if (image?.currentSrc) event.currentTarget.href = image.currentSrc
+            }}
           >
-            <img src={slide.src} alt={slide.alt} className="case-slider__slide" loading="lazy" />
+            <picture>
+              {slide.mobileSrc && <source media="(max-width: 860px)" srcSet={slide.mobileSrc} />}
+              <img src={slide.src} alt={slide.alt} className="case-slider__slide" loading="lazy" />
+            </picture>
           </a>
         ))}
       </div>
