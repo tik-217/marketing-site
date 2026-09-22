@@ -35,7 +35,7 @@ export function Comparison() {
         реклама ведет на страницу, которая говорит о другом.
       </p>
 
-      <CtaButton className="comparison-cta" />
+      <CtaButton className="comparison-cta" source="s-paths" />
     </Section>
   )
 }

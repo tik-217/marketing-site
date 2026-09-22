@@ -1,4 +1,4 @@
-import { Section } from '../../../shared/ui'
+import { CtaButton, Section } from '../../../shared/ui'
 import { questions } from '../model/questions'
 
 export function Faq() {
@@ -16,6 +16,7 @@ export function Faq() {
           </details>
         ))}
       </div>
+      <CtaButton source="s-faq" style={{ alignSelf: 'flex-start' }} />
     </Section>
   )
 }

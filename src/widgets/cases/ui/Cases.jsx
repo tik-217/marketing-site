@@ -1,5 +1,5 @@
 import { cases } from '../../../entities/case'
-import { Section } from '../../../shared/ui'
+import { CtaButton, Section } from '../../../shared/ui'
 import { CaseCard } from './CaseCard'
 
 export function Cases() {
@@ -11,6 +11,7 @@ export function Cases() {
           <CaseCard key={item.id} {...item} />
         ))}
       </div>
+      <CtaButton source="s-cases" style={{ alignSelf: 'flex-start' }} />
     </Section>
   )
 }

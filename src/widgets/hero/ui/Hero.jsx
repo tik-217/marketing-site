@@ -14,7 +14,7 @@ export function Hero() {
         <img src={heroImage} alt="Габулян Тигран" className="hero__media-image" />
       </div>
       <div className="hero__cta">
-        <CtaButton />
+        <CtaButton source="s-hero" />
         <p className="hero__help">
           Задам пять вопросов в Telegram. Пришлю документ с точками потери
           заявок и разберем его на созвоне за 30 минут.

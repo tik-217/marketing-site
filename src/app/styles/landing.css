@@ -1559,6 +1559,17 @@
   color: var(--text-secondary);
 }
 
+.site-footer__cta {
+  padding: var(--space-3) var(--space-5);
+  font-size: var(--text-caption);
+}
+
+@media (min-width: 861px) {
+  .site-footer__cta {
+    padding: var(--space-3) var(--space-5);
+  }
+}
+
 /* ---------- legal page ---------- */
 
 .legal {

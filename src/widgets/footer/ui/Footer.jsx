@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { contacts } from '../../../shared/config/contacts'
-import { InstagramIcon, TelegramIcon } from '../../../shared/ui'
+import { CtaButton, InstagramIcon, TelegramIcon } from '../../../shared/ui'
 
 export function Footer() {
   return (
@@ -27,6 +27,7 @@ export function Footer() {
           <InstagramIcon />
           <span>Instagram</span>
         </a>
+        <CtaButton source="s-footer" className="site-footer__cta" />
       </div>
     </footer>
   )
