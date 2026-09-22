@@ -175,6 +175,32 @@ details[open] > summary .faq-icon {
   box-sizing: border-box;
 }
 
+.btn--gradient {
+  background: linear-gradient(115deg, var(--accent-400), var(--accent-600), var(--accent-700), var(--accent-500), var(--accent-400));
+  background-size: 300% 300%;
+  animation: btn-gradient 6s ease infinite;
+}
+
+.btn--gradient:hover {
+  background: linear-gradient(115deg, var(--accent-400), var(--accent-600), var(--accent-700), var(--accent-500), var(--accent-400));
+  background-size: 300% 300%;
+  animation: btn-gradient 2.5s ease infinite;
+}
+
+@keyframes btn-gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn--gradient,
+  .btn--gradient:hover {
+    animation: none;
+    background: var(--accent);
+  }
+}
+
 .text-link {
   border-bottom: 1px solid currentColor;
 }

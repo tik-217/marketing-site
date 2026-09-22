@@ -166,7 +166,7 @@ export function Pricing() {
                         ))}
                       </aside>
                     )}
-                    <CtaButton className="pricing-cta" source={moduleSource(module.id)} />
+                    <CtaButton className="pricing-cta btn--gradient" source={moduleSource(module.id)} />
                   </div>
                 )}
               </section>

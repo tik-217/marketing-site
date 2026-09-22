@@ -72,7 +72,7 @@ export function PackageComparison({ modules, packages, discount }) {
               <td className="package-table__label" />
               {packages.map((pkg) => (
                 <td className="package-table__cta" key={pkg.id}>
-                  <CtaButton block source={packageSource(pkg.id)} />
+                  <CtaButton block className="btn--gradient" source={packageSource(pkg.id)} />
                 </td>
               ))}
             </tr>
@@ -117,7 +117,7 @@ export function PackageComparison({ modules, packages, discount }) {
             </dl>
 
             <div className="package-plan__cta">
-              <CtaButton block source={packageSource(pkg.id)} />
+              <CtaButton block className="btn--gradient" source={packageSource(pkg.id)} />
             </div>
           </article>
         ))}

@@ -974,15 +974,23 @@
 
 .package-plan {
   overflow: hidden;
-  border: 1px solid var(--border-subtle);
+  border: 1px solid var(--border-default);
   border-radius: var(--radius-lg);
   background: var(--bg-page);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.package-plan:hover {
+  border-color: var(--accent-400);
+  box-shadow: var(--shadow-md);
 }
 
 .package-plan__header {
   padding: var(--space-5);
-  border-bottom: 1px solid var(--border-subtle);
-  background: var(--bg-surface);
+  border-bottom: 1px solid var(--gray-700);
+  background: var(--bg-inverse);
+  color: var(--white);
 }
 
 .package-plan__header h3 {
@@ -992,7 +1000,7 @@
 
 .package-plan__header p {
   margin-top: var(--space-1);
-  color: var(--text-secondary);
+  color: var(--gray-300);
 }
 
 .package-plan__modules {
@@ -1149,9 +1157,10 @@
     border-spacing: 0;
     border-collapse: separate;
     overflow: hidden;
-    border: 1px solid var(--border-subtle);
+    border: 1px solid var(--border-default);
     border-radius: var(--radius-lg);
     background: var(--bg-page);
+    box-shadow: var(--shadow-sm);
   }
 
   .package-table th,
@@ -1178,7 +1187,9 @@
   }
 
   .package-table thead th {
-    background: var(--bg-surface);
+    background: var(--bg-inverse);
+    color: var(--white);
+    border-bottom-color: var(--gray-700);
   }
 
   .package-table__plan + .package-table__plan,
@@ -1187,8 +1198,12 @@
     border-left: 1px solid var(--border-subtle);
   }
 
+  .package-table thead .package-table__plan + .package-table__plan {
+    border-left-color: var(--gray-700);
+  }
+
   .package-table__corner {
-    color: var(--text-secondary);
+    color: var(--gray-300);
     font-weight: 600;
     vertical-align: bottom !important;
   }
@@ -1207,7 +1222,7 @@
   .package-table__plan small {
     margin-top: var(--space-1);
     font-size: var(--text-sm);
-    color: var(--text-secondary);
+    color: var(--gray-300);
   }
 
   .package-table__cta {
