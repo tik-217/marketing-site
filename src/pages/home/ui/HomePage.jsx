@@ -4,6 +4,7 @@ import { Hero } from '../../../widgets/hero'
 import { Cases } from '../../../widgets/cases'
 import { Situations } from '../../../widgets/situations'
 import { Comparison } from '../../../widgets/comparison'
+import { Phases } from '../../../widgets/phases'
 import { Pricing } from '../../../widgets/pricing'
 import { Guarantees } from '../../../widgets/guarantees'
 import { Audit } from '../../../widgets/audit'
@@ -24,6 +25,7 @@ export function HomePage() {
           <Cases />
           <Situations />
           <Comparison />
+          <Phases />
           <Pricing />
           <Guarantees />
           <Process />

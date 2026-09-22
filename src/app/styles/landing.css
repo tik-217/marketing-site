@@ -538,6 +538,71 @@
 
 .comparison-panel--inverse .comparison-footer { border-top-color: var(--gray-700); }
 
+/* ---------- section lead ---------- */
+
+.section-lead {
+  max-width: 62ch;
+  color: var(--text-secondary);
+}
+
+/* ---------- phases ---------- */
+
+.phases-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-5);
+}
+
+@media (min-width: 640px) {
+  .phases-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1100px) {
+  .phases-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--space-4);
+  }
+}
+
+.phase-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  border-top: 2px solid var(--border-strong);
+  padding-top: var(--space-4);
+}
+
+.phase-card__number {
+  font-family: var(--font-display);
+  font-size: var(--text-caption);
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.phase-card__title {
+  font-size: var(--text-lg);
+}
+
+.phase-card__days {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 400;
+  color: var(--text-secondary);
+}
+
+.phase-card__result {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+.phases-note {
+  text-align: center;
+  color: var(--text-tertiary);
+  font-size: var(--text-sm);
+}
+
 /* ---------- solo ---------- */
 
 .solo__diagram {
