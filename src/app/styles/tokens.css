@@ -95,6 +95,7 @@
   --container-max: 1440px;
   --gutter: var(--space-4);
   --section-y: var(--space-7);
+  --header-height: 57px;
 }
 
 @media (min-width: 861px) {

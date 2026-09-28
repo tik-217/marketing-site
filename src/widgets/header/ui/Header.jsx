@@ -6,8 +6,33 @@ import { InstagramIcon, TelegramIcon, ThemeToggle } from '../../../shared/ui'
 export function Header() {
   const [hidden, setHidden] = useState(false)
   const lastY = useRef(0)
+  const headerRef = useRef(null)
+  const heightRef = useRef(0)
   const { pathname } = useLocation()
   const logoHref = pathname.startsWith('/cases') ? '/#cases' : '/'
+
+  useEffect(() => {
+    const element = headerRef.current
+    if (!element) return undefined
+
+    const setHeight = () => {
+      heightRef.current = element.offsetHeight
+      document.documentElement.style.setProperty(
+        '--header-height',
+        `${hidden ? 0 : heightRef.current}px`,
+      )
+    }
+
+    setHeight()
+    const observer = new ResizeObserver(setHeight)
+    observer.observe(element)
+    return () => observer.disconnect()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  useEffect(() => {
+    document.documentElement.style.setProperty('--header-height', `${hidden ? 0 : heightRef.current}px`)
+  }, [hidden])
 
   useEffect(() => {
     lastY.current = window.scrollY
@@ -32,7 +57,7 @@ export function Header() {
   }, [])
 
   return (
-    <header className={hidden ? 'site-header site-header--hidden' : 'site-header'}>
+    <header ref={headerRef} className={hidden ? 'site-header site-header--hidden' : 'site-header'}>
       <div className="container site-header__inner">
         <Link to={logoHref} className="site-header__brand">
           <span className="site-header__name">Габулян Тигран</span>
