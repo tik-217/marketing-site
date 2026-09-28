@@ -11,9 +11,9 @@ export function Pricing() {
   const pendingScrollId = useRef(null)
 
   useLayoutEffect(() => {
-    if (!pendingScrollId.current || pendingScrollId.current !== openModuleId) return undefined
+    if (!pendingScrollId.current) return undefined
 
-    const moduleElement = moduleRefs.current.get(openModuleId)
+    const moduleElement = moduleRefs.current.get(pendingScrollId.current)
     pendingScrollId.current = null
 
     const frame = window.requestAnimationFrame(() => {
@@ -77,9 +77,8 @@ export function Pricing() {
                   aria-expanded={isOpen}
                   aria-controls={panelId}
                   onClick={() => {
-                    const nextModuleId = isOpen ? null : module.id
-                    pendingScrollId.current = nextModuleId
-                    setOpenModuleId(nextModuleId)
+                    pendingScrollId.current = module.id
+                    setOpenModuleId(isOpen ? null : module.id)
                   }}
                 >
                   <span className="pricing-row__heading">
