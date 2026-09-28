@@ -17,6 +17,9 @@ export function CasesPage() {
       <main className="section">
         <div className="container stack">
           <div className="cases-page-header">
+            <Link to="/" className="case-detail-header__back">
+              ← На главную
+            </Link>
             <h1 className="cases-page-header__title">Кейсы</h1>
             <p className="cases-page-header__lead">Проекты для юридических ниш, от брифа до первых обращений</p>
           </div>

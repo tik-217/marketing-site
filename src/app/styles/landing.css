@@ -100,6 +100,29 @@
   height: 24px;
 }
 
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--link);
+  cursor: pointer;
+}
+
+.theme-toggle:hover {
+  color: var(--link-hover);
+}
+
+.theme-toggle svg {
+  width: 20px;
+  height: 20px;
+}
+
 @media (max-width: 380px) {
   .site-header__inner {
     gap: var(--space-1);
@@ -368,12 +391,10 @@
   letter-spacing: var(--tracking-wide);
   text-transform: uppercase;
   font-weight: 700;
-  color: var(--accent-soft-text);
 }
 
 .case-card__result-text {
   font-size: var(--text-sm);
-  font-weight: 600;
 }
 
 @media (min-width: 861px) {
@@ -519,7 +540,7 @@
 }
 
 .comparison-panel--inverse {
-  border-color: var(--bg-inverse);
+  border: 2px solid var(--accent);
   background: var(--bg-inverse);
   color: var(--gray-200);
 }
@@ -1225,7 +1246,7 @@
   gap: var(--space-1);
   padding: var(--space-5);
   border-radius: var(--radius-lg);
-  background: var(--accent-soft);
+  background: var(--bg-surface-strong);
   text-align: center;
 }
 
@@ -2250,4 +2271,15 @@
 .case-cta__text {
   color: var(--text-secondary);
   max-width: 52ch;
+}
+
+/* ---------- dark theme adjustments ---------- */
+
+[data-theme='dark'] .package-plan__header,
+[data-theme='dark'] .case-result {
+  border: 1px solid var(--gray-700);
+}
+
+[data-theme='dark'] .image-placeholder {
+  background-image: repeating-linear-gradient(135deg, oklch(100% 0 0 / 0.05) 0 1px, transparent 1px 9px);
 }

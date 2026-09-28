@@ -1,6 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Public+Sans:wght@400;500;600;700&display=swap');
 
 :root {
+  color-scheme: light;
+
   /* base neutrals — cool, low-chroma */
   --white: oklch(98.5% 0.002 250);
   --gray-50: oklch(97% 0.003 250);
@@ -100,4 +102,32 @@
     --gutter: var(--space-9);
     --section-y: var(--space-9);
   }
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+  --bg-page: var(--gray-800);
+  --bg-surface: var(--black);
+  --bg-surface-strong: var(--gray-900);
+  --bg-inverse: var(--black);
+
+  --text-primary: var(--gray-50);
+  --text-secondary: var(--gray-400);
+  --text-tertiary: var(--gray-500);
+  --text-on-accent: var(--white);
+  --text-on-inverse: var(--gray-100);
+
+  --border-subtle: oklch(28% 0.002 250);
+  --border-default: oklch(38% 0.002 250);
+  --border-strong: oklch(55% 0.003 250);
+
+  --accent: var(--accent-400);
+  --accent-hover: var(--accent-500);
+  --accent-active: var(--accent-600);
+  --accent-soft: var(--accent-700);
+  --accent-soft-text: var(--accent-100);
+
+  --link: var(--accent-400);
+  --link-hover: var(--accent-100);
 }

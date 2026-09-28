@@ -5,11 +5,13 @@ import { CasePage } from '../pages/case'
 import { NotFoundPage } from '../pages/not-found'
 import { PrivacyPage } from '../pages/privacy'
 import { AppProviders } from './providers/AppProviders'
+import { ScrollToTop } from './ScrollToTop'
 import './styles/index.css'
 
 export function App() {
   return (
     <AppProviders>
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/cases" element={<CasesPage />} />

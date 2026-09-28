@@ -10,6 +10,21 @@
     <meta name="theme-color" content="#fdfcf9" />
     <link rel="canonical" href="https://example.com/" />
 
+    <script>
+      (function () {
+        try {
+          var stored = localStorage.getItem('theme');
+          var theme = stored === 'light' || stored === 'dark'
+            ? stored
+            : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+          document.documentElement.setAttribute('data-theme', theme);
+          if (theme === 'dark') {
+            document.querySelector('meta[name="theme-color"]').setAttribute('content', '#131417');
+          }
+        } catch (e) {}
+      })();
+    </script>
+
     <!-- Yandex.Metrika counter -->
     <script type="text/javascript">
       (function(m,e,t,r,i,k,a){

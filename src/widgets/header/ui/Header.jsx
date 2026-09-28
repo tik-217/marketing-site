@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { contacts } from '../../../shared/config/contacts'
-import { InstagramIcon, TelegramIcon } from '../../../shared/ui'
+import { InstagramIcon, TelegramIcon, ThemeToggle } from '../../../shared/ui'
 
 export function Header() {
   const [hidden, setHidden] = useState(false)
@@ -59,6 +59,7 @@ export function Header() {
           >
             <InstagramIcon />
           </a>
+          <ThemeToggle />
         </div>
       </div>
     </header>
