@@ -25,7 +25,18 @@ import { documentLinks } from '../../../shared/config/documentLinks'
 export const cases = [
   {
     id: 'legal',
+    slug: 'legalizaciya-kommercheskih-obektov',
     title: 'Легализация коммерческих объектов',
+    niche: 'Юридические услуги',
+    status: 'in_progress',
+    period: '3 месяца',
+    scope: ['Маркетинговый анализ', 'Реклама в Яндекс Директе'],
+    task: 'Проверить спрос на новое направление и получить первые обращения.',
+    clientStory: [
+      'Новое направление без проверенного спроса — легализация коммерческих объектов. Нужно было понять, ищут ли услугу в Яндексе, и получить первые обращения.',
+    ],
+    resultText:
+      '3-й месяц работы. Первое обращение из Директа принесло клиента.',
     slides: [
       { src: caseLegalBrief, mobileSrc: caseLegalBriefMobile, alt: 'Бриф перед запуском Яндекс Директа' },
       { src: caseLegalAudience, mobileSrc: caseLegalAudienceMobile, alt: 'Описание целевой аудитории' },
@@ -34,32 +45,63 @@ export const cases = [
       { src: caseLegalDirect, mobileSrc: caseLegalDirectMobile, alt: 'Кампании в кабинете Яндекс Директа' },
       { src: caseLegalMetrika, mobileSrc: caseLegalMetrikaMobile, alt: 'Конверсии в Яндекс Метрике' },
     ],
-    description:
-      '3-й месяц. Новое направление без проверенного спроса. Первое обращение из Директа принесло клиента.',
-    meta: [
-      'Срок: 3 месяца. В работе',
-      { href: documentLinks.legal.brief, label: 'Бриф' },
-      { href: documentLinks.legal.audience, label: 'Анализ ЦА' },
-      { href: documentLinks.legal.competitors, label: 'Анализ конкурентов' },
-      { href: documentLinks.legal.usp, label: 'УТП' },
+    solutionSteps: [
+      {
+        title: 'Маркетинговый анализ',
+        text: 'Собрал бриф, описал целевую аудиторию, разобрал конкурентов и сформулировал уникальное торговое предложение.',
+        images: [
+          { src: caseLegalBrief, mobileSrc: caseLegalBriefMobile, alt: 'Бриф перед запуском Яндекс Директа', caption: 'Бриф', docHref: documentLinks.legal.brief },
+          { src: caseLegalAudience, mobileSrc: caseLegalAudienceMobile, alt: 'Описание целевой аудитории', caption: 'Анализ ЦА', docHref: documentLinks.legal.audience },
+          { src: caseLegalCompetitors, mobileSrc: caseLegalCompetitorsMobile, alt: 'Анализ конкурентов', caption: 'Анализ конкурентов', docHref: documentLinks.legal.competitors },
+          { src: caseLegalUsp, mobileSrc: caseLegalUspMobile, alt: 'Уникальное торговое предложение', caption: 'УТП', docHref: documentLinks.legal.usp },
+        ],
+      },
+      {
+        title: 'Реклама в Яндекс Директе',
+        text: 'Запустил кампании и настроил отслеживание конверсий в Яндекс Метрике.',
+        images: [
+          { src: caseLegalDirect, mobileSrc: caseLegalDirectMobile, alt: 'Кампании в кабинете Яндекс Директа', caption: 'Кампании в Яндекс Директе' },
+          { src: caseLegalMetrika, mobileSrc: caseLegalMetrikaMobile, alt: 'Конверсии в Яндекс Метрике', caption: 'Конверсии в Яндекс Метрике' },
+        ],
+      },
     ],
+    metrics: [],
+    description:
+      'Новое направление без проверенного спроса — легализация коммерческих объектов.',
   },
   {
     id: 'bankruptcy',
+    slug: 'bankrotstvo-fizicheskih-lic',
     title: 'Банкротство физических лиц',
+    niche: 'Списание долгов',
+    status: 'in_progress',
+    period: 'в работе',
+    scope: ['Маркетинговый анализ'],
+    task: 'Запустить продвижение с нуля в нише, где заявки продают поштучно.',
+    clientStory: [
+      'Ниша банкротства физических лиц — рынок, где заявки продают поштучно. Работа началась с нуля: не было ни прототипа сайта, ни рекламных кампаний.',
+    ],
+    resultText:
+      'Проект в работе. Собран маркетинговый анализ: бриф, портрет аудитории, разбор конкурентов и УТП.',
     slides: [
       { src: caseBankruptcyBrief, mobileSrc: caseBankruptcyBriefMobile, alt: 'Обезличенный бриф по рекламе для банкротства физических лиц' },
       { src: caseBankruptcyAudience, mobileSrc: caseBankruptcyAudienceMobile, alt: 'Анализ целевой аудитории для услуги банкротства физических лиц' },
       { src: caseBankruptcyCompetitors, mobileSrc: caseBankruptcyCompetitorsMobile, alt: 'Анализ конкурентов в нише банкротства физических лиц' },
       { src: caseBankruptcyUsp, mobileSrc: caseBankruptcyUspMobile, alt: 'Уникальное торговое предложение для услуги банкротства физических лиц' },
     ],
-    description: 'Запуск с нуля в нише, где заявки продают поштучно.',
-    meta: [
-      'Срок: в работе',
-      { href: documentLinks.bankruptcy.brief, label: 'Бриф' },
-      { href: documentLinks.bankruptcy.audience, label: 'Анализ ЦА' },
-      { href: documentLinks.bankruptcy.competitors, label: 'Анализ конкурентов' },
-      { href: documentLinks.bankruptcy.usp, label: 'УТП' },
+    solutionSteps: [
+      {
+        title: 'Маркетинговый анализ',
+        text: 'Собрал бриф, описал целевую аудиторию, разобрал конкурентов и сформулировал уникальное торговое предложение.',
+        images: [
+          { src: caseBankruptcyBrief, mobileSrc: caseBankruptcyBriefMobile, alt: 'Обезличенный бриф по рекламе для банкротства физических лиц', caption: 'Бриф', docHref: documentLinks.bankruptcy.brief },
+          { src: caseBankruptcyAudience, mobileSrc: caseBankruptcyAudienceMobile, alt: 'Анализ целевой аудитории для услуги банкротства физических лиц', caption: 'Анализ ЦА', docHref: documentLinks.bankruptcy.audience },
+          { src: caseBankruptcyCompetitors, mobileSrc: caseBankruptcyCompetitorsMobile, alt: 'Анализ конкурентов в нише банкротства физических лиц', caption: 'Анализ конкурентов', docHref: documentLinks.bankruptcy.competitors },
+          { src: caseBankruptcyUsp, mobileSrc: caseBankruptcyUspMobile, alt: 'Уникальное торговое предложение для услуги банкротства физических лиц', caption: 'УТП', docHref: documentLinks.bankruptcy.usp },
+        ],
+      },
     ],
+    metrics: [],
+    description: 'Запуск с нуля в нише, где заявки продают поштучно.',
   },
 ]

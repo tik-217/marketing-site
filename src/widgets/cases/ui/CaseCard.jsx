@@ -1,24 +1,27 @@
+import { Link } from 'react-router-dom'
 import { CaseSlider } from './CaseSlider'
 
-export function CaseCard({ title, slides, description, meta }) {
+export function CaseCard({ slug, title, slides, description, resultText, status }) {
+  const inProgress = status !== 'done'
+
   return (
     <article className="case-card">
       <h3 className="case-card__title">{title}</h3>
       <CaseSlider slides={slides} />
       <div className="case-card__copy">
         <p className="case-card__description">{description}</p>
-      </div>
-      <div className="case-card__meta">
-        {meta.map((item) =>
-          typeof item === 'string' ? (
-            <span key={item}>{item}</span>
-          ) : (
-            <a key={item.href} href={item.href} target="_blank" rel="noopener noreferrer">
-              {item.label}
-            </a>
-          ),
+        {resultText && (
+          <div className="case-card__result">
+            <span className="case-card__result-label">{inProgress ? 'Промежуточный результат' : 'Результат'}</span>
+            <p className="case-card__result-text">{resultText}</p>
+          </div>
         )}
       </div>
+      {slug && (
+        <Link to={`/cases/${slug}`} className="case-card__link">
+          Читать кейс <span aria-hidden="true">→</span>
+        </Link>
+      )}
     </article>
   )
 }

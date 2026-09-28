@@ -1,10 +1,13 @@
 import { useEffect, useRef, useState } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 import { contacts } from '../../../shared/config/contacts'
 import { InstagramIcon, TelegramIcon } from '../../../shared/ui'
 
 export function Header() {
   const [hidden, setHidden] = useState(false)
   const lastY = useRef(0)
+  const { pathname } = useLocation()
+  const logoHref = pathname.startsWith('/cases') ? '/#cases' : '/'
 
   useEffect(() => {
     lastY.current = window.scrollY
@@ -31,9 +34,11 @@ export function Header() {
   return (
     <header className={hidden ? 'site-header site-header--hidden' : 'site-header'}>
       <div className="container site-header__inner">
-        <span className="site-header__name">Габулян Тигран</span>
-        <span className="site-header__divider">|</span>
-        <span className="site-header__role">Маркетолог</span>
+        <Link to={logoHref} className="site-header__brand">
+          <span className="site-header__name">Габулян Тигран</span>
+          <span className="site-header__divider">|</span>
+          <span className="site-header__role">Маркетолог</span>
+        </Link>
         <span className="site-header__spacer" />
         <div className="site-header__socials">
           <a

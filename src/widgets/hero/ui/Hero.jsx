@@ -4,10 +4,9 @@ import heroImage from '../../../shared/assets/images/tigran-full.avif'
 export function Hero() {
   return (
     <Section flush containerClassName="hero">
-      <h1 className="hero__headline">Собираю маркетинг для юристов, от анализа рынка до заявок</h1>
+      <h1 className="hero__headline">Привожу клиентов для юридических ниш через комплексный маркетинг</h1>
       <p className="hero__lead">
-        Анализ ниши, смыслы, сайт и Яндекс Директ делаю лично я. Домен и рекламный кабинет
-        регистрируются на вас и остаются вашими навсегда.
+          За проект берусь лично я. Изучаю вашу нишу, потом собираю сайт, рекламу и Telegram в одну систему, по которой к вам приходят обращения
       </p>
       {/* TODO: рядом с фото нужен открытый прототип сайта или экран Директа, материала пока нет. */}
       <div className="hero__media">
@@ -16,8 +15,7 @@ export function Hero() {
       <div className="hero__cta">
         <CtaButton source="s-hero" />
         <p className="hero__help">
-          Задам пять вопросов в Telegram. Пришлю документ с точками потери
-          заявок и разберем его на созвоне за 30 минут.
+            Бесплатно пришлю документ с правками по сайту и рекламе. Перед этим задам пять вопросов в Telegram-боте.
         </p>
       </div>
     </Section>

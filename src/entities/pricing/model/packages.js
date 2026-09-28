@@ -30,7 +30,7 @@ export const packages = [
   {
     id: 'system',
     title: 'Система',
-    situation: 'Нужны заявки и доверие',
+    situation: 'Нужны заявки и место приземления клиентов',
     includedModules: ['analysis', 'ads', 'site', 'telegram'],
     modulesTotal: '230 000 ₽',
     price: '211 600 ₽',
