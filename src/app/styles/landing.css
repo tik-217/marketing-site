@@ -1719,6 +1719,13 @@
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
+  cursor: grab;
+}
+
+.case-preview-card__slider-track.is-dragging {
+  cursor: grabbing;
+  scroll-snap-type: none;
+  user-select: none;
 }
 
 .case-preview-card__slider-track::-webkit-scrollbar {

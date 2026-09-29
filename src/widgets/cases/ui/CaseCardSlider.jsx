@@ -14,7 +14,9 @@ function Chevron({ direction }) {
 // Зациклен: после последнего слайда «Дальше» ведет к первому, «Назад» с первого — к последнему.
 export function CaseCardSlider({ slides }) {
   const trackRef = useRef(null)
+  const drag = useRef(null)
   const [index, setIndex] = useState(0)
+  const [dragging, setDragging] = useState(false)
   const hasControls = slides.length > 1
 
   function goToIndex(nextIndex) {
@@ -33,6 +35,46 @@ export function CaseCardSlider({ slides }) {
     goToIndex(next)
   }
 
+  // Перелистывание мышью «схватил и потянул». Для тач-экранов работает нативный свайп.
+  function handlePointerDown(event) {
+    if (event.pointerType !== 'mouse' || event.button !== 0) return
+    const track = trackRef.current
+    drag.current = {
+      startX: event.clientX,
+      startScroll: track.scrollLeft,
+      startIndex: Math.round(track.scrollLeft / track.clientWidth),
+      startTime: performance.now(),
+      moved: false,
+    }
+  }
+
+  function handlePointerMove(event) {
+    const state = drag.current
+    if (!state) return
+    const track = trackRef.current
+    const dx = event.clientX - state.startX
+    if (!state.moved && Math.abs(dx) < 4) return
+    if (!state.moved) {
+      state.moved = true
+      setDragging(true)
+      track.setPointerCapture(event.pointerId)
+    }
+    track.scrollLeft = state.startScroll - dx
+  }
+
+  function handlePointerEnd() {
+    const state = drag.current
+    drag.current = null
+    if (!state?.moved) return
+    const track = trackRef.current
+    setDragging(false)
+    // Достаточно короткого движения: сдвиг больше ~12% ширины или быстрый рывок листает на один слайд.
+    const shift = state.startScroll - track.scrollLeft
+    const fast = performance.now() - state.startTime < 300 && Math.abs(shift) > 24
+    const direction = Math.abs(shift) > track.clientWidth * 0.12 || fast ? -Math.sign(shift) : 0
+    goToIndex(Math.min(slides.length - 1, Math.max(0, state.startIndex + direction)))
+  }
+
   function handleScroll(event) {
     const track = event.currentTarget
     setIndex(Math.round(track.scrollLeft / track.clientWidth))
@@ -40,16 +82,24 @@ export function CaseCardSlider({ slides }) {
 
   return (
     <div className="case-preview-card__slider">
-      <div className="case-preview-card__slider-track" ref={trackRef} onScroll={handleScroll}>
+      <div
+        className={dragging ? 'case-preview-card__slider-track is-dragging' : 'case-preview-card__slider-track'}
+        ref={trackRef}
+        onScroll={handleScroll}
+        onPointerDown={handlePointerDown}
+        onPointerMove={handlePointerMove}
+        onPointerUp={handlePointerEnd}
+        onPointerCancel={handlePointerEnd}
+      >
         {slides.map((slide) => (
           <div className="case-preview-card__slide" key={slide.alt}>
             {slide.dark ? (
               <>
-                <img src={slide.light} alt={slide.alt} loading="lazy" decoding="async" className="case-preview-card__cover theme-image--light" />
-                <img src={slide.dark} alt={slide.alt} loading="lazy" decoding="async" className="case-preview-card__cover theme-image--dark" />
+                <img src={slide.light} alt={slide.alt} loading="lazy" decoding="async" draggable={false} className="case-preview-card__cover theme-image--light" />
+                <img src={slide.dark} alt={slide.alt} loading="lazy" decoding="async" draggable={false} className="case-preview-card__cover theme-image--dark" />
               </>
             ) : (
-              <img src={slide.light} alt={slide.alt} loading="lazy" decoding="async" className="case-preview-card__cover" />
+              <img src={slide.light} alt={slide.alt} loading="lazy" decoding="async" draggable={false} className="case-preview-card__cover" />
             )}
           </div>
         ))}
