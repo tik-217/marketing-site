@@ -10,6 +10,8 @@ import caseLegalCompetitorsMobile from '../../../shared/assets/images/case-legal
 import caseLegalUspMobile from '../../../shared/assets/images/case-legal-usp-mobile.png'
 import caseLegalDirectMobile from '../../../shared/assets/images/case-legal-direct-mobile.png'
 import caseLegalMetrikaMobile from '../../../shared/assets/images/case-legal-metrika-mobile.png'
+import caseLegalCover from '../../../shared/assets/images/case-legal-cover.avif'
+import caseBankruptcyCover from '../../../shared/assets/images/case-bankruptcy-cover.avif'
 import caseBankruptcyBrief from '../../../shared/assets/images/case-bankruptcy-brief.png'
 import caseBankruptcyAudience from '../../../shared/assets/images/case-bankruptcy-audience.png'
 import caseBankruptcyCompetitors from '../../../shared/assets/images/case-bankruptcy-competitors.png'
@@ -28,6 +30,8 @@ export const cases = [
     slug: 'legalizaciya-kommercheskih-obektov',
     title: 'Легализация коммерческих объектов',
     niche: 'Юридические услуги',
+    orderedService: 'Пакет Директ',
+    cover: { src: caseLegalCover, alt: 'Складской комплекс — коммерческий объект под легализацию' },
     status: 'in_progress',
     period: '3 месяца',
     scope: ['Маркетинговый анализ', 'Реклама в Яндекс Директе'],
@@ -36,15 +40,7 @@ export const cases = [
       'Новое направление без проверенного спроса — легализация коммерческих объектов. Нужно было понять, ищут ли услугу в Яндексе, и получить первые обращения.',
     ],
     resultText:
-      '3-й месяц работы. Первое обращение из Директа принесло клиента.',
-    slides: [
-      { src: caseLegalBrief, mobileSrc: caseLegalBriefMobile, alt: 'Бриф перед запуском Яндекс Директа' },
-      { src: caseLegalAudience, mobileSrc: caseLegalAudienceMobile, alt: 'Описание целевой аудитории' },
-      { src: caseLegalCompetitors, mobileSrc: caseLegalCompetitorsMobile, alt: 'Анализ конкурентов' },
-      { src: caseLegalUsp, mobileSrc: caseLegalUspMobile, alt: 'Уникальное торговое предложение' },
-      { src: caseLegalDirect, mobileSrc: caseLegalDirectMobile, alt: 'Кампании в кабинете Яндекс Директа' },
-      { src: caseLegalMetrika, mobileSrc: caseLegalMetrikaMobile, alt: 'Конверсии в Яндекс Метрике' },
-    ],
+      '3-й месяц работы. Одна сделка окупила маркетинг минимум в 11 раз за три месяца.',
     solutionSteps: [
       {
         title: 'Маркетинговый анализ',
@@ -67,13 +63,15 @@ export const cases = [
     ],
     metrics: [],
     description:
-      'Новое направление без проверенного спроса — легализация коммерческих объектов.',
+      'Пришла 1 квалифицированная заявка в первый же месяц в нише, где запросов в месяц единицы. Только 1 сделка окупила маркетинг минимум в 11 раз за три месяца.',
   },
   {
     id: 'bankruptcy',
     slug: 'bankrotstvo-fizicheskih-lic',
     title: 'Банкротство физических лиц',
     niche: 'Списание долгов',
+    orderedService: 'Модуль 0. Маркетинговый анализ',
+    cover: { src: caseBankruptcyCover, alt: 'Документы и расчеты по делу о банкротстве физического лица' },
     status: 'in_progress',
     period: 'в работе',
     scope: ['Маркетинговый анализ'],
@@ -83,12 +81,6 @@ export const cases = [
     ],
     resultText:
       'Проект в работе. Собран маркетинговый анализ: бриф, портрет аудитории, разбор конкурентов и УТП.',
-    slides: [
-      { src: caseBankruptcyBrief, mobileSrc: caseBankruptcyBriefMobile, alt: 'Обезличенный бриф по рекламе для банкротства физических лиц' },
-      { src: caseBankruptcyAudience, mobileSrc: caseBankruptcyAudienceMobile, alt: 'Анализ целевой аудитории для услуги банкротства физических лиц' },
-      { src: caseBankruptcyCompetitors, mobileSrc: caseBankruptcyCompetitorsMobile, alt: 'Анализ конкурентов в нише банкротства физических лиц' },
-      { src: caseBankruptcyUsp, mobileSrc: caseBankruptcyUspMobile, alt: 'Уникальное торговое предложение для услуги банкротства физических лиц' },
-    ],
     solutionSteps: [
       {
         title: 'Маркетинговый анализ',
@@ -102,6 +94,6 @@ export const cases = [
       },
     ],
     metrics: [],
-    description: 'Запуск с нуля в нише, где заявки продают поштучно.',
+    description: 'За 14 рабочих дней разобрали клиентов, конкурентов и предложение юридической фирмы. По ним запускаются реклама, сайт и айдентика.',
   },
 ]

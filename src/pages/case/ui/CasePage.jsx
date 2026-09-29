@@ -15,7 +15,7 @@ export function CasePage() {
 
   const inProgress = item.status !== 'done'
   const hasMetrics = item.metrics && item.metrics.length > 0
-  const cover = item.slides[0]
+  const cover = item.cover
 
   return (
     <>

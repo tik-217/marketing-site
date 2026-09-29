@@ -1,15 +1,15 @@
 import { Link } from 'react-router-dom'
 import { cases } from '../../../entities/case'
 import { Button, Section } from '../../../shared/ui'
-import { CaseCard } from './CaseCard'
+import { CasePreviewCard } from './CasePreviewCard'
 
 export function Cases() {
   return (
     <Section id="cases" containerClassName="stack">
       <h2 className="section-heading">Два юридических проекта от брифа до первых клиентов</h2>
-      <div className="cases-grid">
+      <div className="case-preview-grid">
         {cases.map((item) => (
-          <CaseCard key={item.id} {...item} />
+          <CasePreviewCard key={item.id} {...item} />
         ))}
       </div>
       <Button as={Link} to="/cases" className="btn--outline" style={{ alignSelf: 'flex-start' }}>
