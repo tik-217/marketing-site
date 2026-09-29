@@ -1775,11 +1775,6 @@
   border-color: var(--border-strong);
 }
 
-.case-preview-card__arrow:disabled {
-  opacity: 0.35;
-  cursor: default;
-}
-
 .case-preview-card__arrow--prev { left: var(--space-2); }
 .case-preview-card__arrow--next { right: var(--space-2); }
 

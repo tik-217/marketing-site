@@ -11,15 +11,26 @@ function Chevron({ direction }) {
 // Слайдер обложек на карточке кейса. Живет вне <Link>, чтобы стрелки и точки
 // были настоящими кнопками, а не вложенными интерактивными элементами внутри ссылки.
 // Переход на страницу кейса делает CasePreviewCard через растянутую ссылку на заголовке.
+// Зациклен: после последнего слайда «Дальше» ведет к первому, «Назад» с первого — к последнему.
 export function CaseCardSlider({ slides }) {
   const trackRef = useRef(null)
   const [index, setIndex] = useState(0)
   const hasControls = slides.length > 1
 
-  function goTo(nextIndex) {
+  function goToIndex(nextIndex) {
     const track = trackRef.current
     if (!track) return
     track.scrollTo({ left: track.clientWidth * nextIndex, behavior: 'smooth' })
+  }
+
+  function step(direction) {
+    const track = trackRef.current
+    if (!track) return
+    // Берем текущую позицию прокрутки напрямую из DOM, а не из React-состояния: при быстрых
+    // повторных кликах state может не успеть обновиться между кликами и клики потеряются.
+    const current = Math.round(track.scrollLeft / track.clientWidth)
+    const next = (current + direction + slides.length) % slides.length
+    goToIndex(next)
   }
 
   function handleScroll(event) {
@@ -49,8 +60,7 @@ export function CaseCardSlider({ slides }) {
             type="button"
             className="case-preview-card__arrow case-preview-card__arrow--prev"
             aria-label="Предыдущее изображение"
-            disabled={index === 0}
-            onClick={() => goTo(index - 1)}
+            onClick={() => step(-1)}
           >
             <Chevron direction="prev" />
           </button>
@@ -58,8 +68,7 @@ export function CaseCardSlider({ slides }) {
             type="button"
             className="case-preview-card__arrow case-preview-card__arrow--next"
             aria-label="Следующее изображение"
-            disabled={index === slides.length - 1}
-            onClick={() => goTo(index + 1)}
+            onClick={() => step(1)}
           >
             <Chevron direction="next" />
           </button>
@@ -71,7 +80,7 @@ export function CaseCardSlider({ slides }) {
                 className={i === index ? 'case-preview-card__dot is-active' : 'case-preview-card__dot'}
                 aria-label={`Изображение ${i + 1} из ${slides.length}`}
                 aria-current={i === index}
-                onClick={() => goTo(i)}
+                onClick={() => goToIndex(i)}
               />
             ))}
           </div>
