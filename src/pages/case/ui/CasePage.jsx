@@ -25,7 +25,7 @@ export function CasePage() {
         <div className="container">
           <div className="case-detail-header">
             <Link to="/cases" className="case-detail-header__back">
-              ← Все кейсы
+              <span aria-hidden="true">←</span> Все кейсы
             </Link>
             <h1 className="case-detail-header__title">{item.title}</h1>
             <dl className="case-detail-header__meta">
