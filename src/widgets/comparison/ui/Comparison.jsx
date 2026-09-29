@@ -8,7 +8,7 @@ export function Comparison() {
 
   return (
     <Section containerClassName="stack">
-      <h2 className="section-heading">Три способа получить заявки и что остается у вас после каждого</h2>
+      <h2 className="section-heading">Четыре способа получить заявки и что остается у вас после каждого</h2>
 
       <div className="tabs comparison-tabs">
         {comparisonOptions.map((option) => (

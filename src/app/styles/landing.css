@@ -296,9 +296,9 @@
 
 @media (min-width: 1200px) {
   .comparison-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     grid-template-rows: repeat(9, auto);
-    column-gap: var(--space-5);
+    column-gap: var(--space-4);
     row-gap: var(--space-5);
     align-items: stretch;
   }
@@ -323,16 +323,8 @@
     display: grid !important;
     grid-row: 1 / span 9;
     grid-template-rows: subgrid;
-    padding: var(--space-6) var(--space-5);
+    padding: var(--space-6) var(--space-4);
     gap: inherit;
-  }
-}
-
-@media (min-width: 1200px) {
-  .comparison-panel {
-    display: grid !important;
-    grid-row: 1 / span 7;
-    grid-template-rows: subgrid;
   }
 }
 

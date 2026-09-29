@@ -1,4 +1,4 @@
-export function ComparisonPanel({ title, rows, footer, inverse, isActive }) {
+export function ComparisonPanel({ title, rows, footers, inverse, isActive }) {
   const classes = [
     'comparison-panel',
     inverse && 'comparison-panel--inverse',
@@ -16,10 +16,12 @@ export function ComparisonPanel({ title, rows, footer, inverse, isActive }) {
           <span className="comparison-row__value">{row.value}</span>
         </div>
       ))}
-      <div className="comparison-footer">
-        <span className="comparison-row__label">{footer.label}</span>
-        <span className="comparison-row__value">{footer.value}</span>
-      </div>
+      {footers.map((footer) => (
+        <div className="comparison-footer" key={footer.label}>
+          <span className="comparison-row__label">{footer.label}</span>
+          <span className="comparison-row__value">{footer.value}</span>
+        </div>
+      ))}
     </div>
   )
 }
