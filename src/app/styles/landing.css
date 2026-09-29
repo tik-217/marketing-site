@@ -1711,6 +1711,104 @@
   border-bottom: 1px solid var(--border-subtle);
 }
 
+.case-preview-card--gallery {
+  position: relative;
+}
+
+.case-preview-card__stretched-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.case-preview-card__stretched-link::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.case-preview-card__slider {
+  position: relative;
+  z-index: 2;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.case-preview-card__slider .case-preview-card__cover {
+  border-bottom: 0;
+}
+
+.case-preview-card__slider-track {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.case-preview-card__slider-track::-webkit-scrollbar {
+  display: none;
+}
+
+.case-preview-card__slide {
+  flex: 0 0 100%;
+  width: 100%;
+  scroll-snap-align: start;
+}
+
+.case-preview-card__arrow {
+  position: absolute;
+  top: calc(50% - 18px);
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid var(--border-default);
+  border-radius: 50%;
+  background: var(--bg-page);
+  color: var(--text-primary);
+  cursor: pointer;
+}
+
+.case-preview-card__arrow:hover:not(:disabled) {
+  border-color: var(--border-strong);
+}
+
+.case-preview-card__arrow:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.case-preview-card__arrow--prev { left: var(--space-2); }
+.case-preview-card__arrow--next { right: var(--space-2); }
+
+.case-preview-card__dots {
+  position: absolute;
+  bottom: var(--space-2);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+}
+
+.case-preview-card__dot {
+  width: 7px;
+  height: 7px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--white);
+  opacity: 0.6;
+  box-shadow: 0 0 0 1px oklch(16% 0.008 250 / 0.2);
+  cursor: pointer;
+}
+
+.case-preview-card__dot.is-active {
+  opacity: 1;
+  background: var(--accent);
+}
+
 .case-preview-card__body {
   display: flex;
   flex-direction: column;
@@ -1959,6 +2057,11 @@
   object-position: 50% 0;
 }
 
+.case-step__image--wide img {
+  aspect-ratio: 16 / 10;
+  object-position: 50% 0;
+}
+
 .case-step__caption {
   display: flex;
   align-items: center;
@@ -2115,4 +2218,19 @@
 
 [data-theme='dark'] .image-placeholder {
   background-image: repeating-linear-gradient(135deg, oklch(100% 0 0 / 0.05) 0 1px, transparent 1px 9px);
+}
+
+/* Пары светлых/темных скриншотов документов: показываем только ту версию, что совпадает
+   с активной темой сайта. img.theme-image--dark специально с тегом в селекторе, чтобы
+   специфичность гарантированно перебивала любой другой класс на этой же картинке. */
+img.theme-image--dark {
+  display: none;
+}
+
+[data-theme='dark'] img.theme-image--light {
+  display: none;
+}
+
+[data-theme='dark'] img.theme-image--dark {
+  display: block;
 }

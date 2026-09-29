@@ -1,13 +1,13 @@
-import caseLegalAudience from '../../../shared/assets/images/case-legal-audience.avif'
-import caseLegalBrief from '../../../shared/assets/images/case-legal-brief.avif'
-import caseLegalCompetitors from '../../../shared/assets/images/case-legal-competitors.avif'
-import caseLegalUsp from '../../../shared/assets/images/case-legal-usp.avif'
+import caseLegalBriefLight from '../../../shared/assets/images/case-legal-brief-light.avif'
+import caseLegalBriefDark from '../../../shared/assets/images/case-legal-brief-dark.avif'
+import caseLegalAudienceLight from '../../../shared/assets/images/case-legal-audience-light.avif'
+import caseLegalAudienceDark from '../../../shared/assets/images/case-legal-audience-dark.avif'
+import caseLegalCompetitorsLight from '../../../shared/assets/images/case-legal-competitors-light.avif'
+import caseLegalCompetitorsDark from '../../../shared/assets/images/case-legal-competitors-dark.avif'
+import caseLegalUspLight from '../../../shared/assets/images/case-legal-usp-light.avif'
+import caseLegalUspDark from '../../../shared/assets/images/case-legal-usp-dark.avif'
 import caseLegalDirect from '../../../shared/assets/images/case-legal-direct.avif'
 import caseLegalMetrika from '../../../shared/assets/images/case-legal-metrika.avif'
-import caseLegalAudienceMobile from '../../../shared/assets/images/case-legal-audience-mobile.png'
-import caseLegalBriefMobile from '../../../shared/assets/images/case-legal-brief-mobile.png'
-import caseLegalCompetitorsMobile from '../../../shared/assets/images/case-legal-competitors-mobile.png'
-import caseLegalUspMobile from '../../../shared/assets/images/case-legal-usp-mobile.png'
 import caseLegalDirectMobile from '../../../shared/assets/images/case-legal-direct-mobile.png'
 import caseLegalMetrikaMobile from '../../../shared/assets/images/case-legal-metrika-mobile.png'
 import caseLegalCover from '../../../shared/assets/images/case-legal-cover.avif'
@@ -32,6 +32,13 @@ export const cases = [
     niche: 'Юридические услуги',
     orderedService: 'Пакет Директ',
     cover: { src: caseLegalCover, alt: 'Складской комплекс — коммерческий объект под легализацию' },
+    gallery: [
+      { light: caseLegalCover, alt: 'Складской комплекс — коммерческий объект под легализацию' },
+      { light: caseLegalBriefLight, dark: caseLegalBriefDark, alt: 'Бриф перед запуском Яндекс Директа' },
+      { light: caseLegalAudienceLight, dark: caseLegalAudienceDark, alt: 'Описание целевой аудитории' },
+      { light: caseLegalCompetitorsLight, dark: caseLegalCompetitorsDark, alt: 'Анализ конкурентов' },
+      { light: caseLegalUspLight, dark: caseLegalUspDark, alt: 'Уникальное торговое предложение' },
+    ],
     status: 'in_progress',
     period: '3 месяца',
     scope: ['Маркетинговый анализ', 'Реклама в Яндекс Директе'],
@@ -46,10 +53,10 @@ export const cases = [
         title: 'Маркетинговый анализ',
         text: 'Собрал бриф, описал целевую аудиторию, разобрал конкурентов и сформулировал уникальное торговое предложение.',
         images: [
-          { src: caseLegalBrief, mobileSrc: caseLegalBriefMobile, alt: 'Бриф перед запуском Яндекс Директа', caption: 'Бриф', docHref: documentLinks.legal.brief },
-          { src: caseLegalAudience, mobileSrc: caseLegalAudienceMobile, alt: 'Описание целевой аудитории', caption: 'Анализ ЦА', docHref: documentLinks.legal.audience },
-          { src: caseLegalCompetitors, mobileSrc: caseLegalCompetitorsMobile, alt: 'Анализ конкурентов', caption: 'Анализ конкурентов', docHref: documentLinks.legal.competitors },
-          { src: caseLegalUsp, mobileSrc: caseLegalUspMobile, alt: 'Уникальное торговое предложение', caption: 'УТП', docHref: documentLinks.legal.usp },
+          { src: caseLegalBriefLight, srcDark: caseLegalBriefDark, wide: true, alt: 'Бриф перед запуском Яндекс Директа', caption: 'Бриф', docHref: documentLinks.legal.brief },
+          { src: caseLegalAudienceLight, srcDark: caseLegalAudienceDark, wide: true, alt: 'Описание целевой аудитории', caption: 'Анализ ЦА', docHref: documentLinks.legal.audience },
+          { src: caseLegalCompetitorsLight, srcDark: caseLegalCompetitorsDark, wide: true, alt: 'Анализ конкурентов', caption: 'Анализ конкурентов', docHref: documentLinks.legal.competitors },
+          { src: caseLegalUspLight, srcDark: caseLegalUspDark, wide: true, alt: 'Уникальное торговое предложение', caption: 'УТП', docHref: documentLinks.legal.usp },
         ],
       },
       {
