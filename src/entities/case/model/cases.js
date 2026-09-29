@@ -8,8 +8,6 @@ import caseLegalUspLight from '../../../shared/assets/images/case-legal-usp-ligh
 import caseLegalUspDark from '../../../shared/assets/images/case-legal-usp-dark.avif'
 import caseLegalDirect from '../../../shared/assets/images/case-legal-direct.avif'
 import caseLegalMetrika from '../../../shared/assets/images/case-legal-metrika.avif'
-import caseLegalDirectMobile from '../../../shared/assets/images/case-legal-direct-mobile.png'
-import caseLegalMetrikaMobile from '../../../shared/assets/images/case-legal-metrika-mobile.png'
 import caseLegalCover from '../../../shared/assets/images/case-legal-cover.avif'
 import caseBankruptcyCover from '../../../shared/assets/images/case-bankruptcy-cover.avif'
 import caseBankruptcyBrief from '../../../shared/assets/images/case-bankruptcy-brief.png'
@@ -63,8 +61,8 @@ export const cases = [
         title: 'Реклама в Яндекс Директе',
         text: 'Запустил кампании и настроил отслеживание конверсий в Яндекс Метрике.',
         images: [
-          { src: caseLegalDirect, mobileSrc: caseLegalDirectMobile, alt: 'Кампании в кабинете Яндекс Директа', caption: 'Кампании в Яндекс Директе' },
-          { src: caseLegalMetrika, mobileSrc: caseLegalMetrikaMobile, alt: 'Конверсии в Яндекс Метрике', caption: 'Конверсии в Яндекс Метрике' },
+          { src: caseLegalDirect, wide: true, alt: 'Кампании в кабинете Яндекс Директа', caption: 'Кампании в Яндекс Директе' },
+          { src: caseLegalMetrika, wide: true, alt: 'Конверсии в Яндекс Метрике', caption: 'Конверсии в Яндекс Метрике' },
         ],
       },
     ],
