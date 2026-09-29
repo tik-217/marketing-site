@@ -123,9 +123,9 @@
   --border-default: oklch(38% 0.002 250);
   --border-strong: oklch(55% 0.003 250);
 
-  --accent: var(--accent-400);
-  --accent-hover: var(--accent-500);
-  --accent-active: var(--accent-600);
+  --accent: var(--accent-500);
+  --accent-hover: var(--accent-600);
+  --accent-active: var(--accent-700);
   --accent-soft: var(--accent-700);
   --accent-soft-text: var(--accent-100);
 

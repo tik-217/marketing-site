@@ -97,7 +97,6 @@ details[open] > summary .faq-icon {
   padding-block: 0;
   background: var(--bg-inverse);
   color: var(--white);
-  border-top: 0;
 }
 
 .stack {
