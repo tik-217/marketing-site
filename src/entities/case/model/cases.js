@@ -10,14 +10,14 @@ import caseLegalDirect from '../../../shared/assets/images/case-legal-direct.avi
 import caseLegalMetrika from '../../../shared/assets/images/case-legal-metrika.avif'
 import caseLegalCover from '../../../shared/assets/images/case-legal-cover.avif'
 import caseBankruptcyCover from '../../../shared/assets/images/case-bankruptcy-cover.avif'
-import caseBankruptcyBrief from '../../../shared/assets/images/case-bankruptcy-brief.png'
-import caseBankruptcyAudience from '../../../shared/assets/images/case-bankruptcy-audience.png'
-import caseBankruptcyCompetitors from '../../../shared/assets/images/case-bankruptcy-competitors.png'
-import caseBankruptcyUsp from '../../../shared/assets/images/case-bankruptcy-usp.png'
-import caseBankruptcyBriefMobile from '../../../shared/assets/images/case-bankruptcy-brief-mobile.png'
-import caseBankruptcyAudienceMobile from '../../../shared/assets/images/case-bankruptcy-audience-mobile.png'
-import caseBankruptcyCompetitorsMobile from '../../../shared/assets/images/case-bankruptcy-competitors-mobile.png'
-import caseBankruptcyUspMobile from '../../../shared/assets/images/case-bankruptcy-usp-mobile.png'
+import caseBankruptcyBriefLight from '../../../shared/assets/images/case-bankruptcy-brief-light.avif'
+import caseBankruptcyBriefDark from '../../../shared/assets/images/case-bankruptcy-brief-dark.avif'
+import caseBankruptcyAudienceLight from '../../../shared/assets/images/case-bankruptcy-audience-light.avif'
+import caseBankruptcyAudienceDark from '../../../shared/assets/images/case-bankruptcy-audience-dark.avif'
+import caseBankruptcyCompetitorsLight from '../../../shared/assets/images/case-bankruptcy-competitors-light.avif'
+import caseBankruptcyCompetitorsDark from '../../../shared/assets/images/case-bankruptcy-competitors-dark.avif'
+import caseBankruptcyUspLight from '../../../shared/assets/images/case-bankruptcy-usp-light.avif'
+import caseBankruptcyUspDark from '../../../shared/assets/images/case-bankruptcy-usp-dark.avif'
 import { documentLinks } from '../../../shared/config/documentLinks'
 
 // TODO: под ссылками "Бриф", "Анализ ЦА", "Анализ конкурентов", "УТП" нужна одна находка из каждого документа.
@@ -77,6 +77,13 @@ export const cases = [
     niche: 'Списание долгов',
     orderedService: 'Модуль 0. Маркетинговый анализ',
     cover: { src: caseBankruptcyCover, alt: 'Документы и расчеты по делу о банкротстве физического лица' },
+    gallery: [
+      { light: caseBankruptcyCover, alt: 'Документы и расчеты по делу о банкротстве физического лица' },
+      { light: caseBankruptcyBriefLight, dark: caseBankruptcyBriefDark, alt: 'Обезличенный бриф по рекламе для банкротства физических лиц' },
+      { light: caseBankruptcyAudienceLight, dark: caseBankruptcyAudienceDark, alt: 'Анализ целевой аудитории для услуги банкротства физических лиц' },
+      { light: caseBankruptcyCompetitorsLight, dark: caseBankruptcyCompetitorsDark, alt: 'Анализ конкурентов в нише банкротства физических лиц' },
+      { light: caseBankruptcyUspLight, dark: caseBankruptcyUspDark, alt: 'Уникальное торговое предложение для услуги банкротства физических лиц' },
+    ],
     status: 'done',
     period: '14 рабочих дней',
     scope: ['Маркетинговый анализ'],
@@ -91,10 +98,10 @@ export const cases = [
         title: 'Маркетинговый анализ',
         text: 'Собрал бриф, описал целевую аудиторию, разобрал конкурентов и сформулировал уникальное торговое предложение.',
         images: [
-          { src: caseBankruptcyBrief, mobileSrc: caseBankruptcyBriefMobile, alt: 'Обезличенный бриф по рекламе для банкротства физических лиц', caption: 'Бриф', docHref: documentLinks.bankruptcy.brief },
-          { src: caseBankruptcyAudience, mobileSrc: caseBankruptcyAudienceMobile, alt: 'Анализ целевой аудитории для услуги банкротства физических лиц', caption: 'Анализ ЦА', docHref: documentLinks.bankruptcy.audience },
-          { src: caseBankruptcyCompetitors, mobileSrc: caseBankruptcyCompetitorsMobile, alt: 'Анализ конкурентов в нише банкротства физических лиц', caption: 'Анализ конкурентов', docHref: documentLinks.bankruptcy.competitors },
-          { src: caseBankruptcyUsp, mobileSrc: caseBankruptcyUspMobile, alt: 'Уникальное торговое предложение для услуги банкротства физических лиц', caption: 'УТП', docHref: documentLinks.bankruptcy.usp },
+          { src: caseBankruptcyBriefLight, srcDark: caseBankruptcyBriefDark, wide: true, alt: 'Обезличенный бриф по рекламе для банкротства физических лиц', caption: 'Бриф', docHref: documentLinks.bankruptcy.brief },
+          { src: caseBankruptcyAudienceLight, srcDark: caseBankruptcyAudienceDark, wide: true, alt: 'Анализ целевой аудитории для услуги банкротства физических лиц', caption: 'Анализ ЦА', docHref: documentLinks.bankruptcy.audience },
+          { src: caseBankruptcyCompetitorsLight, srcDark: caseBankruptcyCompetitorsDark, wide: true, alt: 'Анализ конкурентов в нише банкротства физических лиц', caption: 'Анализ конкурентов', docHref: documentLinks.bankruptcy.competitors },
+          { src: caseBankruptcyUspLight, srcDark: caseBankruptcyUspDark, wide: true, alt: 'Уникальное торговое предложение для услуги банкротства физических лиц', caption: 'УТП', docHref: documentLinks.bankruptcy.usp },
         ],
       },
     ],
