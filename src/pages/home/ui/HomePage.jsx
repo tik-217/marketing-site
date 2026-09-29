@@ -23,6 +23,7 @@ export function HomePage() {
         <main>
           <Hero />
           <Cases />
+          <Audit id="audit-cases" />
           <Situations />
           <Comparison />
           <Phases />
