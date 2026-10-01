@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
 import { cleanReferrer, cleanTag, internalPath, resolveAttribution } from '../lib/context.js'
+import { loadSavedAudit, saveAudit, savedKey } from '../lib/savedAudit.js'
 import { canRetry, hasTelegramFallback, messageForError, PDF_ERROR, PDF_LOADING } from '../lib/messages.js'
 import { buildLimitMessage, buildTelegramMessage, buildTelegramUrl, intents, makeResultCode } from '../lib/telegramLink.js'
 import { createTracker, sanitizeParams } from '../../../shared/lib/analytics/track.js'
@@ -138,4 +139,21 @@ test('referrer: без query и hash, хост отдельно, внутрен�
   assert.equal(attr.fromPage, '/cases/legal')
   assert.equal(attr.referrer, 'https://gabulyan-tigran.ru/cases/legal')
   assert.equal(attr.referrerHost, 'gabulyan-tigran.ru')
+})
+
+test('сохраненный разбор: ключ без query, срок сутки, лимит записей', () => {
+  const storage = memoryStorage()
+  assert.equal(savedKey('https://www.Example.ru/a/?x=1#h'), 'example.ru/a')
+  assert.equal(savedKey('not a url'), '')
+
+  const response = { status: 'completed' }
+  saveAudit('live', 'https://example.ru/page?utm=1', response, { storage, now: 1000 })
+  assert.deepEqual(loadSavedAudit('live', 'https://www.example.ru/page/', { storage, now: 5000 }), { savedAt: 1000, response })
+  assert.equal(loadSavedAudit('live', 'https://example.ru/other', { storage, now: 5000 }), null)
+  assert.equal(loadSavedAudit('mock', 'https://example.ru/page', { storage, now: 5000 }), null)
+  assert.equal(loadSavedAudit('live', 'https://example.ru/page', { storage, now: 1000 + 25 * 3600 * 1000 }), null)
+
+  for (let i = 0; i < 8; i += 1) saveAudit('live', `https://site${i}.ru/`, response, { storage, now: 2000 + i })
+  assert.equal(loadSavedAudit('live', 'https://site7.ru/', { storage, now: 3000 }) !== null, true)
+  assert.equal(loadSavedAudit('live', 'https://site0.ru/', { storage, now: 3000 }), null)
 })

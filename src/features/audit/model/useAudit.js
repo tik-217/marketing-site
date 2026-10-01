@@ -2,6 +2,8 @@ import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore
 import { createAuditClient, getAuditMode } from '../api/config.js'
 import { resolveAttribution } from '../lib/context.js'
 import { normalizeUrl } from '../lib/normalizeUrl.js'
+import { loadSavedAudit, saveAudit } from '../lib/savedAudit.js'
+import { parseAuditResponse } from '../api/parseResponse.js'
 import { createAuditTracker } from '../lib/track.js'
 import { createAuditController } from './controller.js'
 import { createPdfController } from './pdfController.js'
@@ -34,8 +36,20 @@ export function useAudit({ search, onPrefillHandled }) {
         client,
         track: baseTrack,
         attribution,
+        store: {
+          save: (url, response) => saveAudit(mode, url, response),
+          load: (url) => {
+            const entry = loadSavedAudit(mode, url)
+            if (!entry) return null
+            try {
+              return { savedAt: entry.savedAt, response: parseAuditResponse(entry.response) }
+            } catch {
+              return null
+            }
+          },
+        },
       }),
-    [client, baseTrack, attribution],
+    [client, baseTrack, attribution, mode],
   )
 
   // Окно под PDF открываем сразу по клику, иначе браузер заблокирует его после ожидания ответа.

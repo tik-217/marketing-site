@@ -245,3 +245,35 @@ test('ошибка PDF не затрагивает состояние аудит
   assert.equal(controller.getState(), before)
   assert.equal(controller.getState().phase, 'result')
 })
+
+test('лимит при сохраненном разборе: показываем его с отметкой времени', async () => {
+  const saved = { savedAt: 1_700_000_000_000, response: { status: 'completed', auditId: '2f5c8d0e-1111-4222-8333-444455556666', audit: { summary: 'сохранен', priorityActions: [], problems: [], secondaryNotes: [], mobileNotes: [], strengths: [] } } }
+  for (const host of ['limit.example.ru', 'budget.example.ru']) {
+    const { controller, names } = setup({ store: { load: () => saved, save: () => {} } })
+    await controller.submit(host)
+    const state = controller.getState()
+    assert.equal(state.phase, 'result')
+    assert.equal(state.savedAt, saved.savedAt)
+    assert.equal(state.response.audit.summary, 'сохранен')
+    assert.ok(names().includes('audit_limit_saved_shown'))
+  }
+})
+
+test('лимит без сохраненного разбора и другие ошибки остаются ошибкой', async () => {
+  const { controller } = setup({ store: { load: () => null, save: () => {} } })
+  await controller.submit('limit.example.ru')
+  assert.equal(controller.getState().phase, 'error')
+  assert.equal(controller.getState().savedAt, null)
+
+  const saved = { savedAt: 1, response: { status: 'completed', audit: { summary: 's' } } }
+  const other = setup({ store: { load: () => saved, save: () => {} } })
+  await other.controller.submit('busy.example.ru')
+  assert.equal(other.controller.getState().phase, 'error')
+})
+
+test('успешный разбор сохраняется для этой страницы', async () => {
+  const calls = []
+  const { controller } = setup({ store: { load: () => null, save: (url, response) => calls.push([url, response.status]) } })
+  await controller.submit('example.ru/page')
+  assert.deepEqual(calls, [['https://example.ru/page', 'completed']])
+})

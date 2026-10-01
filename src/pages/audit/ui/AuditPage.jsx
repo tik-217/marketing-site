@@ -6,6 +6,7 @@ import { AuditErrorPanel } from '../../../features/audit/ui/AuditErrorPanel'
 import { AuditForm } from '../../../features/audit/ui/AuditForm'
 import { AuditLoading } from '../../../features/audit/ui/AuditLoading'
 import { AuditResult } from '../../../features/audit/ui/AuditResult'
+import { SavedNotice } from '../../../features/audit/ui/SavedNotice'
 import {
   AuthorSection,
   ChecksSection,
@@ -110,6 +111,7 @@ export function AuditPage() {
         {phase === 'result' && (
           <section className="ad-read">
             <div className="ad-read__in">
+              {state.savedAt && <SavedNotice savedAt={state.savedAt} />}
               <header className="ad-result__head">
                 <span className="ad-eyebrow">Разбор страницы</span>
                 <h1 className="ad-h1 ad-result__title" tabIndex={-1} ref={headingRef}>

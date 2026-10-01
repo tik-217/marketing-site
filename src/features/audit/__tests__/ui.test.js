@@ -10,11 +10,13 @@ import { PARTIAL_NOTICE, PDF_ERROR, PDF_LOADING } from '../lib/messages.js'
 let server
 let AuditResult
 let AuditErrorPanel
+let SavedNotice
 
 before(async () => {
   server = await createServer({ server: { middlewareMode: true }, appType: 'custom', logLevel: 'silent' })
   ;({ AuditResult } = await server.ssrLoadModule('/src/features/audit/ui/AuditResult.jsx'))
   ;({ AuditErrorPanel } = await server.ssrLoadModule('/src/features/audit/ui/AuditErrorPanel.jsx'))
+  ;({ SavedNotice } = await server.ssrLoadModule('/src/features/audit/ui/SavedNotice.jsx'))
 })
 
 after(async () => {
@@ -127,4 +129,12 @@ test('ошибки: тексты, повтор и Telegram', () => {
   for (const html of [limit, reached, busy, temp, network, down]) {
     assert.doesNotMatch(html, /429|503|Yandex|Alice|Flash|provider|токен/i)
   }
+})
+
+test('плашка сохраненного разбора: текст и дата', () => {
+  const html = renderToStaticMarkup(createElement(SavedNotice, { savedAt: new Date(2026, 9, 1, 10, 42).getTime() }))
+  assert.match(html, /Эту страницу уже проверяли сегодня/)
+  assert.match(html, /Показываю сохраненный разбор от 1 октября, 10:42\./)
+  assert.match(html, /Новая проверка этой страницы будет доступна завтра\./)
+  assert.match(html, /role="status"/)
 })

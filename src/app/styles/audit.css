@@ -902,3 +902,19 @@
 
 .ad-state__actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3) var(--space-5); }
 .ad-state__btn { align-self: flex-start; }
+
+/* плашка "Эту страницу уже проверяли сегодня" */
+
+.ad-saved {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-4) var(--space-5);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  margin-bottom: calc(-1 * var(--space-4));
+}
+
+.ad-saved strong { font-weight: 700; }
+.ad-saved span { font-size: var(--text-sm); color: var(--text-secondary); }

@@ -10,6 +10,7 @@ const initialState = {
   url: '',
   hostname: '',
   response: null,
+  savedAt: null, // не null, если показан разбор, сохраненный на этом устройстве, а не новый
   errorCode: '',
   resultCode: '',
 }
@@ -19,6 +20,7 @@ const initialState = {
  * @param {{
  *   client: import('./types.js').AuditClient,
  *   track: (name: string, params?: object) => void,
+ *   store?: { load: (url: string) => ({ savedAt: number, response: object } | null), save: (url: string, response: object) => void },
  *   attribution?: { utmSource?: string, utmMedium?: string, utmCampaign?: string, referrer?: string, referrerHost?: string, fromPage?: string },
  *   makeCode?: () => string,
  *   now?: () => number,
@@ -28,6 +30,7 @@ export function createAuditController({
   client,
   track,
   attribution = {},
+  store = { load: () => null, save: () => {} },
   makeCode = makeResultCode,
   now = Date.now,
 }) {
@@ -60,7 +63,7 @@ export function createAuditController({
   async function run(url, hostname, via) {
     if (inFlight) return
     inFlight = true
-    set({ phase: 'loading', url, hostname, fieldError: '', errorCode: '', response: null })
+    set({ phase: 'loading', url, hostname, fieldError: '', errorCode: '', response: null, savedAt: null })
     track('audit_loading_started', common(hostname))
     const startedAt = now()
 
@@ -76,12 +79,18 @@ export function createAuditController({
         seconds,
         via,
       })
+      store.save(url, response)
       set({ phase: 'result', response, resultCode })
     } catch (error) {
       const code = error instanceof AuditError ? error.code : 'NETWORK_ERROR'
       track('audit_failed', { ...common(hostname), code })
+      const saved = code === 'RATE_LIMITED' || code === 'AUDIT_LIMIT_REACHED' ? store.load(url) : null
       if (code === 'INVALID_URL') set({ phase: 'idle', fieldError: 'invalid' })
-      else set({ phase: 'error', errorCode: code })
+      else if (saved) {
+        // Лимит исчерпан, но эту страницу сегодня уже проверяли: показываем сохраненный разбор.
+        track('audit_limit_saved_shown', common(hostname))
+        set({ phase: 'result', response: saved.response, savedAt: saved.savedAt, resultCode: makeCode() })
+      } else set({ phase: 'error', errorCode: code })
     } finally {
       inFlight = false
     }
