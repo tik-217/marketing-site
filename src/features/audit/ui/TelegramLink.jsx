@@ -1,11 +1,11 @@
 import { contacts } from '../../../shared/config/contacts'
 import { buildTelegramMessage, buildTelegramUrl } from '../lib/telegramLink'
 
-export function TelegramLink({ intent, position, hostname, code, track, className = '', onOpen, children }) {
+export function TelegramLink({ intent, position, hostname, code, auditId, track, className = '', onOpen, children }) {
   const text = buildTelegramMessage({ intent, hostname, code })
 
   function handleClick() {
-    track('audit_telegram_click', { intent, position, host: hostname, code })
+    track('audit_telegram_click', { intent, position, hostname, code, auditId })
     onOpen?.(intent)
   }
 

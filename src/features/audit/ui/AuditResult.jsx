@@ -1,19 +1,19 @@
 import { useEffect, useRef } from 'react'
 import { PARTIAL_NOTICE } from '../lib/messages'
 import { ProblemCard } from './ProblemCard'
-import { TelegramCta } from './TelegramCta'
-import { TelegramLink } from './TelegramLink'
+import { PdfAction } from './PdfAction'
+import { CtaBlock, FinalCta } from './TelegramCta'
 
 const VIEW_AFTER_MS = 5000
 
-function useResultViewed(code, hostname, track) {
+function useResultViewed(code, hostname, auditId, track) {
   const ref = useRef(null)
 
   useEffect(() => {
     const element = ref.current
     if (!element) return undefined
     let timer
-    const fire = () => track('audit_result_view', { host: hostname, code })
+    const fire = () => track('audit_result_view', { hostname, code, auditId })
 
     if (typeof IntersectionObserver === 'undefined') {
       timer = setTimeout(fire, VIEW_AFTER_MS)
@@ -34,74 +34,83 @@ function useResultViewed(code, hostname, track) {
       clearTimeout(timer)
       observer.disconnect()
     }
-  }, [code, hostname, track])
+  }, [code, hostname, auditId, track])
 
   return ref
 }
 
-export function AuditResult({ response, hostname, code, track, onNewSite, preview = false }) {
+function BulletSection({ id, title, items, muted = false }) {
+  return (
+    <section className="ad-block" aria-labelledby={id}>
+      <h2 id={id} className="ad-h2 ad-h2--result">
+        {title}
+      </h2>
+      <ul className={muted ? 'audit-list audit-list--plain' : 'audit-list'}>
+        {items.map((item) => (
+          <li key={item}>{item}</li>
+        ))}
+      </ul>
+    </section>
+  )
+}
+
+export function AuditResult({ response, hostname, code, track, pdf, preview = false }) {
   const { audit, status } = response
-  const viewRef = useResultViewed(code, hostname, track)
+  const viewRef = useResultViewed(code, hostname, response.auditId, track)
   const hasProblems = audit.problems.length > 0
   const hasActions = audit.priorityActions.length > 0
-  const hasFindings = hasProblems || hasActions
+  const cta = { hostname, code, auditId: response.auditId, track }
 
   return (
-    <div className="audit-result">
+    <div className="ad-result">
       {status === 'partial' && (
         <p className="audit-notice" role="note">
           {PARTIAL_NOTICE}
         </p>
       )}
 
-      <section className="audit-block" ref={viewRef} aria-labelledby="audit-summary-title">
-        <h2 id="audit-summary-title" className="audit-block__title">
-          Коротко
+      <section className="ad-block" ref={viewRef} aria-labelledby="audit-summary-title">
+        <h2 id="audit-summary-title" className="ad-h2 ad-h2--result">
+          Краткий итог
         </h2>
         <p className="audit-summary">{audit.summary}</p>
       </section>
 
       {hasActions && (
-        <section className="audit-block" aria-labelledby="audit-actions-title">
-          <h2 id="audit-actions-title" className="audit-block__title">
+        <section className="ad-block" aria-labelledby="audit-actions-title">
+          <h2 id="audit-actions-title" className="ad-h2 ad-h2--result">
             Что исправить в первую очередь
           </h2>
-          <div className="audit-actions__head" aria-hidden="true">
-            <span>Где</span>
-            <span>Что сделать</span>
-          </div>
-          <ol className="audit-actions">
-            {audit.priorityActions.map((item) => (
-              <li key={`${item.area}-${item.action}`} className="audit-actions__row">
-                <span className="audit-actions__area">{item.area}</span>
-                <span className="audit-actions__action">{item.action}</span>
+          <ol className="ad-actions">
+            {audit.priorityActions.map((item, index) => (
+              <li key={`${item.area}-${item.action}`} className="ad-actions__row">
+                <span className="ad-actions__num">{index + 1}</span>
+                <div>
+                  <span className="ad-actions__area">Где: {item.area}</span>
+                  <p className="ad-actions__text">
+                    <strong>Что сделать.</strong> {item.action}
+                  </p>
+                </div>
               </li>
             ))}
           </ol>
           {!preview && (
-          <p className="audit-midcta">
-            Это разбор страницы. Если идет реклама, могу посмотреть и ее.{' '}
-            <TelegramLink
-              intent="ads"
-              position="mid"
-              hostname={hostname}
-              code={code}
-              track={track}
-              className="text-link"
-            >
-              Написать в Telegram
-            </TelegramLink>
-          </p>
+            <CtaBlock
+              {...cta}
+              position="actions"
+              label="Обсудить разбор в Telegram"
+              text="Помогу расставить эти пункты по порядку под ваш бюджет."
+            />
           )}
         </section>
       )}
 
       {hasProblems && (
-        <section className="audit-block" aria-labelledby="audit-problems-title">
-          <h2 id="audit-problems-title" className="audit-block__title">
+        <section className="ad-block" aria-labelledby="audit-problems-title">
+          <h2 id="audit-problems-title" className="ad-h2 ad-h2--result">
             Основные проблемы
           </h2>
-          <div className="audit-problems">
+          <div className="ad-problems">
             {audit.problems.map((problem, index) => (
               <ProblemCard key={problem.title} problem={problem} index={index} />
             ))}
@@ -109,62 +118,33 @@ export function AuditResult({ response, hostname, code, track, onNewSite, previe
         </section>
       )}
 
-      {!hasFindings && (
-        <p className="audit-empty">
-          Явных проблем, которые можно уверенно подтвердить по публичной странице, не нашлось.
-        </p>
-      )}
-
       {audit.secondaryNotes.length > 0 && (
-        <section className="audit-block" aria-labelledby="audit-notes-title">
-          <h2 id="audit-notes-title" className="audit-block__title">
-            Еще что стоит поправить
-          </h2>
-          <ul className="audit-list">
-            {audit.secondaryNotes.map((note) => (
-              <li key={note}>{note}</li>
-            ))}
-          </ul>
-        </section>
+        <BulletSection id="audit-notes-title" title="Дополнительные замечания" items={audit.secondaryNotes} />
       )}
 
       {audit.mobileNotes.length > 0 && (
-        <section className="audit-block" aria-labelledby="audit-mobile-title">
-          <h2 id="audit-mobile-title" className="audit-block__title">
-            Мобильная версия
-          </h2>
-          <ul className="audit-list">
-            {audit.mobileNotes.map((note) => (
-              <li key={note}>{note}</li>
-            ))}
-          </ul>
-        </section>
+        <BulletSection id="audit-mobile-title" title="Мобильная версия" items={audit.mobileNotes} />
       )}
 
       {audit.strengths.length > 0 && (
-        <section className="audit-block" aria-labelledby="audit-strengths-title">
-          <h2 id="audit-strengths-title" className="audit-block__title">
-            Что уже работает
+        <section className="ad-block" aria-labelledby="audit-strengths-title">
+          <h2 id="audit-strengths-title" className="ad-h2 ad-h2--result">
+            Сильные стороны страницы
           </h2>
-          <ul className="audit-list audit-list--plain">
+          <ul className="ad-strengths">
             {audit.strengths.map((item) => (
-              <li key={item}>{item}</li>
+              <li key={item} className="ad-strengths__card">
+                <span className="ad-tag">Сильная сторона</span>
+                <p>{item}</p>
+              </li>
             ))}
           </ul>
         </section>
       )}
 
-      {!preview && (
-        <>
-          <TelegramCta hostname={hostname} code={code} track={track} hasFindings={hasFindings} />
+      {!preview && <FinalCta {...cta} />}
 
-          <p className="audit-result__again">
-            <button type="button" className="audit-linkbutton" onClick={onNewSite}>
-              Проверить другой сайт
-            </button>
-          </p>
-        </>
-      )}
+      {!preview && pdf && <PdfAction pdf={pdf} />}
     </div>
   )
 }

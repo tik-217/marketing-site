@@ -2,34 +2,45 @@ import { useEffect, useState } from 'react'
 
 const steps = [
   'Открываю страницу',
-  'Смотрю первый экран и структуру',
-  'Проверяю оффер, кейсы и формы',
-  'Собираю рекомендации',
+  'Смотрю первый экран',
+  'Проверяю кнопки и формы',
+  'Собираю разбор',
 ]
 
 const STEP_MS = 5500
 
+function statusFor(index, current) {
+  if (index < current) return 'Готово'
+  if (index === current) return 'Сейчас'
+  return 'Далее'
+}
+
 export function AuditLoading({ hostname }) {
-  const [step, setStep] = useState(0)
+  const [current, setCurrent] = useState(0)
 
   useEffect(() => {
-    const timer = setInterval(() => setStep((current) => Math.min(current + 1, steps.length - 1)), STEP_MS)
+    const timer = setInterval(() => setCurrent((value) => Math.min(value + 1, steps.length - 1)), STEP_MS)
     return () => clearInterval(timer)
   }, [])
 
   return (
-    <div className="audit-loading">
+    <div className="ad-wait">
       <span className="audit-sr" role="status">
         Идет проверка сайта {hostname}
       </span>
-      <div className="audit-loading__bar" aria-hidden="true">
-        <span />
+      <div className="ad-wait__head" aria-hidden="true">
+        <h2 className="ad-h2 ad-h2--big">Готовлю разбор</h2>
+        <p className="ad-muted">Обычно это занимает 20-30 секунд. Страницу можно не обновлять.</p>
       </div>
-      <p className="audit-loading__step" aria-hidden="true">
-        {steps[step]}
-        <span className="audit-loading__dots">...</span>
-      </p>
-      <p className="audit-loading__hint">Обычно это занимает 20–30 секунд. Страницу можно не закрывать и не обновлять.</p>
+      <ol className="ad-steps" aria-hidden="true">
+        {steps.map((label, index) => (
+          <li key={label} className={`ad-steps__item ad-steps__item--${index < current ? 'done' : index === current ? 'now' : 'next'}`}>
+            <span className="ad-steps__num">{index + 1}</span>
+            <span className="ad-steps__label">{label}</span>
+            <span className="ad-steps__status">{statusFor(index, current)}</span>
+          </li>
+        ))}
+      </ol>
     </div>
   )
 }

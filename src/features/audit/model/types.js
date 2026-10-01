@@ -19,23 +19,44 @@
  * @property {string[]} mobileNotes
  * @property {string[]} strengths
  *
- * @typedef {Object} PublicAuditResponse
- * @property {'completed' | 'partial'} status
+ * @typedef {Object} AuditSuccessResponse
+ * @property {'completed'} status
+ * @property {string} [auditId] может отсутствовать, если история на бэкенде не сохранилась
+ * @property {AuditResult} audit
+ *
+ * @typedef {Object} AuditPartialResponse
+ * @property {'partial'} status
+ * @property {string} [auditId]
  * @property {AuditResult} audit
  * @property {string} [message]
  *
- * @typedef {'INVALID_URL' | 'RATE_LIMITED' | 'AUDIT_BUSY' | 'AUDIT_TEMPORARILY_UNAVAILABLE' | 'AUDIT_NOT_AVAILABLE' | 'NETWORK_ERROR' | 'INVALID_RESPONSE'} PublicAuditErrorCode
+ * @typedef {AuditSuccessResponse | AuditPartialResponse} AuditResponse
  *
- * @typedef {Object} PublicAuditError
- * @property {PublicAuditErrorCode} code
+ * @typedef {'INVALID_URL' | 'RATE_LIMITED' | 'AUDIT_LIMIT_REACHED' | 'AUDIT_BUSY' | 'AUDIT_TEMPORARILY_UNAVAILABLE' | 'AUDIT_NOT_AVAILABLE' | 'NETWORK_ERROR' | 'INVALID_RESPONSE'} AuditErrorCode
+ *
+ * @typedef {Object} AuditErrorResponse
+ * @property {{ code: string, message?: string }} error
+ *
+ * @typedef {Object} AuditInput
+ * @property {string} url
+ * @property {string} [utmSource]
+ * @property {string} [utmMedium]
+ * @property {string} [utmCampaign]
+ * @property {string} [referrer]
+ *
+ * @typedef {Object} PdfLink
+ * @property {string} downloadUrl
+ * @property {string} [expiresAt]
  *
  * @typedef {Object} AuditClient
- * @property {(url: string) => Promise<PublicAuditResponse>} runAudit
+ * @property {(input: AuditInput) => Promise<AuditResponse>} runAudit
+ * @property {(auditId: string) => Promise<PdfLink>} getPdfLink
  */
 
 export const ERROR_CODES = [
   'INVALID_URL',
   'RATE_LIMITED',
+  'AUDIT_LIMIT_REACHED',
   'AUDIT_BUSY',
   'AUDIT_TEMPORARILY_UNAVAILABLE',
   'AUDIT_NOT_AVAILABLE',
@@ -44,7 +65,7 @@ export const ERROR_CODES = [
 ]
 
 export class AuditError extends Error {
-  /** @param {PublicAuditErrorCode} code */
+  /** @param {AuditErrorCode | 'PDF_FAILED'} code */
   constructor(code) {
     super(code)
     this.name = 'AuditError'

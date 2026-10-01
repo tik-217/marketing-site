@@ -19,7 +19,7 @@ const initialState = {
  * @param {{
  *   client: import('./types.js').AuditClient,
  *   track: (name: string, params?: object) => void,
- *   source?: string,
+ *   attribution?: { utmSource?: string, utmMedium?: string, utmCampaign?: string, referrer?: string, referrerHost?: string, fromPage?: string },
  *   onResult?: (entry: { hostname: string, response: object }) => void,
  *   makeCode?: () => string,
  *   now?: () => number,
@@ -28,7 +28,7 @@ const initialState = {
 export function createAuditController({
   client,
   track,
-  source = 'direct',
+  attribution = {},
   onResult,
   makeCode = makeResultCode,
   now = Date.now,
@@ -36,6 +36,23 @@ export function createAuditController({
   let state = { ...initialState }
   let inFlight = false
   const listeners = new Set()
+
+  // Что уходит в аналитику: только метки и хост, без ссылок и текста.
+  const common = (hostname) => ({
+    hostname,
+    utmSource: attribution.utmSource,
+    utmMedium: attribution.utmMedium,
+    utmCampaign: attribution.utmCampaign,
+    fromPage: attribution.fromPage,
+    referrerHost: attribution.referrerHost,
+  })
+  // Что уходит на бэкенд: UTM и referrer, только если они есть.
+  const backendFields = () => ({
+    utmSource: attribution.utmSource,
+    utmMedium: attribution.utmMedium,
+    utmCampaign: attribution.utmCampaign,
+    referrer: attribution.referrer,
+  })
 
   const set = (patch) => {
     state = { ...state, ...patch }
@@ -46,16 +63,17 @@ export function createAuditController({
     if (inFlight) return
     inFlight = true
     set({ phase: 'loading', url, hostname, fieldError: '', errorCode: '', response: null })
-    track('audit_loading_started', { host: hostname, src: source })
+    track('audit_loading_started', common(hostname))
     const startedAt = now()
 
     try {
-      const response = parseAuditResponse(await client.runAudit(url))
+      const response = parseAuditResponse(await client.runAudit({ url, ...backendFields() }))
       const resultCode = makeCode()
       const seconds = Math.round((now() - startedAt) / 1000)
       track(response.status === 'partial' ? 'audit_partial' : 'audit_completed', {
-        host: hostname,
-        src: source,
+        ...common(hostname),
+        status: response.status,
+        auditId: response.auditId,
         code: resultCode,
         seconds,
         via,
@@ -64,7 +82,7 @@ export function createAuditController({
       onResult?.({ hostname, response })
     } catch (error) {
       const code = error instanceof AuditError ? error.code : 'NETWORK_ERROR'
-      track('audit_failed', { host: hostname, src: source, code })
+      track('audit_failed', { ...common(hostname), code })
       if (code === 'INVALID_URL') set({ phase: 'idle', fieldError: 'invalid' })
       else set({ phase: 'error', errorCode: code })
     } finally {
@@ -86,21 +104,21 @@ export function createAuditController({
       const result = normalizeUrl(raw)
       if (!result.ok) {
         set({ fieldError: result.reason })
-        track('audit_validation_error', { reason: result.reason, src: source })
+        track('audit_validation_error', { reason: result.reason, utmSource: attribution.utmSource, utmMedium: attribution.utmMedium, utmCampaign: attribution.utmCampaign })
         return
       }
       set({ input: raw })
-      track('audit_submit', { host: result.hostname, src: source, via })
+      track('audit_submit', { ...common(result.hostname), via })
       return run(result.url, result.hostname, via)
     },
     retry() {
       if (inFlight || state.phase !== 'error' || !state.url) return
-      track('audit_retry_click', { host: state.hostname, src: source, code: state.errorCode })
+      track('audit_retry_click', { ...common(state.hostname), code: state.errorCode })
       return run(state.url, state.hostname, 'retry')
     },
     newSite() {
       if (inFlight) return
-      track('audit_new_site_click', { host: state.hostname, src: source })
+      track('audit_new_site_click', common(state.hostname))
       state = { ...initialState }
       listeners.forEach((listener) => listener())
     },

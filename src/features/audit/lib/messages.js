@@ -1,6 +1,7 @@
 export const errorMessages = {
   INVALID_URL: 'Проверьте ссылку на сайт.',
   RATE_LIMITED: 'На сегодня лимит бесплатных аудитов исчерпан.',
+  AUDIT_LIMIT_REACHED: 'На сегодня лимит бесплатных аудитов исчерпан.',
   AUDIT_BUSY: 'Сейчас много запросов. Попробуйте чуть позже.',
   AUDIT_TEMPORARILY_UNAVAILABLE: 'Не получилось завершить аудит. Попробуйте еще раз чуть позже.',
   AUDIT_NOT_AVAILABLE: 'Сервис временно недоступен.',
@@ -16,7 +17,7 @@ const retryable = new Set([
 ])
 
 // Ошибки, после которых человека стоит не бросать, а вести в Telegram.
-const telegramFallback = new Set(['RATE_LIMITED', 'AUDIT_BUSY', 'AUDIT_NOT_AVAILABLE'])
+const telegramFallback = new Set(['RATE_LIMITED', 'AUDIT_LIMIT_REACHED', 'AUDIT_BUSY', 'AUDIT_NOT_AVAILABLE'])
 
 export function messageForError(code) {
   return errorMessages[code] ?? errorMessages.AUDIT_TEMPORARILY_UNAVAILABLE
@@ -32,3 +33,6 @@ export const validationMessages = {
 
 export const PARTIAL_NOTICE =
   'Часть выводов не удалось надежно подтвердить. Здесь только подтвержденные замечания.'
+
+export const PDF_LOADING = 'Готовлю PDF...'
+export const PDF_ERROR = 'Не получилось подготовить PDF. Попробуйте еще раз.'

@@ -3,10 +3,25 @@ import { Link } from 'react-router-dom'
 import { cases } from '../../../entities/case'
 import { CasePreviewCard } from '../../../widgets/cases'
 import portrait from '../../../shared/assets/images/tigran-portrait.avif'
-import { completedAudit } from '../api/fixtures'
-import { AuditResult } from './AuditResult'
 
-const noop = () => {}
+const sample = {
+  url: 'https://gabulyan-tigran.ru',
+  summary:
+    'Страница понятно объясняет, чем занимается автор, и открыто показывает цены. Главная помеха в порядке блоков: кейсы с цифрами стоят ниже середины страницы, а кнопка на первом экране ведет в мессенджер без пояснения, что будет после нажатия.',
+  actions: [
+    ['Первый экран.', 'Под кнопкой написать, что будет после сообщения: ответ в течение дня и бесплатный разбор ниши.'],
+    ['Кейсы.', 'Поднять кейс Glendale с цифрами 46 заявок по 841 ₽ сразу после первого экрана.'],
+    ['Цены.', 'Показать состав каждого пакета рядом с суммой, а не в раскрывающемся списке.'],
+  ],
+  problem: {
+    title: 'Кейсы с цифрами видны только после пятого экрана',
+    text: 'Холодный посетитель не знает автора и уходит раньше, чем доходит до доказательств.',
+  },
+  strength: {
+    title: 'Цены и условия указаны открыто',
+    text: 'Посетитель понимает бюджет до первого сообщения, обращения приходят от тех, кому цена подходит.',
+  },
+}
 
 export function ExampleSection({ track }) {
   const [open, setOpen] = useState(false)
@@ -24,7 +39,7 @@ export function ExampleSection({ track }) {
             <h2 id="ad-example-title" className="ad-h2">
               Как выглядит разбор
             </h2>
-            <p className="ad-muted">Пример на условной странице юридической компании</p>
+            <p className="ad-muted">Пример на моем собственном сайте gabulyan-tigran.ru</p>
           </div>
           <button
             type="button"
@@ -33,19 +48,40 @@ export function ExampleSection({ track }) {
             aria-controls="ad-example-body"
             onClick={toggle}
           >
-            {open ? 'Скрыть пример' : 'Показать пример'}
+            {open ? 'Свернуть пример' : 'Показать пример'}
           </button>
         </div>
         {open && (
-          <div id="ad-example-body" className="ad-example__body">
-            <AuditResult
-              preview
-              response={completedAudit}
-              hostname="example.ru"
-              code=""
-              track={noop}
-              onNewSite={noop}
-            />
+          <div id="ad-example-body" className="ad-sample">
+            <span className="ad-tag">Пример разбора</span>
+            <h3 className="ad-sample__title">Что на странице может мешать заявкам</h3>
+            <p className="ad-sample__url">{sample.url}</p>
+            <p className="ad-sample__summary">{sample.summary}</p>
+            <div className="ad-sample__card">
+              <h4>Что исправить в первую очередь</h4>
+              <ol>
+                {sample.actions.map(([label, text], index) => (
+                  <li key={label}>
+                    <span className="ad-sample__num">{index + 1}</span>
+                    <p>
+                      <strong>{label}</strong> {text}
+                    </p>
+                  </li>
+                ))}
+              </ol>
+            </div>
+            <div className="ad-sample__pair">
+              <div className="ad-sample__card">
+                <span className="ad-tag">Проблема</span>
+                <h4>{sample.problem.title}</h4>
+                <p>{sample.problem.text}</p>
+              </div>
+              <div className="ad-sample__card">
+                <span className="ad-tag">Сильная сторона</span>
+                <h4>{sample.strength.title}</h4>
+                <p>{sample.strength.text}</p>
+              </div>
+            </div>
           </div>
         )}
       </div>

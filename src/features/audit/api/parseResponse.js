@@ -40,7 +40,7 @@ export function parseAuditResponse(data) {
   const audit = data.audit
   if (!isObject(audit) || !isText(audit.summary)) throw new AuditError('INVALID_RESPONSE')
 
-  return {
+  const parsed = {
     status: data.status,
     audit: {
       summary: audit.summary,
@@ -53,11 +53,33 @@ export function parseAuditResponse(data) {
       strengths: textList(audit.strengths),
     },
   }
+  // auditId нужен только для PDF. Без валидного id аудит остается успешным, PDF просто не показываем.
+  if (isAuditId(data.auditId)) parsed.auditId = data.auditId
+  return parsed
+}
+
+const isAuditId = (value) => typeof value === 'string' && /^[0-9a-f][0-9a-f-]{7,63}$/i.test(value)
+
+/** Ответ pdf-token: ссылку строим не сами, но принимаем только https. */
+export function parsePdfLink(data) {
+  if (!isObject(data) || !isText(data.downloadUrl)) throw new AuditError('PDF_FAILED')
+  let url
+  try {
+    url = new URL(data.downloadUrl)
+  } catch {
+    throw new AuditError('PDF_FAILED')
+  }
+  if (url.protocol !== 'https:') throw new AuditError('PDF_FAILED')
+  return {
+    downloadUrl: url.toString(),
+    ...(isText(data.expiresAt) ? { expiresAt: data.expiresAt } : {}),
+  }
 }
 
 const KNOWN_CODES = new Set([
   'INVALID_URL',
   'RATE_LIMITED',
+  'AUDIT_LIMIT_REACHED',
   'AUDIT_BUSY',
   'AUDIT_TEMPORARILY_UNAVAILABLE',
   'AUDIT_NOT_AVAILABLE',

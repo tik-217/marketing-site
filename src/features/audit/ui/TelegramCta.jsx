@@ -1,18 +1,35 @@
 import { useState } from 'react'
-import { TelegramIcon } from '../../../shared/ui'
-import { buildTelegramMessage, intents } from '../lib/telegramLink'
+import { buildTelegramMessage } from '../lib/telegramLink'
 import { TelegramLink } from './TelegramLink'
 
-const secondary = ['ads', 'fixes', 'question']
+/** Светлый блок с одной кнопкой: после итога и после списка приоритетов. */
+export function CtaBlock({ text, label, position, hostname, code, auditId, track }) {
+  return (
+    <aside className="ad-cta">
+      <p className="ad-cta__text">{text}</p>
+      <TelegramLink
+        intent="deeper"
+        position={position}
+        hostname={hostname}
+        code={code}
+        auditId={auditId}
+        track={track}
+        className="btn ad-cta__btn"
+      >
+        {label}
+      </TelegramLink>
+    </aside>
+  )
+}
 
-export function TelegramCta({ hostname, code, track, hasFindings }) {
-  const [intent, setIntent] = useState('deeper')
+/** Единственный темный блок страницы: итоговый шаг. */
+export function FinalCta({ hostname, code, auditId, track }) {
   const [copied, setCopied] = useState(false)
 
   async function copyMessage() {
-    track('audit_copy_message', { intent, host: hostname, code })
+    track('audit_copy_message', { intent: 'deeper', hostname, code, auditId })
     try {
-      await navigator.clipboard.writeText(buildTelegramMessage({ intent, hostname, code }))
+      await navigator.clipboard.writeText(buildTelegramMessage({ intent: 'deeper', hostname, code }))
       setCopied(true)
       setTimeout(() => setCopied(false), 2500)
     } catch {
@@ -21,58 +38,37 @@ export function TelegramCta({ hostname, code, track, hasFindings }) {
   }
 
   return (
-    <section className="audit-cta" aria-labelledby="audit-cta-title">
-      <h2 id="audit-cta-title" className="audit-cta__title">
-        Хотите разобрать сайт глубже?
+    <section className="ad-final" aria-labelledby="ad-final-title">
+      <h2 id="ad-final-title" className="ad-final__title">
+        Следующий шаг: посмотреть страницу вместе с рекламой
       </h2>
-      <p className="audit-cta__text">
-        {hasFindings
-          ? 'Если хотите посмотреть не только страницу, но и рекламу, аналитику и весь путь заявки до продажи, напишите мне в Telegram.'
-          : 'Страница выглядит собранной. Если хотите посмотреть рекламу, аналитику и весь путь заявки до продажи, напишите мне в Telegram.'}
+      <p className="ad-final__text">
+        Разбор видит только страницу. Я могу посмотреть сайт вместе с рекламой и аналитикой и
+        показать, на каком этапе уходят обращения.
       </p>
-      <div className="audit-cta__main">
+      <div>
         <TelegramLink
           intent="deeper"
           position="final"
           hostname={hostname}
           code={code}
+          auditId={auditId}
           track={track}
-          onOpen={setIntent}
-          className="btn"
+          className="btn ad-final__btn"
         >
-          <TelegramIcon className="audit-cta__icon" />
-          {intents.deeper.label}
+          Написать в Telegram
         </TelegramLink>
       </div>
-      <div className="audit-cta__intents">
-        <span className="audit-cta__intents-label">Или сразу напишите, что хотите обсудить:</span>
-        <ul className="audit-cta__intent-list">
-          {secondary.map((key) => (
-            <li key={key}>
-              <TelegramLink
-                intent={key}
-                position="final"
-                hostname={hostname}
-                code={code}
-                track={track}
-                onOpen={setIntent}
-                className="audit-chip"
-              >
-                {intents[key].label}
-              </TelegramLink>
-            </li>
-          ))}
-        </ul>
-      </div>
-      <p className="audit-cta__copy">
+      <p className="ad-final__note">
+        Разбор построен по публичной странице на момент проверки. Он не учитывает рекламу,
+        аналитику и данные о заявках и не гарантирует результат.
+      </p>
+      <p className="ad-final__note">
         Если сообщение в Telegram не подставилось, его можно{' '}
-        <button type="button" className="audit-linkbutton" onClick={copyMessage}>
+        <button type="button" className="ad-final__copy" onClick={copyMessage}>
           скопировать
         </button>
-        .
-        <span role="status" className="audit-cta__copied">
-          {copied ? ' Скопировано.' : ''}
-        </span>
+        .<span role="status">{copied ? ' Скопировано.' : ''}</span>
       </p>
     </section>
   )

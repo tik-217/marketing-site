@@ -104,6 +104,7 @@ export const emptyProblemsAudit = {
 export const fixtureErrors = {
   temporary: 'AUDIT_TEMPORARILY_UNAVAILABLE',
   limit: 'RATE_LIMITED',
+  budget: 'AUDIT_LIMIT_REACHED',
   busy: 'AUDIT_BUSY',
   unavailable: 'AUDIT_NOT_AVAILABLE',
   offline: 'NETWORK_ERROR',
