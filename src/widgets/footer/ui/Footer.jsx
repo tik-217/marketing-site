@@ -1,8 +1,10 @@
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { contacts } from '../../../shared/config/contacts'
 import { CtaButton, InstagramIcon, TelegramIcon } from '../../../shared/ui'
 
 export function Footer() {
+  const { pathname } = useLocation()
+
   return (
     <footer className="site-footer">
       <div className="container site-footer__inner">
@@ -17,6 +19,7 @@ export function Footer() {
 
         <div className="site-footer__row">
           <nav className="site-footer__nav">
+            {pathname !== '/audit' && <Link to="/audit">Аудит сайта</Link>}
             <Link to="/privacy">Политика данных</Link>
           </nav>
           <div className="site-footer__contacts">

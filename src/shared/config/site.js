@@ -3,7 +3,7 @@ export const siteConfig = {
   title: 'Габулян Тигран, маркетинг для юристов',
   description:
     'Привожу клиентов для юридических ниш через комплексный маркетинг.',
-  url: 'https://example.com',
+  url: 'https://gabulyan-tigran.ru',
   locale: 'ru_RU',
   language: 'ru',
   ogImage: '/og-cover.png',
