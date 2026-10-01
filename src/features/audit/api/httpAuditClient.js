@@ -28,8 +28,8 @@ export function createHttpAuditClient({ baseUrl, fetchImpl }) {
     try {
       return await doFetch(`${baseUrl}${path}`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: body === undefined ? undefined : JSON.stringify(body),
+        // Content-Type только вместе с телом: пустой POST с этим заголовком бэкенд считает некорректным.
+        ...(body === undefined ? {} : { headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }),
         signal: controller.signal,
       })
     } finally {

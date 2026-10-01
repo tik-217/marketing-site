@@ -99,6 +99,7 @@ test('http-клиент POST /api/audit: тело, успешный ответ �
   assert.equal(res.auditId, '2f5c8d0e-1111-4222-8333-444455556666')
   assert.equal(requests[0].endpoint, 'https://api.test/api/audit')
   assert.equal(requests[0].init.method, 'POST')
+  assert.equal(requests[0].init.headers['Content-Type'], 'application/json')
   assert.deepEqual(JSON.parse(requests[0].init.body), { url, utmSource: 'threads', referrer: 'https://t.co' })
 
   const noId = createHttpAuditClient({ baseUrl: 'https://api.test', fetchImpl: fetchImpl({ status: 'completed', audit: { summary: 's' } }) })
@@ -146,6 +147,8 @@ test('http-клиент POST /api/audits/{id}/pdf-token: успех и ошиб�
   assert.equal(calls[0].endpoint, 'https://api.test/api/audits/2f5c8d0e-1111-4222-8333-444455556666/pdf-token')
   assert.equal(calls[0].init.method, 'POST')
   assert.equal(calls[0].init.body, undefined)
+  // пустой POST без Content-Type: с этим заголовком бэкенд отвечает 400 BAD_REQUEST
+  assert.equal(calls[0].init.headers, undefined)
   assert.deepEqual(link, { downloadUrl: 'https://api.test/pdf/abc', expiresAt: '2030-01-01T00:00:00Z' })
 
   const failing = (fetchImpl) => createHttpAuditClient({ baseUrl: 'x', fetchImpl }).getPdfLink('id-12345678')
