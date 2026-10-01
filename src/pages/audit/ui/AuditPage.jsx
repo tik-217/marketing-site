@@ -16,6 +16,7 @@ import { Seo } from '../../../shared/lib/seo'
 import { Footer } from '../../../widgets/footer'
 import { Header } from '../../../widgets/header'
 
+/** Адрес для показа: без query и hash. */
 function displayUrlOf(url) {
   try {
     const parsed = new URL(url)
@@ -33,7 +34,7 @@ export function AuditPage() {
   const inputRef = useRef(null)
   const headingRef = useRef(null)
 
-  const { state, controller, pdf, startPdf, track, lastResult } = useAudit({
+  const { state, controller, pdf, startPdf, track } = useAudit({
     search,
     // Параметр url убираем из адреса, чтобы обновление страницы не запускало аудит повторно.
     onPrefillHandled: () => {
@@ -44,17 +45,15 @@ export function AuditPage() {
     },
   })
 
-  const isResult = state.phase === 'result'
-  const isError = state.phase === 'error'
-  const isIdle = state.phase === 'idle'
+  const phase = state.phase
   const displayUrl = displayUrlOf(state.url)
 
   useEffect(() => {
-    if (!isResult) return
+    if (phase !== 'result') return
     const heading = headingRef.current
     heading?.focus({ preventScroll: true })
     heading?.scrollIntoView({ behavior: prefersReducedMotion() ? 'auto' : 'smooth', block: 'start' })
-  }, [isResult, state.resultCode])
+  }, [phase, state.resultCode])
 
   function handleNewSite() {
     controller.newSite()
@@ -71,81 +70,76 @@ export function AuditPage() {
         noIndex={getAuditMode() !== 'live'}
       />
       <Header />
-      <main>
-        <section className="ad-hero">
-          <div className={isResult || isError ? 'ad-col ad-col--read' : 'ad-col'}>
-            {isResult && (
-              <>
-                <header className="ad-hero__head">
-                  <span className="ad-eyebrow">Разбор страницы</span>
-                  <h1 className="ad-h1 ad-h1--result" tabIndex={-1} ref={headingRef}>
-                    Что на странице может мешать заявкам
-                  </h1>
-                  <p className="ad-host">{displayUrl}</p>
-                  <p>
-                    <button type="button" className="audit-linkbutton" onClick={handleNewSite}>
-                      Проверить другую страницу
-                    </button>
-                  </p>
-                </header>
-                <AuditResult
-                  response={state.response}
-                  hostname={state.hostname}
-                  code={state.resultCode}
-                  track={track}
-                  pdf={
-                    state.response.auditId
-                      ? {
-                          status: pdf.status,
-                          onClick: () => startPdf({ auditId: state.response.auditId, hostname: state.hostname }),
-                        }
-                      : undefined
-                  }
-                />
-              </>
-            )}
-
-            {isError && (
-              <AuditErrorPanel
-                code={state.errorCode}
-                hostname={state.hostname}
-                displayUrl={displayUrl}
-                track={track}
-                onRetry={controller.retry}
-                onNewSite={handleNewSite}
-              />
-            )}
-
-            {(isIdle || state.phase === 'loading') && (
-              <>
-                <header className="ad-hero__head">
-                  <h1 className="ad-h1">Покажу, что на вашей странице может мешать заявкам</h1>
-                  <p className="ad-lead">
-                    Вставьте ссылку на страницу сайта. Через 30 секунд получите разбор по моей
-                    методике.
-                  </p>
-                </header>
-                <AuditForm
-                  state={state}
-                  inputRef={inputRef}
-                  onChange={controller.setInput}
-                  onSubmit={(value) => controller.submit(value)}
-                  lastResult={lastResult}
-                  onRestore={() => controller.restore(lastResult)}
-                />
-                {state.phase === 'loading' && <AuditLoading hostname={state.hostname} />}
-              </>
-            )}
-          </div>
-        </section>
-
-        {isIdle && (
+      <main className="ad-main">
+        {phase === 'idle' && (
           <>
+            <section className="ad-start">
+              <div className="ad-start__intro">
+                <h1 className="ad-h1 ad-start__title">Покажу, что на вашей странице может мешать заявкам</h1>
+                <p className="ad-start__lead">
+                  Вставьте ссылку на страницу сайта. Через 30 секунд получите разбор по моей методике.
+                </p>
+              </div>
+              <AuditForm
+                state={state}
+                inputRef={inputRef}
+                onChange={controller.setInput}
+                onSubmit={(value) => controller.submit(value)}
+              />
+            </section>
             <ExampleSection track={track} />
             <ChecksSection />
             <AuthorSection />
             <FaqSection />
           </>
+        )}
+
+        {phase === 'loading' && <AuditLoading hostname={state.hostname} displayUrl={displayUrl} />}
+
+        {phase === 'error' && (
+          <AuditErrorPanel
+            code={state.errorCode}
+            hostname={state.hostname}
+            displayUrl={displayUrl}
+            track={track}
+            onRetry={controller.retry}
+            onNewSite={handleNewSite}
+          />
+        )}
+
+        {phase === 'result' && (
+          <section className="ad-read">
+            <div className="ad-read__in">
+              <header className="ad-result__head">
+                <span className="ad-eyebrow">Разбор страницы</span>
+                <h1 className="ad-h1 ad-result__title" tabIndex={-1} ref={headingRef}>
+                  Что на странице может мешать заявкам
+                </h1>
+                <a className="ad-result__url" href={displayUrl} target="_blank" rel="noopener noreferrer">
+                  {displayUrl}
+                </a>
+                <div className="ad-result__actions">
+                  <button type="button" className="ad-textbtn" onClick={handleNewSite}>
+                    Проверить другую страницу
+                  </button>
+                </div>
+              </header>
+              <AuditResult
+                response={state.response}
+                hostname={state.hostname}
+                code={state.resultCode}
+                track={track}
+                pdf={
+                  state.response.auditId
+                    ? {
+                        status: pdf.status,
+                        onClick: () => startPdf({ auditId: state.response.auditId, hostname: state.hostname }),
+                      }
+                    : undefined
+                }
+              />
+            </div>
+          </section>
         )}
       </main>
       <Footer />

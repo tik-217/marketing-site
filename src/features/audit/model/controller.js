@@ -20,7 +20,6 @@ const initialState = {
  *   client: import('./types.js').AuditClient,
  *   track: (name: string, params?: object) => void,
  *   attribution?: { utmSource?: string, utmMedium?: string, utmCampaign?: string, referrer?: string, referrerHost?: string, fromPage?: string },
- *   onResult?: (entry: { hostname: string, response: object }) => void,
  *   makeCode?: () => string,
  *   now?: () => number,
  * }} deps
@@ -29,7 +28,6 @@ export function createAuditController({
   client,
   track,
   attribution = {},
-  onResult,
   makeCode = makeResultCode,
   now = Date.now,
 }) {
@@ -79,7 +77,6 @@ export function createAuditController({
         via,
       })
       set({ phase: 'result', response, resultCode })
-      onResult?.({ hostname, response })
     } catch (error) {
       const code = error instanceof AuditError ? error.code : 'NETWORK_ERROR'
       track('audit_failed', { ...common(hostname), code })
@@ -121,10 +118,6 @@ export function createAuditController({
       track('audit_new_site_click', common(state.hostname))
       state = { ...initialState }
       listeners.forEach((listener) => listener())
-    },
-    restore({ hostname, response }) {
-      if (inFlight) return
-      set({ phase: 'result', hostname, response, resultCode: makeCode(), fieldError: '', errorCode: '' })
-    },
+    }
   }
 }

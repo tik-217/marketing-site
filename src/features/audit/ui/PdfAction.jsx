@@ -6,7 +6,7 @@ export function PdfAction({ pdf }) {
 
   return (
     <div className="ad-pdf">
-      <button type="button" className="btn btn--outline ad-pdf__btn" disabled={loading} onClick={pdf.onClick}>
+      <button type="button" className="ad-btn ad-btn--outline" disabled={loading} onClick={pdf.onClick}>
         {loading ? PDF_LOADING : 'Скачать отчет в PDF'}
       </button>
       <p className="ad-pdf__error" role={pdf.status === 'error' ? 'alert' : undefined}>

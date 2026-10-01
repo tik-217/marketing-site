@@ -1,8 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react'
 import { createAuditClient, getAuditMode } from '../api/config.js'
-import { parseAuditResponse } from '../api/parseResponse.js'
 import { resolveAttribution } from '../lib/context.js'
-import { loadLastResult, saveLastResult } from '../lib/lastResult.js'
 import { normalizeUrl } from '../lib/normalizeUrl.js'
 import { createAuditTracker } from '../lib/track.js'
 import { createAuditController } from './controller.js'
@@ -36,9 +34,8 @@ export function useAudit({ search, onPrefillHandled }) {
         client,
         track: baseTrack,
         attribution,
-        onResult: (entry) => saveLastResult(mode, entry),
       }),
-    [client, baseTrack, attribution, mode],
+    [client, baseTrack, attribution],
   )
 
   // Окно под PDF открываем сразу по клику, иначе браузер заблокирует его после ожидания ответа.
@@ -104,15 +101,5 @@ export function useAudit({ search, onPrefillHandled }) {
     pdfController.reset()
   }, [state.resultCode, pdfController])
 
-  const lastResult = useMemo(() => {
-    const entry = loadLastResult(mode)
-    if (!entry) return null
-    try {
-      return { hostname: entry.hostname, response: parseAuditResponse(entry.response) }
-    } catch {
-      return null
-    }
-  }, [mode])
-
-  return { state, controller, pdf, startPdf, mode, track, lastResult }
+  return { state, controller, pdf, startPdf, mode, track }
 }

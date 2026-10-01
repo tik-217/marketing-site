@@ -16,16 +16,14 @@ const attribution = {
 
 function setup(overrides = {}) {
   const events = []
-  const results = []
   const controller = createAuditController({
     client: createMockAuditClient({ delayMs: 0 }),
     track: (name, params) => events.push([name, params]),
     attribution,
     makeCode: () => 'A7K3',
-    onResult: (entry) => results.push(entry),
     ...overrides,
   })
-  return { controller, events, results, names: () => events.map(([name]) => name) }
+  return { controller, events, names: () => events.map(([name]) => name) }
 }
 
 test('пустая отправка и невалидный URL: запросов нет', () => {
@@ -65,7 +63,7 @@ test('без атрибуции на бэкенд уходит только url'
 })
 
 test('completed с auditId: состояния и событие audit_completed', async () => {
-  const { controller, events, results } = setup()
+  const { controller, events } = setup()
   const phases = []
   controller.subscribe(() => phases.push(controller.getState().phase))
   await controller.submit('example.ru')
@@ -81,7 +79,6 @@ test('completed с auditId: состояния и событие audit_completed
   assert.equal(completed.status, 'completed')
   assert.equal(completed.hostname, 'example.ru')
   assert.equal(completed.utmSource, 'threads')
-  assert.equal(results.length, 1)
 })
 
 test('completed без auditId тоже успешный', async () => {

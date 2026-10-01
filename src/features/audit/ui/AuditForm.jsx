@@ -1,11 +1,9 @@
 import { useId } from 'react'
 import { validationMessages } from '../lib/messages'
 
-export function AuditForm({ state, onChange, onSubmit, inputRef, lastResult, onRestore }) {
+export function AuditForm({ state, onChange, onSubmit, inputRef }) {
   const id = useId()
-  const loading = state.phase === 'loading'
   const errorText = state.fieldError ? validationMessages[state.fieldError] : ''
-  const showLast = lastResult && state.phase === 'idle' && !state.input
 
   function handleSubmit(event) {
     event.preventDefault()
@@ -13,15 +11,15 @@ export function AuditForm({ state, onChange, onSubmit, inputRef, lastResult, onR
   }
 
   return (
-    <form className="audit-start" onSubmit={handleSubmit} noValidate>
-      <label className="audit-start__label" htmlFor={`${id}-url`}>
+    <form className="ad-form" onSubmit={handleSubmit} noValidate>
+      <label className="ad-form__label" htmlFor={`${id}-url`}>
         Ссылка на страницу
       </label>
-      <div className="audit-start__row">
+      <div className="ad-form__row">
         <input
           id={`${id}-url`}
           ref={inputRef}
-          className="audit-start__input"
+          className="ad-form__input"
           type="text"
           inputMode="url"
           autoComplete="url"
@@ -30,36 +28,29 @@ export function AuditForm({ state, onChange, onSubmit, inputRef, lastResult, onR
           spellCheck={false}
           placeholder="https://ваш-сайт.ru/страница"
           value={state.input}
-          readOnly={loading}
-          aria-invalid={errorText ? 'true' : undefined}
-          aria-describedby={errorText ? `${id}-error` : `${id}-note`}
+          aria-invalid={errorText ? 'true' : 'false'}
+          aria-describedby={`${id}-error`}
           onChange={(event) => onChange(event.target.value)}
         />
-        <button type="submit" className="btn audit-start__submit" disabled={loading}>
-          {loading ? 'Проверяю…' : 'Проверить страницу'}
+        <button type="submit" className="ad-btn ad-form__submit">
+          Проверить страницу
         </button>
       </div>
       {errorText && (
-        <p id={`${id}-error`} className="audit-start__note audit-start__note--error" role="alert">
+        <p id={`${id}-error`} role="alert" className="ad-form__error">
           {errorText}
         </p>
       )}
-      <ul className="audit-start__facts">
-        <li>Бесплатно</li>
-        <li>Около 30 секунд</li>
-        <li>Без регистрации и телефона</li>
-      </ul>
-      <p id={`${id}-note`} className="audit-start__note">
+      <div className="ad-form__facts">
+        <span>Бесплатно</span>
+        <span aria-hidden="true" className="ad-form__dot">·</span>
+        <span>Около 30 секунд</span>
+        <span aria-hidden="true" className="ad-form__dot">·</span>
+        <span>Без регистрации и телефона</span>
+      </div>
+      <p className="ad-form__note">
         Разбор смотрит одну страницу. Заявок, продаж и рекламы вашего бизнеса он не видит.
       </p>
-      {showLast && (
-        <p className="audit-start__last">
-          Ваш прошлый аудит:{' '}
-          <button type="button" className="audit-linkbutton" onClick={onRestore}>
-            {lastResult.hostname}
-          </button>
-        </p>
-      )}
     </form>
   )
 }

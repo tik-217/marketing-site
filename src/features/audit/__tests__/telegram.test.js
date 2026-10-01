@@ -1,7 +1,6 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
 import { cleanReferrer, cleanTag, internalPath, resolveAttribution } from '../lib/context.js'
-import { loadLastResult, saveLastResult } from '../lib/lastResult.js'
 import { canRetry, hasTelegramFallback, messageForError, PDF_ERROR, PDF_LOADING } from '../lib/messages.js'
 import { buildLimitMessage, buildTelegramMessage, buildTelegramUrl, intents, makeResultCode } from '../lib/telegramLink.js'
 import { createTracker, sanitizeParams } from '../../../shared/lib/analytics/track.js'
@@ -139,12 +138,4 @@ test('referrer: без query и hash, хост отдельно, внутрен�
   assert.equal(attr.fromPage, '/cases/legal')
   assert.equal(attr.referrer, 'https://gabulyan-tigran.ru/cases/legal')
   assert.equal(attr.referrerHost, 'gabulyan-tigran.ru')
-})
-
-test('последний результат хранится 7 дней', () => {
-  const storage = memoryStorage()
-  saveLastResult('mock', { hostname: 'example.ru', response: { status: 'completed' } }, storage, 1000)
-  assert.equal(loadLastResult('mock', storage, 2000).hostname, 'example.ru')
-  assert.equal(loadLastResult('live', storage, 2000), null)
-  assert.equal(loadLastResult('mock', storage, 1000 + 8 * 24 * 3600 * 1000), null)
 })

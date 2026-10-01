@@ -38,9 +38,9 @@ test('completed с auditId: Telegram главный, PDF вторичный и �
   assert.match(html, /https:\/\/t\.me\/tigran_front\?text=/)
   assert.ok(html.indexOf('Написать в Telegram') < html.indexOf('Скачать отчет в PDF'))
   const pdfButton = html.match(/<button[^>]*>Скачать отчет в PDF<\/button>/)[0]
-  assert.match(pdfButton, /btn--outline/)
+  assert.match(pdfButton, /ad-btn--outline/)
   const telegramButton = html.match(/<a[^>]*ad-final__btn[^>]*>/)[0]
-  assert.doesNotMatch(telegramButton, /btn--outline/)
+  assert.doesNotMatch(telegramButton, /ad-btn--outline/)
 })
 
 test('auditId не показывается пользователю и не попадает в ссылку Telegram', async () => {
@@ -86,12 +86,6 @@ test('структура результата: пустые блоки не по
   assert.equal(empty.includes('Основные проблемы'), false)
   assert.equal(empty.includes('Мобильная версия'), false)
   assert.equal(/\b(high|medium|low|critical)\b/i.test(empty), false)
-})
-
-test('в примере PDF и Telegram-блоки не выводятся', async () => {
-  const html = render(await audit('example.ru'), { preview: true, pdf: { status: 'idle', onClick: noop } })
-  assert.equal(html.includes('PDF'), false)
-  assert.equal(html.includes('t.me'), false)
 })
 
 function renderError(code) {
