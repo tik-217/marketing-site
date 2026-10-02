@@ -5,6 +5,7 @@ import { normalizeUrl } from '../lib/normalizeUrl.js'
 import { loadSavedAudit, saveAudit } from '../lib/savedAudit.js'
 import { parseAuditResponse } from '../api/parseResponse.js'
 import { createAuditTracker } from '../lib/track.js'
+import { createDailyLimit } from '../lib/dailyLimit.js'
 import { createAuditController } from './controller.js'
 import { createPdfController } from './pdfController.js'
 
@@ -30,12 +31,15 @@ export function useAudit({ search, onPrefillHandled }) {
     [baseTrack, attribution],
   )
 
+  const dailyLimit = useMemo(() => createDailyLimit(), [])
+
   const controller = useMemo(
     () =>
       createAuditController({
         client,
         track: baseTrack,
         attribution,
+        limit: dailyLimit,
         store: {
           save: (url, response) => saveAudit(mode, url, response),
           load: (url) => {
@@ -49,7 +53,7 @@ export function useAudit({ search, onPrefillHandled }) {
           },
         },
       }),
-    [client, baseTrack, attribution, mode],
+    [client, baseTrack, attribution, mode, dailyLimit],
   )
 
   // Окно под PDF открываем сразу по клику, иначе браузер заблокирует его после ожидания ответа.
@@ -109,6 +113,19 @@ export function useAudit({ search, onPrefillHandled }) {
     onPrefillHandled?.()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  // Страница могла простоять открытой до полуночи: лимит пересчитывается при возврате на вкладку и раз в минуту.
+  useEffect(() => {
+    const refresh = () => controller.refreshUsage()
+    const timer = setInterval(refresh, 60_000)
+    window.addEventListener('focus', refresh)
+    document.addEventListener('visibilitychange', refresh)
+    return () => {
+      clearInterval(timer)
+      window.removeEventListener('focus', refresh)
+      document.removeEventListener('visibilitychange', refresh)
+    }
+  }, [controller])
 
   // После нового результата PDF-состояние сбрасывается.
   useEffect(() => {

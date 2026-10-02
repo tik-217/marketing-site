@@ -4,6 +4,9 @@ import { validationMessages } from '../lib/messages'
 export function AuditForm({ state, onChange, onSubmit, inputRef }) {
   const id = useId()
   const errorText = state.fieldError ? validationMessages[state.fieldError] : ''
+  const usage = state.usage
+  const exhausted = Boolean(usage?.exhausted)
+  const showRemaining = Boolean(usage?.enabled) && usage.used > 0 && !exhausted
 
   function handleSubmit(event) {
     event.preventDefault()
@@ -32,7 +35,7 @@ export function AuditForm({ state, onChange, onSubmit, inputRef }) {
           aria-describedby={`${id}-error`}
           onChange={(event) => onChange(event.target.value)}
         />
-        <button type="submit" className="ad-btn ad-form__submit">
+        <button type="submit" className="ad-btn ad-form__submit" disabled={exhausted}>
           Проверить страницу
         </button>
       </div>
@@ -51,6 +54,29 @@ export function AuditForm({ state, onChange, onSubmit, inputRef }) {
       <p className="ad-form__note">
         Разбор смотрит одну страницу. Заявок, продаж и рекламы вашего бизнеса он не видит.
       </p>
+      {exhausted ? (
+        <div className="ad-form__stop" role="status">
+          <strong>Лимит на сегодня закончился</strong>
+          <p>
+            Вы уже использовали {usage.limit} аудита. Каждый разбор я оплачиваю из своих денег, поэтому
+            пока ограничил использование тремя запусками в день с одного браузера. Новый лимит будет
+            доступен завтра.
+          </p>
+        </div>
+      ) : (
+        <p className="ad-form__note ad-form__limit">
+          До {usage?.limit ?? 3} аудитов в день с одного браузера. Каждый разбор я оплачиваю из своих денег,
+          поэтому пока ограничил количество запусков.
+          {showRemaining && (
+            <>
+              {' '}
+              <span className="ad-form__remaining">
+                Осталось сегодня: {usage.remaining} из {usage.limit}
+              </span>
+            </>
+          )}
+        </p>
+      )}
     </form>
   )
 }

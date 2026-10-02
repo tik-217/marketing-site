@@ -951,3 +951,24 @@
   .ad-result__actions .ad-btn { width: 100%; justify-content: center; }
   .ad-skeleton__line--title { width: 80%; }
 }
+
+/* дневной лимит запусков: спокойное пояснение рядом с формой, не ошибка */
+
+.ad-form__limit { max-width: 560px; }
+.ad-form__remaining { font-weight: 600; color: var(--text-primary); white-space: nowrap; }
+.ad-form__submit:disabled { cursor: not-allowed; opacity: 0.55; }
+
+.ad-form__stop {
+  max-width: 560px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin-top: var(--space-2);
+  padding: var(--space-4) var(--space-5);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+}
+
+.ad-form__stop strong { font-weight: 700; }
+.ad-form__stop p { font-size: var(--text-sm); color: var(--text-secondary); }

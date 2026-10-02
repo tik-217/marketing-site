@@ -10,6 +10,7 @@ const initialState = {
   url: '',
   hostname: '',
   response: null,
+  usage: null, // состояние дневного лимита запусков (см. lib/dailyLimit.js)
   savedAt: null, // не null, если показан разбор, сохраненный на этом устройстве, а не новый
   errorCode: '',
   resultCode: '',
@@ -20,6 +21,7 @@ const initialState = {
  * @param {{
  *   client: import('./types.js').AuditClient,
  *   track: (name: string, params?: object) => void,
+ *   limit?: { getState: () => object, consume: () => object },
  *   store?: { load: (url: string) => ({ savedAt: number, response: object } | null), save: (url: string, response: object) => void },
  *   attribution?: { utmSource?: string, utmMedium?: string, utmCampaign?: string, referrer?: string, referrerHost?: string, fromPage?: string },
  *   makeCode?: () => string,
@@ -31,10 +33,11 @@ export function createAuditController({
   track,
   attribution = {},
   store = { load: () => null, save: () => {} },
+  limit = { getState: () => ({ enabled: false, limit: 3, used: 0, remaining: 3, exhausted: false }), consume: () => ({ enabled: false, limit: 3, used: 0, remaining: 3, exhausted: false }) },
   makeCode = makeResultCode,
   now = Date.now,
 }) {
-  let state = { ...initialState }
+  let state = { ...initialState, usage: limit.getState() }
   let inFlight = false
   const listeners = new Set()
 
@@ -63,7 +66,9 @@ export function createAuditController({
   async function run(url, hostname, via) {
     if (inFlight) return
     inFlight = true
-    set({ phase: 'loading', url, hostname, fieldError: '', errorCode: '', response: null, savedAt: null })
+    // Счетчик растет в момент фактического запуска нового аудита, ровно перед POST /api/audit.
+    const usage = limit.consume()
+    set({ phase: 'loading', url, hostname, fieldError: '', errorCode: '', response: null, savedAt: null, usage })
     track('audit_loading_started', common(hostname))
     const startedAt = now()
 
@@ -113,19 +118,37 @@ export function createAuditController({
         track('audit_validation_error', { reason: result.reason, utmSource: attribution.utmSource, utmMedium: attribution.utmMedium, utmCampaign: attribution.utmCampaign })
         return
       }
-      set({ input: raw })
+      const usage = limit.getState()
+      if (usage.exhausted) {
+        // Лимит на сегодня исчерпан: запрос не отправляется, форма остается с пояснением.
+        track('audit_local_limit_blocked', common(result.hostname))
+        set({ input: raw, usage })
+        return
+      }
+      set({ input: raw, usage })
       track('audit_submit', { ...common(result.hostname), via })
       return run(result.url, result.hostname, via)
     },
     retry() {
       if (inFlight || state.phase !== 'error' || !state.url) return
+      const usage = limit.getState()
+      if (usage.exhausted) {
+        track('audit_local_limit_blocked', common(state.hostname))
+        set({ phase: 'idle', input: state.input, fieldError: '', errorCode: '', usage })
+        return
+      }
       track('audit_retry_click', { ...common(state.hostname), code: state.errorCode })
       return run(state.url, state.hostname, 'retry')
+    },
+    /** Пересчитывает дневной лимит (например, после полуночи на открытой странице). */
+    refreshUsage() {
+      const usage = limit.getState()
+      if (JSON.stringify(usage) !== JSON.stringify(state.usage)) set({ usage })
     },
     newSite() {
       if (inFlight) return
       track('audit_new_site_click', common(state.hostname))
-      state = { ...initialState }
+      state = { ...initialState, usage: limit.getState() }
       listeners.forEach((listener) => listener())
     }
   }
