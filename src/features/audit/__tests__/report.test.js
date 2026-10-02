@@ -221,7 +221,10 @@ test('completed: шапка, дата, тот же результат, Telegram 
   assert.match(html, /Скопировать ссылку</)
   assert.match(html, /Скачать отчет в PDF/)
   assert.match(html, /Написать в Telegram/)
-  assert.ok(html.indexOf('Написать в Telegram') < html.indexOf('Скачать отчет в PDF'))
+  // PDF и копирование ссылки стоят в ряду кнопок под заголовком, выше результата; Telegram остается главным действием итога
+  assert.ok(html.indexOf('Скачать отчет в PDF') < html.indexOf('Краткий итог'))
+  assert.ok(html.indexOf('Скопировать ссылку<') < html.indexOf('Краткий итог'))
+  assert.ok(html.indexOf('Скачать отчет в PDF') < html.indexOf('Проверить другую страницу'))
   assert.equal(html.includes(PARTIAL_NOTICE), false)
 })
 
@@ -323,9 +326,9 @@ test('маршрут /audit/report/:reportId подключен; страниц�
   }
 })
 
-test('живой результат: кнопка "Скопировать ссылку на отчет" только при наличии reportId, событие без id', () => {
+test('живой результат: кнопка "Скопировать ссылку" только при наличии reportId, событие без id', () => {
   const page = read('src/pages/audit/ui/AuditPage.jsx')
-  assert.match(page, /reportId && <CopyLinkButton label="Скопировать ссылку на отчет"/)
+  assert.match(page, /copy=\{reportId \? \{ label: 'Скопировать ссылку'/)
   assert.match(page, /track\('audit_report_link_copy', \{ hostname: state\.hostname, status: state\.response\?\.status \}\)/)
   assert.equal(/audit_report_link_copy[^)]*reportId/.test(page), false)
 })

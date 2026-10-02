@@ -11,12 +11,14 @@ let server
 let AuditResult
 let AuditErrorPanel
 let SavedNotice
+let ResultActions
 
 before(async () => {
   server = await createServer({ server: { middlewareMode: true }, appType: 'custom', logLevel: 'silent' })
   ;({ AuditResult } = await server.ssrLoadModule('/src/features/audit/ui/AuditResult.jsx'))
   ;({ AuditErrorPanel } = await server.ssrLoadModule('/src/features/audit/ui/AuditErrorPanel.jsx'))
   ;({ SavedNotice } = await server.ssrLoadModule('/src/features/audit/ui/SavedNotice.jsx'))
+  ;({ ResultActions } = await server.ssrLoadModule('/src/features/audit/ui/ResultActions.jsx'))
 })
 
 after(async () => {
@@ -33,28 +35,49 @@ function render(response, extra = {}) {
   )
 }
 
-test('completed с auditId: Telegram главный, PDF вторичный и идет после него', async () => {
+const pdfRow = (pdf) =>
+  renderToStaticMarkup(createElement(ResultActions, { pdf, copy: undefined }, createElement('span', null, 'Проверить другую страницу')))
+
+test('PDF в ряду кнопок наверху, Telegram остается главным действием результата', async () => {
   const response = await audit('example.ru')
-  const html = render(response, { pdf: { status: 'idle', onClick: noop } })
-  assert.match(html, /Скачать отчет в PDF/)
-  assert.match(html, /https:\/\/t\.me\/tigran_front\?text=/)
-  assert.ok(html.indexOf('Написать в Telegram') < html.indexOf('Скачать отчет в PDF'))
-  const pdfButton = html.match(/<button[^>]*>Скачать отчет в PDF<\/button>/)[0]
-  assert.match(pdfButton, /ad-btn--outline/)
-  const telegramButton = html.match(/<a[^>]*ad-final__btn[^>]*>/)[0]
+  const top = pdfRow({ status: 'idle', onClick: noop })
+  const result = render(response)
+  assert.match(top, /Скачать отчет в PDF/)
+  assert.match(top, /Проверить другую страницу/)
+  assert.ok(top.indexOf('Скачать отчет в PDF') < top.indexOf('Проверить другую страницу'))
+  assert.match(top.match(/<button[^>]*>Скачать отчет в PDF<\/button>/)[0], /ad-btn--outline/)
+  // внизу результата PDF больше нет
+  assert.equal(result.includes('PDF'), false)
+  assert.match(result, /https:\/\/t\.me\/tigran_front\?text=/)
+  const telegramButton = result.match(/<a[^>]*ad-final__btn[^>]*>/)[0]
   assert.doesNotMatch(telegramButton, /ad-btn--outline/)
+})
+
+test('ряд действий: PDF, копирование ссылки и «другая страница» в одном контейнере', () => {
+  const html = renderToStaticMarkup(
+    createElement(
+      ResultActions,
+      { pdf: { status: 'idle', onClick: noop }, copy: { label: 'Скопировать ссылку', copied: false, onCopy: noop } },
+      createElement('span', null, 'Проверить другую страницу'),
+    ),
+  )
+  assert.equal((html.match(/ad-result__actions/g) ?? []).length, 1)
+  const order = ['Скачать отчет в PDF', 'Скопировать ссылку', 'Проверить другую страницу'].map((text) => html.indexOf(text))
+  assert.ok(order.every((index) => index >= 0))
+  assert.deepEqual([...order].sort((x, y) => x - y), order)
+  assert.match(html.match(/<button[^>]*>Скопировать ссылку<\/button>/)[0], /ad-btn--outline/)
 })
 
 test('auditId не показывается пользователю и не попадает в ссылку Telegram', async () => {
   const response = await audit('example.ru')
-  const html = render(response, { pdf: { status: 'idle', onClick: noop } })
+  const html = render(response) + pdfRow({ status: 'idle', onClick: noop })
   assert.equal(html.includes(response.auditId), false)
   assert.equal(decodeURIComponent(html).includes(response.auditId), false)
 })
 
 test('без auditId кнопки PDF нет, разбор и Telegram на месте', async () => {
   const response = await audit('noid.example.ru')
-  const html = render(response, { pdf: undefined })
+  const html = render(response) + pdfRow(undefined)
   assert.equal(html.includes('PDF'), false)
   assert.match(html, /Краткий итог/)
   assert.match(html, /Написать в Telegram/)
@@ -62,29 +85,29 @@ test('без auditId кнопки PDF нет, разбор и Telegram на ме
 
 test('partial с auditId: заметка и полный разбор, PDF доступен', async () => {
   const response = await audit('partial.example.ru')
-  const html = render(response, { pdf: { status: 'idle', onClick: noop } })
+  const html = render(response)
   assert.ok(html.includes(PARTIAL_NOTICE))
-  assert.match(html, /Скачать отчет в PDF/)
   assert.match(html, /Краткий итог/)
+  assert.match(pdfRow({ status: 'idle', onClick: noop }), /Скачать отчет в PDF/)
 })
 
-test('PDF loading: кнопка отключена и показывает «Готовлю PDF...»', async () => {
-  const html = render(await audit('example.ru'), { pdf: { status: 'loading', onClick: noop } })
+test('PDF loading: кнопка отключена и показывает «Готовлю PDF...»', () => {
+  const html = pdfRow({ status: 'loading', onClick: noop })
   assert.ok(html.includes(PDF_LOADING))
   assert.match(html, /<button[^>]*disabled[^>]*>Готовлю PDF\.\.\.<\/button>/)
 })
 
 test('ошибка PDF показывает сообщение, а разбор остается на странице', async () => {
   const response = await audit('pdferr.example.ru')
-  const html = render(response, { pdf: { status: 'error', onClick: noop } })
-  assert.ok(html.includes(PDF_ERROR))
-  assert.match(html, /Краткий итог/)
-  assert.match(html, /Основные проблемы/)
-  assert.match(html, /Написать в Telegram/)
+  const result = render(response)
+  assert.ok(pdfRow({ status: 'error', onClick: noop }).includes(PDF_ERROR))
+  assert.match(result, /Краткий итог/)
+  assert.match(result, /Основные проблемы/)
+  assert.match(result, /Написать в Telegram/)
 })
 
 test('структура результата: пустые блоки не показываются', async () => {
-  const empty = render(await audit('empty.example.ru'), { pdf: undefined })
+  const empty = render(await audit('empty.example.ru'))
   assert.equal(empty.includes('Основные проблемы'), false)
   assert.equal(empty.includes('Мобильная версия'), false)
   assert.equal(/\b(high|medium|low|critical)\b/i.test(empty), false)

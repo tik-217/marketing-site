@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { formatReportDate } from '../lib/reportLink.js'
 import { AuditResult } from './AuditResult'
-import { CopyLinkButton } from './CopyLinkButton'
+import { ResultActions } from './ResultActions'
 
 /** Загрузка постоянного отчета: анализ уже выполнен, поэтому никаких этапов проверки, только "Загружаю отчет". */
 export function ReportLoading() {
@@ -84,18 +84,16 @@ export function ReportResult({ report, track, pdf, copied, onCopy }) {
             {report.hostname}
           </h1>
           {date && <p className="ad-report__date">Проверено {date}</p>}
-          <div className="ad-result__actions">
-            <CopyLinkButton label="Скопировать ссылку" copied={copied} onCopy={onCopy} className="ad-btn ad-btn--outline" />
+          <ResultActions pdf={pdf} copy={{ label: 'Скопировать ссылку', copied, onCopy }}>
             <Link className="ad-textbtn" to="/audit">
               Проверить другую страницу
             </Link>
-          </div>
+          </ResultActions>
         </header>
         <AuditResult
           response={{ status: report.status, audit: report.audit }}
           hostname={report.hostname}
           track={track}
-          pdf={pdf}
         />
       </div>
     </section>

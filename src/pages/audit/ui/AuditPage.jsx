@@ -5,7 +5,7 @@ import { useAudit } from '../../../features/audit/model/useAudit'
 import { useCopyLink } from '../../../features/audit/model/useCopyLink'
 import { useReportUrl } from '../../../features/audit/model/useReportUrl'
 import { reportPath } from '../../../features/audit/lib/reportLink'
-import { CopyLinkButton } from '../../../features/audit/ui/CopyLinkButton'
+import { ResultActions } from '../../../features/audit/ui/ResultActions'
 import { AuditErrorPanel } from '../../../features/audit/ui/AuditErrorPanel'
 import { AuditForm } from '../../../features/audit/ui/AuditForm'
 import { AuditLoading } from '../../../features/audit/ui/AuditLoading'
@@ -136,31 +136,32 @@ export function AuditPage() {
                 <a className="ad-result__url" href={displayUrl} target="_blank" rel="noopener noreferrer">
                   {displayUrl}
                 </a>
-                <div className="ad-result__actions">
+                <ResultActions
+                  pdf={
+                    state.response.auditId
+                      ? {
+                          status: pdf.status,
+                          onClick: () => startPdf({ auditId: state.response.auditId, hostname: state.hostname }),
+                        }
+                      : undefined
+                  }
+                  copy={reportId ? { label: 'Скопировать ссылку', copied, onCopy: copyLink } : undefined}
+                >
                   <button type="button" className="ad-textbtn" onClick={handleNewSite}>
                     Проверить другую страницу
                   </button>
-                  {reportId && <CopyLinkButton label="Скопировать ссылку на отчет" copied={copied} onCopy={copyLink} />}
                   {reportId && !urlAssigned && (
                     <Link className="ad-textbtn" to={reportPath(reportId)}>
                       Открыть постоянный отчет
                     </Link>
                   )}
-                </div>
+                </ResultActions>
               </header>
               <AuditResult
                 response={state.response}
                 hostname={state.hostname}
                 code={state.resultCode}
                 track={track}
-                pdf={
-                  state.response.auditId
-                    ? {
-                        status: pdf.status,
-                        onClick: () => startPdf({ auditId: state.response.auditId, hostname: state.hostname }),
-                      }
-                    : undefined
-                }
               />
             </div>
           </section>

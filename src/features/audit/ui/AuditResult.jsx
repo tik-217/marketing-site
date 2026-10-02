@@ -1,6 +1,5 @@
 import { useEffect, useRef } from 'react'
 import { PARTIAL_NOTICE } from '../lib/messages'
-import { PdfAction } from './PdfAction'
 import { ProblemCard } from './ProblemCard'
 import { FinalCta, MidCta } from './TelegramCta'
 
@@ -55,7 +54,7 @@ function ListSection({ id, title, items }) {
 }
 
 /** Секции разбора. Колонку, отступы между блоками и шапку задает страница. */
-export function AuditResult({ response, hostname, code, track, pdf }) {
+export function AuditResult({ response, hostname, code, track }) {
   const { audit, status } = response
   const viewRef = useResultViewed(code, hostname, response.auditId, track)
   const cta = { hostname, code, auditId: response.auditId, track }
@@ -131,8 +130,6 @@ export function AuditResult({ response, hostname, code, track, pdf }) {
       )}
 
       <FinalCta {...cta} />
-
-      {pdf && <PdfAction pdf={pdf} />}
     </>
   )
 }

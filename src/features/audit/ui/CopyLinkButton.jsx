@@ -1,5 +1,5 @@
 /** Вторичное действие: скопировать постоянную ссылку. Результат озвучивается через aria-live. */
-export function CopyLinkButton({ label, copied, onCopy, className = 'ad-textbtn' }) {
+export function CopyLinkButton({ label, copied, onCopy, className = 'ad-btn ad-btn--outline' }) {
   return (
     <div className="ad-copylink">
       <button type="button" className={className} onClick={onCopy}>

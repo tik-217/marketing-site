@@ -111,6 +111,9 @@
 }
 
 .ad-textbtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   min-height: 48px;
   padding: 0 20px;
   font-family: var(--font-display);
@@ -667,7 +670,7 @@
 }
 
 .ad-result__url { font-size: var(--text-sm); overflow-wrap: anywhere; align-self: flex-start; }
-.ad-result__actions { display: flex; flex-wrap: wrap; gap: var(--space-3); }
+.ad-result__actions { display: flex; flex-wrap: wrap; align-items: flex-start; gap: var(--space-3); }
 
 .ad-block { display: flex; flex-direction: column; gap: var(--space-5); min-width: 0; }
 .ad-block--tight { gap: var(--space-4); }
@@ -865,10 +868,11 @@
   cursor: pointer;
 }
 
-/* PDF: вторичное действие под итоговым блоком */
+/* PDF: кнопка в ряду действий под заголовком результата */
 
-.ad-pdf { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-2); margin-top: calc(-1 * var(--space-4)); }
-.ad-pdf__error { min-height: 1.5em; font-size: var(--text-sm); font-weight: 600; }
+.ad-pdf { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-1); }
+.ad-pdf__error { font-size: var(--text-sm); font-weight: 600; }
+.ad-pdf__error:empty { display: none; }
 
 /* ---------- ошибка и лимит ---------- */
 
@@ -920,8 +924,9 @@
 .ad-saved span { font-size: var(--text-sm); color: var(--text-secondary); }
 
 /* ---- Постоянная ссылка на отчет ---- */
-.ad-copylink { display: inline-flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); }
-.ad-copylink__status { min-height: 1.5em; font-size: var(--text-sm); font-weight: 600; color: var(--text-secondary); }
+.ad-copylink { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-1); }
+.ad-copylink__status { font-size: var(--text-sm); font-weight: 600; color: var(--text-secondary); }
+.ad-copylink__status:empty { display: none; }
 .ad-report__date { margin: 0; font-size: var(--text-sm); color: var(--text-secondary); }
 .ad-report__loading { margin: 0 0 var(--space-5); font-size: var(--text-lg, 1.125rem); font-weight: 600; }
 .ad-skeleton { display: flex; flex-direction: column; gap: var(--space-3); }
@@ -940,7 +945,9 @@
 /* 390 px: действия отчета в колонку, кнопки на всю ширину */
 @media (max-width: 480px) {
   .ad-result__actions { flex-direction: column; align-items: stretch; }
-  .ad-result__actions .ad-copylink { display: flex; flex-direction: column; align-items: stretch; }
+  .ad-result__actions .ad-copylink,
+  .ad-result__actions .ad-pdf { align-items: stretch; }
+  .ad-result__actions .ad-textbtn { width: 100%; }
   .ad-result__actions .ad-btn { width: 100%; justify-content: center; }
   .ad-skeleton__line--title { width: 80%; }
 }
