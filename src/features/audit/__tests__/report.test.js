@@ -309,6 +309,7 @@ test('сервер: X-Robots-Tag и Referrer-Policy для /audit/report/*, robo
   assert.match(htaccess, /SetEnvIf Request_URI "\^\/audit\/report\/" REPORT_PAGE/)
   assert.match(htaccess, /X-Robots-Tag "noindex, nofollow, noarchive" env=REPORT_PAGE/)
   assert.match(htaccess, /Referrer-Policy "no-referrer" env=REPORT_PAGE/)
+  assert.match(htaccess, /X-Robots-Tag "noindex, nofollow, noarchive" env=REDIRECT_REPORT_PAGE/) // после перенаправления на index.html
   assert.match(htaccess, /RewriteRule \^ \/index\.html \[L\]/) // SPA fallback остался
   assert.match(read('public/robots.txt'), /Disallow: \/audit\/report\//)
   assert.equal(read('public/sitemap.xml').includes('/audit/report'), false)

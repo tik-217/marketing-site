@@ -3,10 +3,14 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^ /index.html [L]
 
-# Постоянные ссылки на отчеты: не индексировать и не передавать адрес ссылки как Referer
+# Постоянные ссылки на отчеты: не индексировать и не передавать адрес ссылки как Referer.
+# После внутреннего перенаправления на /index.html переменная окружения получает префикс REDIRECT_, поэтому проверяются оба имени.
 SetEnvIf Request_URI "^/audit/report/" REPORT_PAGE
 <IfModule mod_headers.c>
   Header always set X-Robots-Tag "noindex, nofollow, noarchive" env=REPORT_PAGE
+  Header always set X-Robots-Tag "noindex, nofollow, noarchive" env=REDIRECT_REPORT_PAGE
   Header always set Referrer-Policy "no-referrer" env=REPORT_PAGE
+  Header always set Referrer-Policy "no-referrer" env=REDIRECT_REPORT_PAGE
   Header always set Cache-Control "no-store" env=REPORT_PAGE
+  Header always set Cache-Control "no-store" env=REDIRECT_REPORT_PAGE
 </IfModule>
