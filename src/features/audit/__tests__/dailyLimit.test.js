@@ -1,11 +1,11 @@
-// Дневной лимит запусков на фронтенде: 3 POST /api/audit в сутки с одного браузера (localStorage).
+// Дневной лимит запусков на фронтенде: 2 POST /api/audit в сутки с одного браузера (localStorage).
 import assert from 'node:assert/strict'
 import { after, before, test } from 'node:test'
 import { createElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { createServer } from 'vite'
 import { createMockAuditClient, MOCK_REPORT_ID } from '../api/mockAuditClient.js'
-import { createDailyLimit, DAILY_LIMIT, localDateKey, USAGE_KEY } from '../lib/dailyLimit.js'
+import { auditsWord, createDailyLimit, DAILY_LIMIT, limitWord, localDateKey, USAGE_KEY } from '../lib/dailyLimit.js'
 import { createAuditController } from '../model/controller.js'
 import { createPdfController } from '../model/pdfController.js'
 import { createReportController } from '../model/reportController.js'
@@ -41,72 +41,74 @@ function setup({ storage = memoryStorage(), time = clock() } = {}) {
   return { storage, time, calls, events, limit, controller, client }
 }
 
+const HOSTS = ['a.example.ru', 'b.example.ru', 'c.example.ru', 'd.example.ru']
+const exhaust = async (t) => {
+  for (const host of HOSTS.slice(0, DAILY_LIMIT)) await run(t, host)
+}
+
 const run = async (t, host = 'example.ru') => {
   await t.controller.submit(host)
   t.controller.newSite()
 }
 
-test('первый запуск → осталось 2, второй → 1, третий → 0', async () => {
+test('первый запуск → осталось 1, второй → 0', async () => {
   const t = setup()
-  assert.deepEqual(t.limit.getState(), { enabled: true, limit: 3, used: 0, remaining: 3, exhausted: false })
+  assert.deepEqual(t.limit.getState(), { enabled: true, limit: 2, used: 0, remaining: 2, exhausted: false })
 
   await t.controller.submit('example.ru')
   assert.equal(t.controller.getState().phase, 'result')
-  assert.equal(t.controller.getState().usage.remaining, 2)
+  assert.equal(t.controller.getState().usage.remaining, 1)
   assert.equal(t.limit.getState().used, 1)
   t.controller.newSite()
-  assert.equal(t.controller.getState().usage.remaining, 2)
+  assert.equal(t.controller.getState().usage.remaining, 1)
+  assert.equal(t.controller.getState().usage.exhausted, false)
 
   await t.controller.submit('example.ru/b')
-  assert.equal(t.controller.getState().usage.remaining, 1)
-  t.controller.newSite()
-
-  await t.controller.submit('example.ru/c')
   assert.equal(t.controller.getState().usage.remaining, 0)
   assert.equal(t.controller.getState().usage.exhausted, true)
-  assert.equal(t.calls.runAudit, 3)
-  assert.equal(DAILY_LIMIT, 3)
+  assert.equal(t.calls.runAudit, 2)
+  assert.equal(DAILY_LIMIT, 2)
 })
 
-test('четвертый запуск: POST /api/audit не выполняется, форма остается с пояснением', async () => {
+test('третий запуск: POST /api/audit не выполняется, форма остается с пояснением', async () => {
   const t = setup()
-  for (const host of ['a.example.ru', 'b.example.ru', 'c.example.ru']) await run(t, host)
-  assert.equal(t.calls.runAudit, 3)
+  await exhaust(t)
+  assert.equal(t.calls.runAudit, 2)
 
   await t.controller.submit('d.example.ru')
-  assert.equal(t.calls.runAudit, 3)
+  assert.equal(t.calls.runAudit, 2)
   const state = t.controller.getState()
   assert.equal(state.phase, 'idle')
   assert.equal(state.input, 'd.example.ru')
   assert.equal(state.usage.exhausted, true)
   assert.ok(t.events.some(([name]) => name === 'audit_local_limit_blocked'))
-  assert.equal(t.limit.getState().used, 3)
+  assert.equal(t.limit.getState().used, 2)
 })
 
 test('повторная отправка после лимита не увеличивает счетчик и не бросает', async () => {
   const t = setup()
-  for (const host of ['a.example.ru', 'b.example.ru', 'c.example.ru']) await run(t, host)
+  await exhaust(t)
   for (let i = 0; i < 5; i += 1) await t.controller.submit('x.example.ru')
-  assert.equal(t.calls.runAudit, 3)
-  assert.equal(JSON.parse(t.storage.getItem(USAGE_KEY)).count, 3)
+  assert.equal(t.calls.runAudit, 2)
+  assert.equal(JSON.parse(t.storage.getItem(USAGE_KEY)).count, 2)
 })
 
-test('на следующий календарный день лимит снова 3', async () => {
+test('на следующий календарный день лимит снова 2', async () => {
   const t = setup({ time: clock(2026, 9, 2, 23, 58) })
-  for (const host of ['a.example.ru', 'b.example.ru', 'c.example.ru']) await run(t, host)
+  await exhaust(t)
   assert.equal(t.limit.getState().exhausted, true)
 
   t.time.set(new Date(2026, 9, 2, 23, 59))
   assert.equal(t.limit.getState().exhausted, true)
 
   t.time.set(new Date(2026, 9, 3, 0, 1))
-  assert.deepEqual(t.limit.getState(), { enabled: true, limit: 3, used: 0, remaining: 3, exhausted: false })
+  assert.deepEqual(t.limit.getState(), { enabled: true, limit: 2, used: 0, remaining: 2, exhausted: false })
   t.controller.refreshUsage()
-  assert.equal(t.controller.getState().usage.remaining, 3)
+  assert.equal(t.controller.getState().usage.remaining, 2)
 
   await t.controller.submit('d.example.ru')
-  assert.equal(t.calls.runAudit, 4)
-  assert.equal(t.controller.getState().usage.remaining, 2)
+  assert.equal(t.calls.runAudit, 3)
+  assert.equal(t.controller.getState().usage.remaining, 1)
   assert.deepEqual(JSON.parse(t.storage.getItem(USAGE_KEY)), { date: '2026-10-03', count: 1 })
 })
 
@@ -144,11 +146,11 @@ test('страница отчета, обновление отчета и PDF н
 
 test('отчет открывается и после исчерпания лимита: чтение лимит не проверяет', async () => {
   const t = setup()
-  for (const host of ['a.example.ru', 'b.example.ru', 'c.example.ru']) await run(t, host)
+  await exhaust(t)
   const report = createReportController({ client: t.client, track: () => {} })
   await report.load(MOCK_REPORT_ID)
   assert.equal(report.getState().phase, 'result')
-  assert.equal(t.limit.getState().used, 3)
+  assert.equal(t.limit.getState().used, 2)
 })
 
 test('невалидная ссылка и ошибки валидации не расходуют лимит', async () => {
@@ -162,13 +164,12 @@ test('невалидная ссылка и ошибки валидации не 
 test('retry тоже новый запуск и после лимита не выполняется', async () => {
   const t = setup()
   await run(t, 'a.example.ru')
-  await run(t, 'b.example.ru')
-  await t.controller.submit('error.example.ru') // третий запуск, ошибка
+  await t.controller.submit('error.example.ru') // второй запуск, ошибка
   assert.equal(t.controller.getState().phase, 'error')
   assert.equal(t.limit.getState().exhausted, true)
 
   await t.controller.retry()
-  assert.equal(t.calls.runAudit, 3)
+  assert.equal(t.calls.runAudit, 2)
   assert.equal(t.controller.getState().phase, 'idle')
   assert.equal(t.controller.getState().usage.exhausted, true)
 })
@@ -223,30 +224,29 @@ const formHtml = (state) =>
 
 const usage = (used, enabled = true) => ({
   enabled,
-  limit: 3,
+  limit: DAILY_LIMIT,
   used,
-  remaining: Math.max(0, 3 - used),
-  exhausted: enabled && used >= 3,
+  remaining: Math.max(0, DAILY_LIMIT - used),
+  exhausted: enabled && used >= DAILY_LIMIT,
 })
 
 test('форма до первого запуска: спокойное пояснение без счетчика и без предупреждений', () => {
   const html = formHtml({ usage: usage(0) })
-  assert.match(html, /До 3 аудитов в день с одного браузера\. Каждый разбор я оплачиваю из своих денег, поэтому пока ограничил количество запусков\./)
+  assert.match(html, /До 2 аудитов в день с одного браузера\. Каждый разбор я оплачиваю из своих денег, поэтому пока ограничил количество запусков\./)
   assert.equal(html.includes('Осталось сегодня'), false)
   assert.equal(html.includes('role="alert"'), false)
   assert.equal(html.includes('Лимит на сегодня закончился'), false)
   assert.doesNotMatch(html.match(/<button[^>]*type="submit"[^>]*>/)[0], /disabled/)
 })
 
-test('форма после запусков: «Осталось сегодня: N из 3»', () => {
-  assert.match(formHtml({ usage: usage(1) }), /Осталось сегодня: 2 из 3/)
-  assert.match(formHtml({ usage: usage(2) }), /Осталось сегодня: 1 из 3/)
+test('форма после первого запуска: «Осталось сегодня: 1 из 2»', () => {
+  assert.match(formHtml({ usage: usage(1) }), /Осталось сегодня: 1 из 2/)
 })
 
-test('форма после трех запусков: сообщение о лимите и отключенный submit', () => {
-  const html = formHtml({ usage: usage(3) })
+test('форма после двух запусков: сообщение о лимите и отключенный submit', () => {
+  const html = formHtml({ usage: usage(2) })
   assert.match(html, /Лимит на сегодня закончился/)
-  assert.match(html, /Вы уже использовали 3 аудита\. Каждый разбор я оплачиваю из своих денег, поэтому пока ограничил использование тремя запусками в день с одного браузера\. Новый лимит будет доступен завтра\./)
+  assert.match(html, /Вы уже использовали 2 аудита\. Каждый разбор я оплачиваю из своих денег, поэтому пока ограничил использование двумя запусками в день с одного браузера\. Новый лимит будет доступен завтра\./)
   assert.match(html.match(/<button[^>]*type="submit"[^>]*>/)[0], /disabled/)
   assert.equal(html.includes('Осталось сегодня'), false)
   assert.equal(html.includes('role="alert"'), false)
@@ -259,4 +259,10 @@ test('форма без localStorage: submit включен, счетчика н
   assert.match(html, /Проверить страницу/)
   const noState = formHtml({ usage: undefined })
   assert.match(noState, /Проверить страницу/)
+})
+
+test('склонения в сообщениях лимита', () => {
+  assert.equal(limitWord(2), 'двумя')
+  assert.equal(limitWord(3), 'тремя')
+  assert.deepEqual([1, 2, 3, 4, 5, 11, 12, 21, 22].map(auditsWord), ['аудит', 'аудита', 'аудита', 'аудита', 'аудитов', 'аудитов', 'аудитов', 'аудит', 'аудита'])
 })

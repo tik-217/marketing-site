@@ -1,4 +1,5 @@
 import { useId } from 'react'
+import { auditsWord, DAILY_LIMIT, limitWord } from '../lib/dailyLimit'
 import { validationMessages } from '../lib/messages'
 
 export function AuditForm({ state, onChange, onSubmit, inputRef }) {
@@ -58,14 +59,14 @@ export function AuditForm({ state, onChange, onSubmit, inputRef }) {
         <div className="ad-form__stop" role="status">
           <strong>Лимит на сегодня закончился</strong>
           <p>
-            Вы уже использовали {usage.limit} аудита. Каждый разбор я оплачиваю из своих денег, поэтому
-            пока ограничил использование тремя запусками в день с одного браузера. Новый лимит будет
+            Вы уже использовали {usage.limit} {auditsWord(usage.limit)}. Каждый разбор я оплачиваю из своих денег, поэтому
+            пока ограничил использование {limitWord(usage.limit)} запусками в день с одного браузера. Новый лимит будет
             доступен завтра.
           </p>
         </div>
       ) : (
         <p className="ad-form__note ad-form__limit">
-          До {usage?.limit ?? 3} аудитов в день с одного браузера. Каждый разбор я оплачиваю из своих денег,
+          До {usage?.limit ?? DAILY_LIMIT} аудитов в день с одного браузера. Каждый разбор я оплачиваю из своих денег,
           поэтому пока ограничил количество запусков.
           {showRemaining && (
             <>

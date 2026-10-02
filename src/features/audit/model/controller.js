@@ -1,7 +1,10 @@
 import { parseAuditResponse } from '../api/parseResponse.js'
+import { DAILY_LIMIT } from '../lib/dailyLimit.js'
 import { normalizeUrl } from '../lib/normalizeUrl.js'
 import { makeResultCode } from '../lib/telegramLink.js'
 import { AuditError } from './types.js'
+
+const UNLIMITED = { enabled: false, limit: DAILY_LIMIT, used: 0, remaining: DAILY_LIMIT, exhausted: false }
 
 const initialState = {
   phase: 'idle', // idle | loading | result | error
@@ -33,7 +36,7 @@ export function createAuditController({
   track,
   attribution = {},
   store = { load: () => null, save: () => {} },
-  limit = { getState: () => ({ enabled: false, limit: 3, used: 0, remaining: 3, exhausted: false }), consume: () => ({ enabled: false, limit: 3, used: 0, remaining: 3, exhausted: false }) },
+  limit = { getState: () => UNLIMITED, consume: () => UNLIMITED },
   makeCode = makeResultCode,
   now = Date.now,
 }) {

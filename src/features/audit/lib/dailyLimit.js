@@ -1,4 +1,4 @@
-export const DAILY_LIMIT = 3
+export const DAILY_LIMIT = 2
 export const USAGE_KEY = 'site_audit_daily_usage_v1'
 
 /** Локальная календарная дата пользователя: 2026-10-02. Новый день начинается в его полночь. */
@@ -58,4 +58,19 @@ export function createDailyLimit({ storage = safeLocal(), now = () => new Date()
       return describe(next)
     },
   }
+}
+
+const WORDS = { 1: 'одним', 2: 'двумя', 3: 'тремя', 4: 'четырьмя', 5: 'пятью' }
+
+/** "двумя" для "ограничил использование двумя запусками". */
+export const limitWord = (limit) => WORDS[limit] ?? String(limit)
+
+/** 1 аудит, 2 аудита, 5 аудитов. */
+export function auditsWord(count) {
+  const mod100 = count % 100
+  const mod10 = count % 10
+  if (mod100 >= 11 && mod100 <= 14) return 'аудитов'
+  if (mod10 === 1) return 'аудит'
+  if (mod10 >= 2 && mod10 <= 4) return 'аудита'
+  return 'аудитов'
 }
