@@ -1,8 +1,10 @@
 import { useEffect, useRef } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { getAuditMode } from '../../../features/audit/api/config'
 import { useAudit } from '../../../features/audit/model/useAudit'
 import { useCopyLink } from '../../../features/audit/model/useCopyLink'
+import { useReportUrl } from '../../../features/audit/model/useReportUrl'
+import { reportPath } from '../../../features/audit/lib/reportLink'
 import { CopyLinkButton } from '../../../features/audit/ui/CopyLinkButton'
 import { AuditErrorPanel } from '../../../features/audit/ui/AuditErrorPanel'
 import { AuditForm } from '../../../features/audit/ui/AuditForm'
@@ -56,6 +58,8 @@ export function AuditPage() {
     onCopy: () => track('audit_report_link_copy', { hostname: state.hostname, status: state.response?.status }),
   })
   const displayUrl = displayUrlOf(state.url)
+  // После результата с reportId адрес страницы становится постоянной ссылкой (без перезагрузки и без запросов).
+  const { assigned: urlAssigned, resetUrl } = useReportUrl({ state, track })
 
   useEffect(() => {
     if (phase !== 'result') return
@@ -65,6 +69,7 @@ export function AuditPage() {
   }, [phase, state.resultCode])
 
   function handleNewSite() {
+    resetUrl()
     controller.newSite()
     window.scrollTo({ top: 0, behavior: prefersReducedMotion() ? 'auto' : 'smooth' })
     setTimeout(() => inputRef.current?.focus({ preventScroll: true }), 0)
@@ -76,7 +81,10 @@ export function AuditPage() {
         title="Аудит сайта на конверсию"
         description="Введите ссылку на сайт и получите разбор основных проблем страницы и рекомендации по улучшению."
         path="/audit"
-        noIndex={getAuditMode() !== 'live'}
+        // Когда адрес стал постоянной ссылкой, страница ведет себя как страница отчета: без индексации и referrer.
+        noIndex={getAuditMode() !== 'live' || urlAssigned}
+        noArchive={urlAssigned}
+        noReferrer={urlAssigned}
       />
       <Header />
       <main className="ad-main">
@@ -133,6 +141,11 @@ export function AuditPage() {
                     Проверить другую страницу
                   </button>
                   {reportId && <CopyLinkButton label="Скопировать ссылку на отчет" copied={copied} onCopy={copyLink} />}
+                  {reportId && !urlAssigned && (
+                    <Link className="ad-textbtn" to={reportPath(reportId)}>
+                      Открыть постоянный отчет
+                    </Link>
+                  )}
                 </div>
               </header>
               <AuditResult
