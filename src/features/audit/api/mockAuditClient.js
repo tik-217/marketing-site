@@ -21,6 +21,12 @@ const results = {
 const MOCK_ID = '11111111-1111-4111-8111-111111111111'
 const MOCK_PDF_FAIL_ID = '11111111-1111-4111-8111-eeeeeeeeeeee'
 
+// Постоянные ссылки в mock-режиме: известные id открывают сохраненные примеры, остальные дают "не найдено".
+export const MOCK_REPORT_ID = 'mockreport_completed_0001'
+export const MOCK_REPORT_PARTIAL_ID = 'mockreport_partial___0002'
+export const MOCK_REPORT_PDF_FAIL_ID = 'mockreport_pdferror__0003'
+export const MOCK_REPORT_ERROR_ID = 'mockreport_error_____0004'
+
 export function createMockAuditClient({ delayMs } = {}) {
   const pause = (ms) => (ms > 0 ? new Promise((resolve) => setTimeout(resolve, ms)) : Promise.resolve())
 
@@ -28,6 +34,20 @@ export function createMockAuditClient({ delayMs } = {}) {
     async getPdfLink(auditId) {
       await pause(delayMs ?? 1_200)
       if (auditId === MOCK_PDF_FAIL_ID) throw new AuditError('PDF_FAILED')
+      return { downloadUrl: 'https://example.invalid/mock-report.pdf', expiresAt: '2099-01-01T00:00:00Z' }
+    },
+
+    async getReport(reportId) {
+      await pause(delayMs ?? 800)
+      if (reportId === MOCK_REPORT_ERROR_ID) throw new AuditError('REPORT_UNAVAILABLE')
+      const source = reportId === MOCK_REPORT_PARTIAL_ID ? partialAudit : reportId === MOCK_REPORT_ID || reportId === MOCK_REPORT_PDF_FAIL_ID ? completedAudit : null
+      if (!source) throw new AuditError('REPORT_NOT_FOUND')
+      return { status: source.status, createdAt: '2026-10-02T09:00:00.000Z', hostname: 'example.ru', pathname: '/', audit: clone(source.audit) }
+    },
+
+    async getReportPdfLink(reportId) {
+      await pause(delayMs ?? 1_200)
+      if (reportId === MOCK_REPORT_PDF_FAIL_ID) throw new AuditError('PDF_FAILED')
       return { downloadUrl: 'https://example.invalid/mock-report.pdf', expiresAt: '2099-01-01T00:00:00Z' }
     },
 
@@ -42,6 +62,7 @@ export function createMockAuditClient({ delayMs } = {}) {
 
       const result = clone(results[scenario] ?? completedAudit)
       if (scenario !== 'noid') result.auditId = scenario === 'pdferr' ? MOCK_PDF_FAIL_ID : MOCK_ID
+      if (scenario !== 'noid' && scenario !== 'noreport') result.reportId = scenario === 'partial' ? MOCK_REPORT_PARTIAL_ID : MOCK_REPORT_ID
       return result
     },
   }

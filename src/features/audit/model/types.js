@@ -30,6 +30,13 @@
  * @property {AuditResult} audit
  * @property {string} [message]
  *
+ * @typedef {Object} SavedReport
+ * @property {'completed' | 'partial'} status
+ * @property {string} createdAt ISO-дата проверки
+ * @property {string} hostname
+ * @property {string} pathname
+ * @property {AuditResult} audit
+ *
  * @typedef {AuditSuccessResponse | AuditPartialResponse} AuditResponse
  *
  * @typedef {'INVALID_URL' | 'RATE_LIMITED' | 'AUDIT_LIMIT_REACHED' | 'AUDIT_BUSY' | 'AUDIT_TEMPORARILY_UNAVAILABLE' | 'AUDIT_NOT_AVAILABLE' | 'NETWORK_ERROR' | 'INVALID_RESPONSE'} AuditErrorCode
@@ -51,6 +58,8 @@
  * @typedef {Object} AuditClient
  * @property {(input: AuditInput) => Promise<AuditResponse>} runAudit
  * @property {(auditId: string) => Promise<PdfLink>} getPdfLink
+ * @property {(reportId: string) => Promise<SavedReport>} getReport
+ * @property {(reportId: string) => Promise<PdfLink>} getReportPdfLink
  */
 
 export const ERROR_CODES = [
@@ -65,7 +74,7 @@ export const ERROR_CODES = [
 ]
 
 export class AuditError extends Error {
-  /** @param {AuditErrorCode | 'PDF_FAILED'} code */
+  /** @param {AuditErrorCode | 'PDF_FAILED' | 'REPORT_NOT_FOUND' | 'REPORT_UNAVAILABLE'} code */
   constructor(code) {
     super(code)
     this.name = 'AuditError'

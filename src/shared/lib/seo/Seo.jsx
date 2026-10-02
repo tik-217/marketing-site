@@ -1,5 +1,6 @@
 import { Helmet } from 'react-helmet-async'
 import { siteConfig } from '../../config/site'
+import { robotsContent } from './robots'
 
 export function Seo({
   title,
@@ -7,6 +8,8 @@ export function Seo({
   path = '/',
   image = siteConfig.ogImage,
   noIndex = false,
+  noArchive = false,
+  noReferrer = false,
 }) {
   const fullTitle = title ? `${title}, ${siteConfig.name}` : siteConfig.title
   const canonicalUrl = new URL(path, siteConfig.url).toString()
@@ -18,7 +21,8 @@ export function Seo({
       <title>{fullTitle}</title>
       <meta name="description" content={description} />
       <link rel="canonical" href={canonicalUrl} />
-      {noIndex && <meta name="robots" content="noindex, nofollow" />}
+      {noIndex && <meta name="robots" content={robotsContent({ noArchive })} />}
+      {noReferrer && <meta name="referrer" content="no-referrer" />}
 
       <meta property="og:type" content="website" />
       <meta property="og:site_name" content={siteConfig.name} />

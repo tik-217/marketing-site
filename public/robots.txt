@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /audit/report/
 
 Sitemap: https://gabulyan-tigran.ru/sitemap.xml

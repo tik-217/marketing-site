@@ -2,6 +2,8 @@ import { useEffect, useRef } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { getAuditMode } from '../../../features/audit/api/config'
 import { useAudit } from '../../../features/audit/model/useAudit'
+import { useCopyLink } from '../../../features/audit/model/useCopyLink'
+import { CopyLinkButton } from '../../../features/audit/ui/CopyLinkButton'
 import { AuditErrorPanel } from '../../../features/audit/ui/AuditErrorPanel'
 import { AuditForm } from '../../../features/audit/ui/AuditForm'
 import { AuditLoading } from '../../../features/audit/ui/AuditLoading'
@@ -47,6 +49,12 @@ export function AuditPage() {
   })
 
   const phase = state.phase
+  const reportId = state.phase === 'result' ? state.response?.reportId : undefined
+  const { copied, copyLink } = useCopyLink({
+    reportId,
+    // В аналитику только хост и статус: id отчета не передается.
+    onCopy: () => track('audit_report_link_copy', { hostname: state.hostname, status: state.response?.status }),
+  })
   const displayUrl = displayUrlOf(state.url)
 
   useEffect(() => {
@@ -124,6 +132,7 @@ export function AuditPage() {
                   <button type="button" className="ad-textbtn" onClick={handleNewSite}>
                     Проверить другую страницу
                   </button>
+                  {reportId && <CopyLinkButton label="Скопировать ссылку на отчет" copied={copied} onCopy={copyLink} />}
                 </div>
               </header>
               <AuditResult

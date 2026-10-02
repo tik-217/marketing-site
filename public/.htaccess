@@ -2,3 +2,11 @@ RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^ /index.html [L]
+
+# Постоянные ссылки на отчеты: не индексировать и не передавать адрес ссылки как Referer
+SetEnvIf Request_URI "^/audit/report/" REPORT_PAGE
+<IfModule mod_headers.c>
+  Header always set X-Robots-Tag "noindex, nofollow, noarchive" env=REPORT_PAGE
+  Header always set Referrer-Policy "no-referrer" env=REPORT_PAGE
+  Header always set Cache-Control "no-store" env=REPORT_PAGE
+</IfModule>
