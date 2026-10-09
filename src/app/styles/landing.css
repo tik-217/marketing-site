@@ -2357,3 +2357,19 @@ img.theme-image--dark {
   }
   .case-preview-card__dot.is-active { background: var(--accent); }
 }
+
+/* Узкий телефон: четыре вкладки сравнения должны помещаться в одну строку без обрезки. */
+@media (max-width: 480px) {
+  .comparison-tabs .tab {
+    flex: 1 1 0;
+    min-width: 0;
+    padding: 12px 4px;
+    font-size: 13px;
+    white-space: nowrap;
+    text-align: center;
+  }
+}
+
+@media (max-width: 340px) {
+  .comparison-tabs .tab { font-size: 12px; padding-inline: 2px; }
+}
