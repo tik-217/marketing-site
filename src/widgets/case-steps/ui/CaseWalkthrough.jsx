@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom'
 import { legalWalkthrough } from '../../../entities/case'
 import { CropPicture, CtaButton, Section } from '../../../shared/ui'
 
@@ -49,9 +48,6 @@ export function CaseWalkthrough() {
       <h2 className="section-heading">{legalWalkthrough.title}</h2>
       <Screens />
       <p className="walk-footnote">{legalWalkthrough.footnote}</p>
-      <Link to="/cases/legalizaciya-kommercheskih-obektov" className="walk-link">
-        Читать кейс полностью <span aria-hidden="true">→</span>
-      </Link>
       <CtaButton source="s-case-steps" style={{ alignSelf: 'flex-start' }} />
     </Section>
   )
