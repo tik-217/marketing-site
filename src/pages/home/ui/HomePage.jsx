@@ -7,7 +7,6 @@ import { About } from '../../../widgets/about'
 import { Situations } from '../../../widgets/situations'
 import { Audit } from '../../../widgets/audit'
 import { Comparison } from '../../../widgets/comparison'
-import { Phases } from '../../../widgets/phases'
 import { Pricing } from '../../../widgets/pricing'
 import { Terms } from '../../../widgets/terms'
 import { Faq } from '../../../widgets/faq'
@@ -27,7 +26,6 @@ export function HomePage() {
           <Situations />
           <Audit id="audit-cases" />
           <Comparison />
-          <Phases />
           <Pricing />
           <Terms />
           <Faq />

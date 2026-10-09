@@ -2341,3 +2341,19 @@ img.theme-image--dark {
 }
 
 .case-preview-card__crop { width: 100%; }
+
+/* На телефоне документ без боковых полей страницы Notion, кадр привязан к верху. */
+/* Вне телефона кадр целый (--d-*), на телефоне фрагмент (--m-*). */
+.crop--m {
+  --crop-x: var(--d-x);
+  --crop-y: var(--d-y);
+  --crop-w: var(--d-w);
+}
+
+@media (max-width: 768px) {
+  .crop--m {
+    --crop-x: var(--m-x);
+    --crop-y: var(--m-y);
+    --crop-w: var(--m-w);
+  }
+}

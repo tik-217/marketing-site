@@ -1,3 +1,4 @@
+import { DOC_MOBILE_CROP } from './crops'
 import brief from '../../../shared/assets/images/case-legal-brief-light.avif'
 import briefDark from '../../../shared/assets/images/case-legal-brief-dark.avif'
 import audience from '../../../shared/assets/images/case-legal-audience-light.avif'
@@ -20,22 +21,22 @@ export const legalWalkthrough = {
       label: 'Анализ',
       steps: [
         {
-          image: { src: brief, srcDark: briefDark, alt: 'Бриф перед запуском Яндекс Директа' },
+          image: { src: brief, srcDark: briefDark, alt: 'Бриф перед запуском Яндекс Директа', mobileCrop: DOC_MOBILE_CROP },
           title: 'Записал задачу в цифрах',
           text: 'Средний чек, сроки и сколько фирма готова платить за одну заявку',
         },
         {
-          image: { src: audience, srcDark: audienceDark, alt: 'Описание целевой аудитории' },
-          title: 'Разделил клиентов на сегменты',
+          image: { src: audience, srcDark: audienceDark, alt: 'Описание целевой аудитории', mobileCrop: DOC_MOBILE_CROP },
+          title: 'Разделил собственников на 2 типа с разными мотивами',
           text: 'У каждого сегмента свой повод узаконить объект',
         },
         {
-          image: { src: competitors, srcDark: competitorsDark, alt: 'Анализ конкурентов' },
+          image: { src: competitors, srcDark: competitorsDark, alt: 'Анализ конкурентов', mobileCrop: DOC_MOBILE_CROP },
           title: 'Разобрал объявления конкурентов в Яндекс Директе',
           text: 'Что они обещают и чем объясняют свои преимущества',
         },
         {
-          image: { src: usp, srcDark: uspDark, alt: 'Уникальное торговое предложение' },
+          image: { src: usp, srcDark: uspDark, alt: 'Уникальное торговое предложение', mobileCrop: DOC_MOBILE_CROP },
           title: 'Собрал предложение фирмы',
           text: 'Из того, что ищут клиенты и чего нет у конкурентов',
         },
@@ -52,8 +53,8 @@ export const legalWalkthrough = {
         },
         {
           image: { src: metrika, alt: 'Конверсии в Яндекс Метрике' },
-          title: 'Настроил цели в Метрике',
-          text: 'Каждая заявка и звонок фиксируются, видно, откуда пришел клиент',
+          title: 'Настроил 3 цели в Метрике',
+          text: 'Форма, звонок и письмо считаются отдельно, видно, откуда пришел клиент',
         },
       ],
     },
