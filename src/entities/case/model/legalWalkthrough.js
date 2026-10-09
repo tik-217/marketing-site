@@ -1,4 +1,4 @@
-import { DOC_CROP, DIRECT_CROP, METRIKA_CROP } from './crops'
+import { AUDIENCE_LEGAL_CROP, COMPETITORS_LEGAL_CROP, DOC_CROP, DIRECT_CROP, METRIKA_CROP } from './crops'
 import brief from '../../../shared/assets/images/case-legal-brief-light.avif'
 import briefDark from '../../../shared/assets/images/case-legal-brief-dark.avif'
 import audience from '../../../shared/assets/images/case-legal-audience-light.avif'
@@ -26,14 +26,14 @@ export const legalWalkthrough = {
           text: 'Средний чек, сроки и сколько фирма готова платить за одну заявку',
         },
         {
-          image: { src: audience, srcDark: audienceDark, alt: 'Описание целевой аудитории', crop: DOC_CROP },
+          image: { src: audience, srcDark: audienceDark, alt: 'Описание целевой аудитории', crop: AUDIENCE_LEGAL_CROP },
           title: 'Разделил клиентов на сегменты',
-          text: 'Отдельно описал тех, кому услуга не подходит, чтобы не платить за их клики',
+          text: 'У каждого сегмента свой повод узаконить объект',
         },
         {
-          image: { src: competitors, srcDark: competitorsDark, alt: 'Анализ конкурентов', crop: DOC_CROP },
-          title: 'Разобрал конкурентов по одинаковым параметрам',
-          text: 'Цена на сайте, первый экран, предложение, способы связаться',
+          image: { src: competitors, srcDark: competitorsDark, alt: 'Анализ конкурентов', crop: COMPETITORS_LEGAL_CROP },
+          title: 'Разобрал объявления конкурентов в Яндекс Директе',
+          text: 'Что они обещают и чем объясняют свои преимущества',
         },
         {
           image: { src: usp, srcDark: uspDark, alt: 'Уникальное торговое предложение', crop: DOC_CROP },
@@ -48,8 +48,8 @@ export const legalWalkthrough = {
       steps: [
         {
           image: { src: direct, alt: 'Кампании в кабинете Яндекс Директа', crop: DIRECT_CROP },
-          title: 'Собрал ключевые фразы и минус-слова',
-          text: 'Минус-слова отсекают запросы, за которые платить не стоит',
+          title: 'Запустил поиск в 18 регионах',
+          text: 'Объявления видят те, кто ищет, как узаконить самовольную постройку',
         },
         {
           image: { src: metrika, alt: 'Конверсии в Яндекс Метрике', crop: METRIKA_CROP },
