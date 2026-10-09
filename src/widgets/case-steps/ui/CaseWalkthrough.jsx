@@ -1,11 +1,12 @@
 import { Link } from 'react-router-dom'
 import { legalWalkthrough } from '../../../entities/case'
-import { CropPicture, CtaButton, Section } from '../../../shared/ui'
+import { CtaButton, Section } from '../../../shared/ui'
 
-function StepImage({ src, srcDark, alt, crop }) {
+function StepImage({ src, srcDark, alt }) {
   return (
     <span className="walk-step__image">
-      <CropPicture src={src} srcDark={srcDark} alt={alt} crop={crop} />
+      <img src={src} alt={alt} loading="lazy" decoding="async" className={srcDark ? 'theme-image--light' : undefined} />
+      {srcDark && <img src={srcDark} alt={alt} loading="lazy" decoding="async" className="theme-image--dark" />}
     </span>
   )
 }

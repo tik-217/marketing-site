@@ -1,5 +1,4 @@
 import { useRef, useState } from 'react'
-import { CropPicture } from '../../../shared/ui'
 
 function Chevron({ direction }) {
   return (
@@ -94,9 +93,7 @@ export function CaseCardSlider({ slides }) {
       >
         {slides.map((slide) => (
           <div className="case-preview-card__slide" key={slide.alt}>
-            {slide.crop ? (
-              <CropPicture src={slide.light} srcDark={slide.dark} alt={slide.alt} crop={slide.crop} className="case-preview-card__crop" draggable={false} />
-            ) : slide.dark ? (
+            {slide.dark ? (
               <>
                 <img src={slide.light} alt={slide.alt} loading="lazy" decoding="async" draggable={false} className="case-preview-card__cover theme-image--light" />
                 <img src={slide.dark} alt={slide.alt} loading="lazy" decoding="async" draggable={false} className="case-preview-card__cover theme-image--dark" />

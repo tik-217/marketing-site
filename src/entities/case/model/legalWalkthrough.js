@@ -1,4 +1,3 @@
-import { AUDIENCE_LEGAL_CROP, COMPETITORS_LEGAL_CROP, DOC_CROP, DIRECT_CROP, METRIKA_CROP } from './crops'
 import brief from '../../../shared/assets/images/case-legal-brief-light.avif'
 import briefDark from '../../../shared/assets/images/case-legal-brief-dark.avif'
 import audience from '../../../shared/assets/images/case-legal-audience-light.avif'
@@ -21,22 +20,22 @@ export const legalWalkthrough = {
       label: 'Анализ',
       steps: [
         {
-          image: { src: brief, srcDark: briefDark, alt: 'Бриф перед запуском Яндекс Директа', crop: DOC_CROP },
+          image: { src: brief, srcDark: briefDark, alt: 'Бриф перед запуском Яндекс Директа' },
           title: 'Записал задачу в цифрах',
           text: 'Средний чек, сроки и сколько фирма готова платить за одну заявку',
         },
         {
-          image: { src: audience, srcDark: audienceDark, alt: 'Описание целевой аудитории', crop: AUDIENCE_LEGAL_CROP },
+          image: { src: audience, srcDark: audienceDark, alt: 'Описание целевой аудитории' },
           title: 'Разделил клиентов на сегменты',
           text: 'У каждого сегмента свой повод узаконить объект',
         },
         {
-          image: { src: competitors, srcDark: competitorsDark, alt: 'Анализ конкурентов', crop: COMPETITORS_LEGAL_CROP },
+          image: { src: competitors, srcDark: competitorsDark, alt: 'Анализ конкурентов' },
           title: 'Разобрал объявления конкурентов в Яндекс Директе',
           text: 'Что они обещают и чем объясняют свои преимущества',
         },
         {
-          image: { src: usp, srcDark: uspDark, alt: 'Уникальное торговое предложение', crop: DOC_CROP },
+          image: { src: usp, srcDark: uspDark, alt: 'Уникальное торговое предложение' },
           title: 'Собрал предложение фирмы',
           text: 'Из того, что ищут клиенты и чего нет у конкурентов',
         },
@@ -47,12 +46,12 @@ export const legalWalkthrough = {
       label: 'Реклама и результат',
       steps: [
         {
-          image: { src: direct, alt: 'Кампании в кабинете Яндекс Директа', crop: DIRECT_CROP },
+          image: { src: direct, alt: 'Кампании в кабинете Яндекс Директа' },
           title: 'Запустил поиск в 18 регионах',
           text: 'Объявления видят те, кто ищет, как узаконить самовольную постройку',
         },
         {
-          image: { src: metrika, alt: 'Конверсии в Яндекс Метрике', crop: METRIKA_CROP },
+          image: { src: metrika, alt: 'Конверсии в Яндекс Метрике' },
           title: 'Настроил цели в Метрике',
           text: 'Каждая заявка и звонок фиксируются, видно, откуда пришел клиент',
         },
