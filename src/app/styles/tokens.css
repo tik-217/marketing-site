@@ -31,7 +31,7 @@
   --bg-inverse: var(--gray-900);
 
   --text-primary: var(--gray-900);
-  --text-secondary: var(--gray-600);
+  --text-secondary: oklch(34% 0.01 250); /* основной текст абзацев и списков, темнее gray-600 */
   --text-tertiary: var(--gray-500);
   --text-on-accent: var(--white);
   --text-on-inverse: var(--gray-100);
@@ -115,7 +115,7 @@
   --bg-inverse: var(--black);
 
   --text-primary: var(--gray-50);
-  --text-secondary: var(--gray-400);
+  --text-secondary: var(--gray-300);
   --text-tertiary: var(--gray-400);
   --text-on-accent: var(--white);
   --text-on-inverse: var(--gray-100);
