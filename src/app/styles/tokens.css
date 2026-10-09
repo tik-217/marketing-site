@@ -58,6 +58,7 @@
   --text-body: 17px;
   --text-lg: 20px;
   --text-h4: 24px;
+  --text-section-sub: clamp(22px, 2.2vw, 28px); /* H2 внутри страницы кейса, меньше H1 страницы */
   --text-card-title: clamp(20px, 1.6vw, 22px); /* H3: заголовок карточки или колонки, везде один размер */
   --text-h3: 32px;
   --text-h2: clamp(28px, 3.4vw, 44px);

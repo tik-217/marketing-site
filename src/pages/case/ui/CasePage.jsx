@@ -122,7 +122,7 @@ export function CasePage() {
           </article>
         </div>
 
-        <div className="container" style={{ paddingTop: 'var(--space-8)' }}>
+        <div className="container" style={{ paddingTop: 'var(--space-7)' }}>
           <div className="case-cta">
             <h2 className="case-cta__title">Что в вашем сайте и рекламе можно исправить</h2>
             <p className="case-cta__text">
