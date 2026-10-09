@@ -2338,3 +2338,22 @@ img.theme-image--dark {
 }
 
 .case-preview-card__eyebrow { font-size: var(--text-caption); color: var(--text-secondary); }
+
+/* До 768px: листаем свайпом, стрелки скрыты, точки под картинкой, а не поверх текста документа. */
+@media (max-width: 768px) {
+  .case-preview-card__arrow { display: none; }
+  .case-preview-card__dots {
+    position: static;
+    transform: none;
+    justify-content: center;
+    gap: 8px;
+    padding: var(--space-3) 0 var(--space-2);
+    background: var(--bg-page);
+  }
+  .case-preview-card__dot {
+    background: var(--border-strong);
+    opacity: 1;
+    box-shadow: none;
+  }
+  .case-preview-card__dot.is-active { background: var(--accent); }
+}
