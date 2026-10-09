@@ -2220,16 +2220,6 @@ img.theme-image--dark {
 
 .walk-steps--large { grid-template-columns: 1fr; }
 
-/* Шаги на странице кейса шире текстовой колонки: две колонки, картинки крупные, страница короче. */
-@media (min-width: 861px) {
-  .case-walk {
-    width: min(1100px, calc(100vw - 2 * var(--gutter)));
-    position: relative;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-  .walk-steps--large { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: none; }
-}
 
 @media (max-width: 860px) {
   .walk-steps:not(.walk-steps--large) {
