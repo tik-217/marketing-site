@@ -1,5 +1,5 @@
 import { useId } from 'react'
-import { auditsWord, DAILY_LIMIT, limitWord } from '../lib/dailyLimit'
+import { auditsWord, limitWord } from '../lib/dailyLimit'
 import { validationMessages } from '../lib/messages'
 
 export function AuditForm({ state, onChange, onSubmit, inputRef }) {
@@ -52,9 +52,6 @@ export function AuditForm({ state, onChange, onSubmit, inputRef }) {
         <span aria-hidden="true" className="ad-form__dot">·</span>
         <span>Без регистрации и телефона</span>
       </div>
-      <p className="ad-form__note">
-        Разбор смотрит одну страницу. Заявок, продаж и рекламы вашего бизнеса он не видит.
-      </p>
       {exhausted ? (
         <div className="ad-form__stop" role="status">
           <strong>Лимит на сегодня закончился</strong>
@@ -65,18 +62,13 @@ export function AuditForm({ state, onChange, onSubmit, inputRef }) {
           </p>
         </div>
       ) : (
-        <p className="ad-form__note ad-form__limit">
-          До {usage?.limit ?? DAILY_LIMIT} аудитов в день с одного браузера. Каждый разбор я оплачиваю из своих денег,
-          поэтому пока ограничил количество запусков.
-          {showRemaining && (
-            <>
-              {' '}
-              <span className="ad-form__remaining">
-                Осталось сегодня: {usage.remaining} из {usage.limit}
-              </span>
-            </>
-          )}
-        </p>
+        showRemaining && (
+          <p className="ad-form__note ad-form__limit">
+            <span className="ad-form__remaining">
+              Осталось сегодня: {usage.remaining} из {usage.limit}
+            </span>
+          </p>
+        )
       )}
     </form>
   )

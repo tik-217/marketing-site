@@ -230,9 +230,10 @@ const usage = (used, enabled = true) => ({
   exhausted: enabled && used >= DAILY_LIMIT,
 })
 
-test('форма до первого запуска: спокойное пояснение без счетчика и без предупреждений', () => {
+test('форма до первого запуска: без строк про лимит, без счетчика и без предупреждений', () => {
   const html = formHtml({ usage: usage(0) })
-  assert.match(html, /До 2 аудитов в день с одного браузера\. Каждый разбор я оплачиваю из своих денег, поэтому пока ограничил количество запусков\./)
+  assert.equal(html.includes('До 2 аудитов'), false)
+  assert.equal(html.includes('Разбор смотрит одну страницу'), false)
   assert.equal(html.includes('Осталось сегодня'), false)
   assert.equal(html.includes('role="alert"'), false)
   assert.equal(html.includes('Лимит на сегодня закончился'), false)

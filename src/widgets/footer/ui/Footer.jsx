@@ -14,7 +14,7 @@ export function Footer() {
             <span className="site-header__divider">|</span>
             <span className="site-header__role">Маркетолог</span>
           </Link>
-          <CtaButton source="s-footer" className="site-footer__cta" />
+          <CtaButton source={pathname.startsWith('/audit') ? 's-audit-footer' : 's-footer'} className="site-footer__cta" />
         </div>
 
         <div className="site-footer__row">

@@ -1,25 +1,34 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { cases } from '../../../entities/case'
+import { CtaButton } from '../../../shared/ui'
 import portrait from '../../../shared/assets/images/tigran-portrait.avif'
 
+// Реальный разбор главной gabulyan-tigran.ru, выполненный 9 октября 2026. Тексты ответа сервиса без правок.
 const sample = {
-  url: 'https://gabulyan-tigran.ru',
-  summary:
-    'Страница понятно объясняет, чем занимается автор, и открыто показывает цены. Главная помеха в порядке блоков: кейсы с цифрами стоят ниже середины страницы, а кнопка на первом экране ведет в мессенджер без пояснения, что будет после нажатия.',
-  actions: [
-    ['Первый экран', 'Под кнопкой написать, что будет после сообщения: ответ в течение дня и бесплатный разбор ниши.'],
-    ['Кейсы', 'Поднять кейс Glendale с цифрами 46 заявок по 841 ₽ сразу после первого экрана.'],
-    ['Цены', 'Показать состав каждого пакета рядом с суммой, а не в раскрывающемся списке.'],
+  "url": "https://gabulyan-tigran.ru",
+  "summary": "Страница выстроена логично: понятный оффер на первом экране, кейсы с конкретными результатами, цены и условия работы без скрытых оговорок. Главная проблема - из заголовка первого экрана не ясно, чем именно Тигран отличается от других маркетологов для юристов: он делает сайт и рекламу вместе, опираясь на анализ ниши, а это нигде не зафиксировано как отличие в явном виде на первом экране. Блок с сравнением четырех способов получить заявки спрятан глубоко на странице, хотя там есть сильный аргумент в пользу работы напрямую.",
+  "actions": [
+    [
+      "Первый экран",
+      "Переписать подзаголовок так, чтобы он раскрывал, что именно дает анализ ниши на практике - например, через результат из кейса или конкретное следствие для клиента."
+    ],
+    [
+      "Кейсы",
+      "Переделать заголовки кейсов так, чтобы в них был вынесен ключевой результат, а не только название ниши."
+    ],
+    [
+      "Сравнение",
+      "Поднять блок сравнения выше на странице - разместить его сразу после раздела с болями клиентов или после первого кейса, пока интерес еще высок."
+    ]
   ],
-  problem: {
-    title: 'Кейсы с цифрами видны только после пятого экрана',
-    text: 'Холодный посетитель не знает автора и уходит раньше, чем доходит до доказательств.',
+  "problem": {
+    "title": "Подзаголовок не добавляет конкретики к офферу",
+    "text": "Подзаголовок пересказывает ту же мысль, что и заголовок, только другими словами. Посетитель не получает ответа на вопрос, почему этот подход дает результат и чем он отличается от стандартного маркетолога, который тоже делает сайт и рекламу."
   },
-  strength: {
-    title: 'Цены и условия указаны открыто',
-    text: 'Посетитель понимает бюджет до первого сообщения, обращения приходят от тех, кому цена подходит.',
-  },
+  "strength": {
+    "text": "Конкретный результат кейса вынесен на страницу с числом: \"Одна сделка окупила маркетинг минимум в 11 раз за три месяца\" - это проверяемое утверждение, а не оценочное суждение."
+  }
 }
 
 export function ExampleSection({ track }) {
@@ -36,40 +45,31 @@ export function ExampleSection({ track }) {
         <div className="ad-example__head">
           <div className="ad-example__titles">
             <h2 id="ad-example-title" className="ad-h2">
-              Как выглядит разбор
+              Вот что разбор нашел на моем собственном сайте
             </h2>
-            <p className="ad-example__sub">Пример на моем собственном сайте gabulyan-tigran.ru</p>
+            <p className="ad-example__sub">gabulyan-tigran.ru</p>
           </div>
-          <button
-            type="button"
-            className="ad-btn ad-btn--outline"
-            aria-expanded={open}
-            aria-controls="ad-example-body"
-            onClick={toggle}
-          >
-            {open ? 'Свернуть пример' : 'Показать пример'}
-          </button>
         </div>
-        {open && (
-          <div id="ad-example-body" className="ad-sample">
-            <div className="ad-sample__in">
-              <div className="ad-sample__head">
-                <span className="ad-eyebrow">Пример разбора</span>
-                <h3 className="ad-sample__title">Что на странице может мешать заявкам</h3>
-                <span className="ad-sample__url">{sample.url}</span>
-              </div>
-              <p className="ad-sample__summary">{sample.summary}</p>
-              <div className="ad-card ad-sample__box">
-                <h4>Что исправить в первую очередь</h4>
-                {sample.actions.map(([label, text], index) => (
-                  <div key={label} className="ad-sample__row">
-                    <span className="ad-sample__num">{index + 1}</span>
-                    <div>
-                      <strong>{label}.</strong> {text}
-                    </div>
+        <div id="ad-example-body" className="ad-sample">
+          <div className="ad-sample__in">
+            <div className="ad-sample__head">
+              <span className="ad-eyebrow">Пример разбора</span>
+              <h3 className="ad-sample__title">Что на странице может мешать заявкам</h3>
+              <span className="ad-sample__url">{sample.url}</span>
+            </div>
+            <p className="ad-sample__summary">{sample.summary}</p>
+            <div className="ad-card ad-sample__box">
+              <h4>Что исправить в первую очередь</h4>
+              {sample.actions.map(([label, text], index) => (
+                <div key={label} className="ad-sample__row">
+                  <span className="ad-sample__num">{index + 1}</span>
+                  <div>
+                    <strong>{label}.</strong> {text}
                   </div>
-                ))}
-              </div>
+                </div>
+              ))}
+            </div>
+            {open && (
               <div className="ad-sample__pair">
                 <div className="ad-card ad-sample__mini">
                   <span className="ad-tag">Проблема</span>
@@ -78,13 +78,20 @@ export function ExampleSection({ track }) {
                 </div>
                 <div className="ad-card ad-sample__mini">
                   <span className="ad-tag ad-tag--accent">Сильная сторона</span>
-                  <h4>{sample.strength.title}</h4>
                   <p>{sample.strength.text}</p>
                 </div>
               </div>
-            </div>
+            )}
+            <button
+              type="button"
+              className="ad-btn ad-btn--outline ad-sample__more"
+              aria-expanded={open}
+              onClick={toggle}
+            >
+              {open ? 'Свернуть пример' : 'Показать весь пример'}
+            </button>
           </div>
-        )}
+        </div>
       </div>
     </section>
   )
@@ -137,6 +144,7 @@ export function ChecksSection() {
             </p>
           </div>
         </div>
+        <CtaButton source="s-audit-limits" className="ad-checks__cta" />
       </div>
     </section>
   )
@@ -149,13 +157,12 @@ export function AuthorSection() {
         <div className="ad-author">
           <img src={portrait} alt="Тигран Габулян" className="ad-author__photo" />
           <div className="ad-author__text">
-            <span className="ad-eyebrow">Кто делает разбор</span>
+            <span className="ad-eyebrow">Тигран Габулян</span>
             <h2 id="ad-author-title" className="ad-h2 ad-section__title">
-              Тигран Габулян
+              Этим чек-листом я проверяю страницы клиентов перед запуском рекламы
             </h2>
             <p className="ad-author__lead">
-              Собираю сайты и настраиваю рекламу в Яндекс Директе для малого бизнеса. По этому
-              чек-листу я проверяю страницы клиентов перед запуском рекламы.
+              Собираю сайты и настраиваю рекламу в Яндекс Директе для малого бизнеса.
             </p>
           </div>
         </div>
@@ -168,7 +175,15 @@ export function AuthorSection() {
                   {item.status === 'done' ? 'Завершен' : 'В работе'}
                 </span>
                 <h3 className="ad-case__title">{item.title}</h3>
-                <p className="ad-case__text">{item.description}</p>
+                {Array.isArray(item.description) ? (
+                  <ul className="ad-case__text ad-case__list">
+                    {item.description.map((line) => (
+                      <li key={line}>{line}</li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="ad-case__text">{item.description}</p>
+                )}
               </div>
             </Link>
           ))}

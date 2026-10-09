@@ -972,3 +972,7 @@
 
 .ad-form__stop strong { font-weight: 700; }
 .ad-form__stop p { font-size: var(--text-sm); color: var(--text-secondary); }
+
+.ad-sample__more { margin-top: var(--space-4); }
+.ad-checks__cta { margin-top: var(--space-5); }
+.ad-case__list { padding-left: 1.2em; list-style: disc; display: flex; flex-direction: column; gap: var(--space-1); }
