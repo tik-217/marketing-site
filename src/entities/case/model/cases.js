@@ -16,6 +16,7 @@ import caseBankruptcyCompetitorsLight from '../../../shared/assets/images/case-b
 import caseBankruptcyCompetitorsDark from '../../../shared/assets/images/case-bankruptcy-competitors-dark.avif'
 import caseBankruptcyUspLight from '../../../shared/assets/images/case-bankruptcy-usp-light.avif'
 import caseBankruptcyUspDark from '../../../shared/assets/images/case-bankruptcy-usp-dark.avif'
+import { DOC_CROP, DIRECT_CROP, METRIKA_CROP } from './crops'
 import { documentLinks } from '../../../shared/config/documentLinks'
 
 // TODO: под ссылками "Бриф", "Анализ ЦА", "Анализ конкурентов", "УТП" нужна одна находка из каждого документа.
@@ -33,12 +34,12 @@ export const cases = [
     eyebrow: 'Легализация коммерческих объектов',
     cover: { src: caseLegalBriefLight, srcDark: caseLegalBriefDark, alt: 'Бриф перед запуском Яндекс Директа' },
     gallery: [
-      { light: caseLegalBriefLight, dark: caseLegalBriefDark, alt: 'Бриф перед запуском Яндекс Директа' },
-      { light: caseLegalAudienceLight, dark: caseLegalAudienceDark, alt: 'Описание целевой аудитории' },
-      { light: caseLegalCompetitorsLight, dark: caseLegalCompetitorsDark, alt: 'Анализ конкурентов' },
-      { light: caseLegalUspLight, dark: caseLegalUspDark, alt: 'Уникальное торговое предложение' },
-      { light: caseLegalDirect, alt: 'Кампании в кабинете Яндекс Директа' },
-      { light: caseLegalMetrika, alt: 'Конверсии в Яндекс Метрике' },
+      { light: caseLegalBriefLight, dark: caseLegalBriefDark, alt: 'Бриф перед запуском Яндекс Директа', crop: DOC_CROP },
+      { light: caseLegalAudienceLight, dark: caseLegalAudienceDark, alt: 'Описание целевой аудитории', crop: DOC_CROP },
+      { light: caseLegalCompetitorsLight, dark: caseLegalCompetitorsDark, alt: 'Анализ конкурентов', crop: DOC_CROP },
+      { light: caseLegalUspLight, dark: caseLegalUspDark, alt: 'Уникальное торговое предложение', crop: DOC_CROP },
+      { light: caseLegalDirect, alt: 'Кампании в кабинете Яндекс Директа', crop: DIRECT_CROP },
+      { light: caseLegalMetrika, alt: 'Конверсии в Яндекс Метрике', crop: METRIKA_CROP },
     ],
     status: 'in_progress',
     period: '3 месяца',
@@ -83,10 +84,10 @@ export const cases = [
     eyebrow: 'Банкротство физических лиц',
     cover: { src: caseBankruptcyAudienceLight, srcDark: caseBankruptcyAudienceDark, alt: 'Анализ целевой аудитории для услуги банкротства физических лиц' },
     gallery: [
-      { light: caseBankruptcyAudienceLight, dark: caseBankruptcyAudienceDark, alt: 'Анализ целевой аудитории для услуги банкротства физических лиц' },
-      { light: caseBankruptcyBriefLight, dark: caseBankruptcyBriefDark, alt: 'Обезличенный бриф по рекламе для банкротства физических лиц' },
-      { light: caseBankruptcyCompetitorsLight, dark: caseBankruptcyCompetitorsDark, alt: 'Анализ конкурентов в нише банкротства физических лиц' },
-      { light: caseBankruptcyUspLight, dark: caseBankruptcyUspDark, alt: 'Уникальное торговое предложение для услуги банкротства физических лиц' },
+      { light: caseBankruptcyAudienceLight, dark: caseBankruptcyAudienceDark, alt: 'Анализ целевой аудитории для услуги банкротства физических лиц', crop: DOC_CROP },
+      { light: caseBankruptcyBriefLight, dark: caseBankruptcyBriefDark, alt: 'Обезличенный бриф по рекламе для банкротства физических лиц', crop: DOC_CROP },
+      { light: caseBankruptcyCompetitorsLight, dark: caseBankruptcyCompetitorsDark, alt: 'Анализ конкурентов в нише банкротства физических лиц', crop: DOC_CROP },
+      { light: caseBankruptcyUspLight, dark: caseBankruptcyUspDark, alt: 'Уникальное торговое предложение для услуги банкротства физических лиц', crop: DOC_CROP },
     ],
     status: 'done',
     period: '14 рабочих дней',

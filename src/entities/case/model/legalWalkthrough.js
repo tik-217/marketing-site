@@ -1,3 +1,4 @@
+import { DOC_CROP, DIRECT_CROP, METRIKA_CROP } from './crops'
 import brief from '../../../shared/assets/images/case-legal-brief-light.avif'
 import briefDark from '../../../shared/assets/images/case-legal-brief-dark.avif'
 import audience from '../../../shared/assets/images/case-legal-audience-light.avif'
@@ -20,22 +21,22 @@ export const legalWalkthrough = {
       label: 'Анализ',
       steps: [
         {
-          image: { src: brief, srcDark: briefDark, alt: 'Бриф перед запуском Яндекс Директа' },
+          image: { src: brief, srcDark: briefDark, alt: 'Бриф перед запуском Яндекс Директа', crop: DOC_CROP },
           title: 'Записал задачу в цифрах',
           text: 'Средний чек, сроки и сколько фирма готова платить за одну заявку',
         },
         {
-          image: { src: audience, srcDark: audienceDark, alt: 'Описание целевой аудитории' },
+          image: { src: audience, srcDark: audienceDark, alt: 'Описание целевой аудитории', crop: DOC_CROP },
           title: 'Разделил клиентов на сегменты',
           text: 'Отдельно описал тех, кому услуга не подходит, чтобы не платить за их клики',
         },
         {
-          image: { src: competitors, srcDark: competitorsDark, alt: 'Анализ конкурентов' },
+          image: { src: competitors, srcDark: competitorsDark, alt: 'Анализ конкурентов', crop: DOC_CROP },
           title: 'Разобрал конкурентов по одинаковым параметрам',
           text: 'Цена на сайте, первый экран, предложение, способы связаться',
         },
         {
-          image: { src: usp, srcDark: uspDark, alt: 'Уникальное торговое предложение' },
+          image: { src: usp, srcDark: uspDark, alt: 'Уникальное торговое предложение', crop: DOC_CROP },
           title: 'Собрал предложение фирмы',
           text: 'Из того, что ищут клиенты и чего нет у конкурентов',
         },
@@ -46,12 +47,12 @@ export const legalWalkthrough = {
       label: 'Реклама и результат',
       steps: [
         {
-          image: { src: direct, alt: 'Кампании в кабинете Яндекс Директа' },
+          image: { src: direct, alt: 'Кампании в кабинете Яндекс Директа', crop: DIRECT_CROP },
           title: 'Собрал ключевые фразы и минус-слова',
           text: 'Минус-слова отсекают запросы, за которые платить не стоит',
         },
         {
-          image: { src: metrika, alt: 'Конверсии в Яндекс Метрике' },
+          image: { src: metrika, alt: 'Конверсии в Яндекс Метрике', crop: METRIKA_CROP },
           title: 'Настроил цели в Метрике',
           text: 'Каждая заявка и звонок фиксируются, видно, откуда пришел клиент',
         },

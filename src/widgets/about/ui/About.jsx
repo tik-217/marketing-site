@@ -3,9 +3,6 @@ import { LoopVideo, Section } from '../../../shared/ui'
 export function About() {
   return (
     <Section containerClassName="about">
-      <div className="about__video">
-        <LoopVideo className="about__video-el" />
-      </div>
       <div className="about__body">
         <h2 className="section-heading">Со мной вы работаете напрямую, без менеджера между нами</h2>
         <ul className="about__list">
@@ -18,6 +15,9 @@ export function About() {
           <li>Веду 2-3 проекта одновременно, каждый лично.</li>
           <li>Анализ ниши, тексты, прототип, дизайн, верстку и рекламу делаю сам, без передачи между исполнителями.</li>
         </ul>
+      </div>
+      <div className="about__video">
+        <LoopVideo className="about__video-el" />
       </div>
     </Section>
   )

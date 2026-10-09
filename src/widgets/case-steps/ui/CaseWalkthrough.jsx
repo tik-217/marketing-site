@@ -1,12 +1,11 @@
 import { Link } from 'react-router-dom'
 import { legalWalkthrough } from '../../../entities/case'
-import { Section } from '../../../shared/ui'
+import { CropPicture, CtaButton, Section } from '../../../shared/ui'
 
-function StepImage({ src, srcDark, alt }) {
+function StepImage({ src, srcDark, alt, crop }) {
   return (
     <span className="walk-step__image">
-      <img src={src} alt={alt} loading="lazy" decoding="async" className={srcDark ? 'theme-image--light' : undefined} />
-      {srcDark && <img src={srcDark} alt={alt} loading="lazy" decoding="async" className="theme-image--dark" />}
+      <CropPicture src={src} srcDark={srcDark} alt={alt} crop={crop} />
     </span>
   )
 }
@@ -45,6 +44,7 @@ export function CaseWalkthrough() {
       <Link to="/cases/legalizaciya-kommercheskih-obektov" className="walk-link">
         Читать кейс полностью <span aria-hidden="true">→</span>
       </Link>
+      <CtaButton source="s-case-steps" style={{ alignSelf: 'flex-start' }} />
     </Section>
   )
 }
