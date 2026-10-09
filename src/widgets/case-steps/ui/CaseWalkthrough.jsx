@@ -17,9 +17,9 @@ function StepImage({ src, srcDark, alt, crop, mobileCrop }) {
   )
 }
 
-function Screens({ large }) {
+function Screens({ large, walkthrough = legalWalkthrough }) {
   let counter = 0
-  return legalWalkthrough.screens.map((screen) => (
+  return walkthrough.screens.map((screen) => (
     <div className="walk-screen" key={screen.id}>
       <h3 className="walk-screen__label">{screen.label}</h3>
       <ol className={large ? 'walk-steps walk-steps--large' : 'walk-steps'}>
@@ -54,11 +54,11 @@ export function CaseWalkthrough() {
 }
 
 /** Те же шаги на странице кейса, картинки крупнее. */
-export function CaseWalkthroughPage() {
+export function CaseWalkthroughPage({ walkthrough }) {
   return (
     <section className="case-walk">
       <h2 className="case-solution__title">Решение</h2>
-      <Screens large />
+      <Screens large walkthrough={walkthrough} />
     </section>
   )
 }

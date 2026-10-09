@@ -79,6 +79,7 @@ export const cases = [
     slug: 'bankrotstvo-fizicheskih-lic',
     title: 'Банкротство физических лиц',
     pageTitle: 'Анализ ниши для юридической фирмы за 14 рабочих дней',
+    firstLeadLine: 'Бриф, аудитория, конкуренты и торговое предложение',
     niche: 'Списание долгов',
     orderedService: 'Маркетинговый анализ',
     eyebrow: 'Банкротство физических лиц',

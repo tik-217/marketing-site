@@ -2089,7 +2089,7 @@
 }
 
 .case-result__title {
-  font-size: var(--text-h4);
+  font-size: var(--text-section-sub);
   color: var(--white);
   overflow-wrap: break-word;
   min-width: 0;
