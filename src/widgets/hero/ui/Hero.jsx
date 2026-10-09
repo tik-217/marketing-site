@@ -12,12 +12,12 @@ export function Hero() {
           <p className="hero__lead">
             Сначала разбираю вашу нишу, клиентов и конкурентов. Потом собираю сайт и рекламу под то, что ищут ваши клиенты. Работаю лично, без менеджера.
           </p>
-          <Link to="/cases/legalizaciya-kommercheskih-obektov" className="hero__proof">
-            <span>
-              Кейс. Фирма по легализации коммерческих объектов, одна сделка окупила маркетинг минимум в 11 раз за три месяца
-            </span>
-            <span aria-hidden="true">→</span>
-          </Link>
+          <p className="hero__proof">
+            Кейс. Фирма по легализации коммерческих объектов, одна сделка окупила маркетинг минимум в 11 раз за три месяца.{' '}
+            <Link to="/cases/legalizaciya-kommercheskih-obektov">
+              Смотреть кейс <span aria-hidden="true">→</span>
+            </Link>
+          </p>
           <div className="hero__cta">
             <CtaButton source="s-hero" />
             <p className="hero__help">Бесплатно. Задам пять вопросов в Telegram-боте и пришлю документ с правками.</p>

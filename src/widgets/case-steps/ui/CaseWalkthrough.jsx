@@ -11,27 +11,21 @@ function StepImage({ src, srcDark, alt, crop }) {
 }
 
 function Screens({ large }) {
-  let counter = 0
-  return legalWalkthrough.screens.map((screen) => (
-    <div className="walk-screen" key={screen.id}>
-      <h3 className="walk-screen__label">{screen.label}</h3>
-      <ol className={large ? 'walk-steps walk-steps--large' : 'walk-steps'}>
-        {screen.steps.map((step) => {
-          counter += 1
-          return (
-            <li className="walk-step" key={step.title}>
-              <StepImage {...step.image} />
-              <p className="walk-step__title">
-                <span className="walk-step__num">{counter}</span>
-                {step.title}
-              </p>
-              <p className="walk-step__text">{step.text}</p>
-            </li>
-          )
-        })}
-      </ol>
-    </div>
-  ))
+  const steps = legalWalkthrough.screens.flatMap((screen) => screen.steps)
+  return (
+    <ol className={large ? 'walk-steps walk-steps--large' : 'walk-steps'}>
+      {steps.map((step, index) => (
+        <li className="walk-step" key={step.title}>
+          <StepImage {...step.image} />
+          <p className="walk-step__title">
+            <span className="walk-step__num">{index + 1}</span>
+            {step.title}
+          </p>
+          <p className="walk-step__text">{step.text}</p>
+        </li>
+      ))}
+    </ol>
+  )
 }
 
 /** Блок на главной: кейс по легализации шагами. */
