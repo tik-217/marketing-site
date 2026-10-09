@@ -6,7 +6,7 @@ import { CasePreviewCard } from './CasePreviewCard'
 export function Cases() {
   return (
     <Section id="cases" containerClassName="stack">
-      <h2 className="section-heading">Два юридических проекта, от брифа до результата</h2>
+      <h2 className="section-heading">Первая заявка в первый же месяц работы в нише, где услугу почти не ищут</h2>
       <div className="case-preview-grid">
         {cases.map((item) => (
           <CasePreviewCard key={item.id} {...item} />

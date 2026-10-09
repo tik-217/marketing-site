@@ -3,5 +3,5 @@ export const contacts = {
   telegramUrl: 'https://t.me/tigran_front',
   instagramUrl: 'https://www.instagram.com/tigran_pro_marketing/',
   botUrl: 'https://t.me/tigran_audit_bot',
-  ctaLabel: 'Разбор сайта и рекламы',
+  ctaLabel: 'Получить разбор сайта и рекламы',
 }

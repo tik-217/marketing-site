@@ -5,10 +5,6 @@ export function Phases() {
   return (
     <Section containerClassName="stack">
       <h2 className="section-heading">Каждый шаг заканчивается результатом, который можно проверить</h2>
-      <p className="section-lead">
-        Прежде чем что-то запускать, прохожу через погружение, исследование и стратегию. После
-        каждой фазы у вас на руках конкретный документ, а не отчет о процессе.
-      </p>
       <div className="phases-grid">
         {phases.map((phase) => (
           <article className="phase-card" key={phase.id}>

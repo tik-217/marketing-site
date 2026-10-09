@@ -21,7 +21,7 @@ export function CasesPage() {
             <Link to="/" className="case-detail-header__back">
               <span aria-hidden="true">←</span> На главную
             </Link>
-            <h1 className="cases-page-header__title">Кейсы</h1>
+            <h1 className="cases-page-header__title">Первая заявка в первый же месяц работы в нише, где услугу почти не ищут</h1>
             <p className="cases-page-header__lead">Проекты для юридических ниш, от брифа до первых обращений</p>
           </div>
 

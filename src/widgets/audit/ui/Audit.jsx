@@ -75,6 +75,10 @@ export function Audit({ id }) {
             ) : (
               <p className="audit-form__help">Отвечу в течение 30 минут. Документ пришлю в течение 24 часов после доступов.</p>
             )}
+            <p className="audit-form__help">
+              Хотите сначала проверить сайт сами?{' '}
+              <Link to="/audit">Автоматический разбор за 30 секунд →</Link>
+            </p>
           </>
         )}
       </form>

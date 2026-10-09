@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { contacts } from '../../../shared/config/contacts'
-import { InstagramIcon, TelegramIcon } from '../../../shared/ui'
+import { InstagramIcon, PhoneIcon, TelegramIcon } from '../../../shared/ui'
 
 export function Header() {
   const [hidden, setHidden] = useState(false)
@@ -66,6 +66,10 @@ export function Header() {
         </Link>
         <span className="site-header__spacer" />
         <div className="site-header__socials">
+          <a href="tel:+79180220901" className="social-link site-header__phone" aria-label={`Позвонить ${contacts.phone}`}>
+            <PhoneIcon />
+            <span>{contacts.phone}</span>
+          </a>
           <a
             href={contacts.telegramUrl}
             target="_blank"

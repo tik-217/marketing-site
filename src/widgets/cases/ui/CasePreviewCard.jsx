@@ -13,6 +13,19 @@ function CaseBadgeRow({ orderedService, status }) {
   )
 }
 
+function Summary({ description }) {
+  if (Array.isArray(description)) {
+    return (
+      <ul className="case-preview-card__summary case-preview-card__list">
+        {description.map((line) => (
+          <li key={line}>{line}</li>
+        ))}
+      </ul>
+    )
+  }
+  return <p className="case-preview-card__summary">{description}</p>
+}
+
 export function CasePreviewCard({
   slug,
   title,
@@ -39,7 +52,7 @@ export function CasePreviewCard({
               {title}
             </Link>
           </TitleTag>
-          <p className="case-preview-card__summary">{description}</p>
+          <Summary description={description} />
         </div>
       </article>
     )
@@ -59,7 +72,7 @@ export function CasePreviewCard({
       <div className="case-preview-card__body">
         <CaseBadgeRow orderedService={orderedService} status={status} />
         <TitleTag className="case-preview-card__title">{title}</TitleTag>
-        <p className="case-preview-card__summary">{description}</p>
+        <Summary description={description} />
       </div>
     </Link>
   )

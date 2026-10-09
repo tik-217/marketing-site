@@ -10,7 +10,7 @@ export function Comparison() {
     <Section containerClassName="stack">
       <h2 className="section-heading">Четыре способа получить заявки и что остается у вас после каждого</h2>
 
-      <div className="tabs comparison-tabs">
+      <div className="tabs comparison-tabs" role="tablist">
         {comparisonOptions.map((option) => (
           <button
             key={option.id}
@@ -28,10 +28,6 @@ export function Comparison() {
           <ComparisonPanel key={option.id} {...option} isActive={active === option.id} />
         ))}
       </div>
-
-      <p style={{ color: 'var(--text-secondary)', maxWidth: '58ch' }}>
-          Человек кликает по одному обещанию и попадает на страницу с другим. Так бывает, когда рекламу, сайт и тексты делают разные люди.
-      </p>
 
       <CtaButton className="comparison-cta" source="s-paths" />
     </Section>

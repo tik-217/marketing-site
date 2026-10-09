@@ -4,6 +4,7 @@ import { Seo } from '../../../shared/lib/seo'
 import { CtaButton } from '../../../shared/ui'
 import { Header } from '../../../widgets/header'
 import { Footer } from '../../../widgets/footer'
+import { CaseWalkthroughPage } from '../../../widgets/case-steps'
 import { CaseStepImage } from './CaseStepImage'
 import { NotFoundPage } from '../../not-found'
 
@@ -16,10 +17,12 @@ export function CasePage() {
   const inProgress = item.status !== 'done'
   const hasMetrics = item.metrics && item.metrics.length > 0
   const cover = item.cover
+  const isLegal = item.slug === 'legalizaciya-kommercheskih-obektov'
+  const description = Array.isArray(item.description) ? item.description.join('. ') : item.description
 
   return (
     <>
-      <Seo title={item.title} description={item.description} path={`/cases/${item.slug}`} />
+      <Seo title={item.title} description={description} path={`/cases/${item.slug}`} />
       <Header />
       <main className="section">
         <div className="container">
@@ -27,26 +30,36 @@ export function CasePage() {
             <Link to="/cases" className="case-detail-header__back">
               <span aria-hidden="true">←</span> Все кейсы
             </Link>
-            <h1 className="case-detail-header__title">{item.title}</h1>
-            <dl className="case-detail-header__meta">
-              <div className="case-detail-header__meta-item">
-                <dt className="case-detail-header__meta-label">Ниша</dt>
-                <dd className="case-detail-header__meta-value">{item.niche}</dd>
-              </div>
-              <div className="case-detail-header__meta-item">
-                <dt className="case-detail-header__meta-label">Срок</dt>
-                <dd className="case-detail-header__meta-value">{item.period}</dd>
-              </div>
-              <div className="case-detail-header__meta-item">
-                <dt className="case-detail-header__meta-label">Что входило</dt>
-                <dd className="case-detail-header__meta-value">{item.scope.join(', ')}</dd>
-              </div>
-            </dl>
+            <p className="case-detail-header__eyebrow">{item.eyebrow}</p>
+            <h1 className="case-detail-header__title">{item.pageTitle}</h1>
+            {isLegal ? (
+              <p className="case-detail-header__first-lead">{item.firstLeadLine}</p>
+            ) : (
+              <dl className="case-detail-header__meta">
+                <div className="case-detail-header__meta-item">
+                  <dt className="case-detail-header__meta-label">Ниша</dt>
+                  <dd className="case-detail-header__meta-value">{item.niche}</dd>
+                </div>
+                <div className="case-detail-header__meta-item">
+                  <dt className="case-detail-header__meta-label">Срок</dt>
+                  <dd className="case-detail-header__meta-value">{item.period}</dd>
+                </div>
+                <div className="case-detail-header__meta-item">
+                  <dt className="case-detail-header__meta-label">Что входило</dt>
+                  <dd className="case-detail-header__meta-value">{item.scope.join(', ')}</dd>
+                </div>
+              </dl>
+            )}
           </div>
 
-          {cover && (
+          {cover && !isLegal && (
             <div style={{ paddingTop: 'var(--space-6)' }}>
-              <img src={cover.src} alt={cover.alt} className="case-detail-cover" decoding="async" fetchPriority="high" />
+              <>
+                <img src={cover.src} alt={cover.alt} className={cover.srcDark ? 'case-detail-cover theme-image--light' : 'case-detail-cover'} decoding="async" fetchPriority="high" />
+                {cover.srcDark && (
+                  <img src={cover.srcDark} alt={cover.alt} className="case-detail-cover theme-image--dark" decoding="async" />
+                )}
+              </>
             </div>
           )}
 
@@ -58,11 +71,9 @@ export function CasePage() {
               ))}
             </section>
 
-            <section className="case-task">
-              <h2 className="case-task__label">Задача</h2>
-              <p className="case-task__value">{item.task}</p>
-            </section>
-
+            {isLegal ? (
+              <CaseWalkthroughPage />
+            ) : (
             <section className="case-solution">
               <h2 className="case-solution__title">Решение</h2>
               <ol className="case-steps">
@@ -84,6 +95,7 @@ export function CasePage() {
                 ))}
               </ol>
             </section>
+            )}
 
             <section className="case-result">
               <div className="case-result__header">
