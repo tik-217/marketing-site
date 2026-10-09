@@ -2290,7 +2290,7 @@ img.theme-image--dark {
 
 .terms-col { display: flex; flex-direction: column; gap: var(--space-4); }
 .terms-col__title { font-size: var(--text-card-title); }
-.terms-list { display: flex; flex-direction: column; gap: var(--space-3); padding-left: 1.2em; list-style: disc; font-size: var(--text-body); }
+.terms-list { display: flex; flex-direction: column; gap: var(--space-3); padding-left: 1.2em; list-style: disc; font-size: var(--text-body); color: var(--text-secondary); }
 .terms-list li::marker { color: var(--accent); }
 .terms-col__note { color: var(--text-secondary); font-size: var(--text-body); }
 
