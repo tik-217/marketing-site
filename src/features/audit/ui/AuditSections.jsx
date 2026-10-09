@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { cases } from '../../../entities/case'
-import { CtaButton } from '../../../shared/ui'
+import { CropPicture, CtaButton } from '../../../shared/ui'
 import portrait from '../../../shared/assets/images/tigran-portrait.avif'
 
 // Реальный разбор главной gabulyan-tigran.ru, выполненный 9 октября 2026. Тексты ответа сервиса без правок.
@@ -169,12 +169,19 @@ export function AuthorSection() {
         <div className="ad-cases">
           {cases.map((item) => (
             <Link key={item.id} to={`/cases/${item.slug}`} className="ad-card ad-case">
-              <img src={item.cover.src} alt={item.cover.alt} className="ad-case__img" loading="lazy" />
+              <CropPicture
+                src={item.cover.src}
+                srcDark={item.cover.srcDark}
+                alt={item.cover.alt}
+                mobileCrop={item.cover.mobileCrop}
+                className="ad-case__img"
+              />
               <div className="ad-case__body">
                 <span className={item.status === 'done' ? 'ad-case__badge' : 'ad-case__badge ad-case__badge--work'}>
                   {item.status === 'done' ? 'Завершен' : 'В работе'}
                 </span>
-                <h3 className="ad-case__title">{item.title}</h3>
+                <p className="ad-case__eyebrow">{item.eyebrow}</p>
+                <h3 className="ad-case__title">{item.pageTitle}</h3>
                 {Array.isArray(item.description) ? (
                   <ul className="ad-case__text ad-case__list">
                     {item.description.map((line) => (

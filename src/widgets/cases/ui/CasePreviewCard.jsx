@@ -29,6 +29,8 @@ function Summary({ description }) {
 export function CasePreviewCard({
   slug,
   title,
+  pageTitle,
+  eyebrow,
   cover,
   gallery,
   orderedService,
@@ -47,9 +49,10 @@ export function CasePreviewCard({
         <CaseCardSlider slides={gallery} />
         <div className="case-preview-card__body">
           <CaseBadgeRow orderedService={orderedService} status={status} />
+          <p className="case-preview-card__eyebrow">{eyebrow || title}</p>
           <TitleTag className="case-preview-card__title">
             <Link to={`/cases/${slug}`} className="case-preview-card__stretched-link">
-              {title}
+              {pageTitle || title}
             </Link>
           </TitleTag>
           <Summary description={description} />
@@ -71,7 +74,8 @@ export function CasePreviewCard({
       )}
       <div className="case-preview-card__body">
         <CaseBadgeRow orderedService={orderedService} status={status} />
-        <TitleTag className="case-preview-card__title">{title}</TitleTag>
+        <p className="case-preview-card__eyebrow">{eyebrow || title}</p>
+        <TitleTag className="case-preview-card__title">{pageTitle || title}</TitleTag>
         <Summary description={description} />
       </div>
     </Link>

@@ -32,7 +32,7 @@ export const cases = [
     niche: 'Юридические услуги',
     orderedService: 'Анализ и Директ',
     eyebrow: 'Легализация коммерческих объектов',
-    cover: { src: caseLegalBriefLight, srcDark: caseLegalBriefDark, alt: 'Бриф перед запуском Яндекс Директа' },
+    cover: { src: caseLegalBriefLight, srcDark: caseLegalBriefDark, alt: 'Бриф перед запуском Яндекс Директа', mobileCrop: DOC_MOBILE_CROP },
     gallery: [
       { light: caseLegalBriefLight, dark: caseLegalBriefDark, alt: 'Бриф перед запуском Яндекс Директа', mobileCrop: DOC_MOBILE_CROP },
       { light: caseLegalAudienceLight, dark: caseLegalAudienceDark, alt: 'Описание целевой аудитории', mobileCrop: DOC_MOBILE_CROP },
@@ -71,7 +71,6 @@ export const cases = [
     metrics: [],
     description: [
       'Первая заявка в первый же месяц работы',
-      'Одна сделка окупила маркетинг минимум в 11 раз за три месяца',
     ],
   },
   {
@@ -83,7 +82,7 @@ export const cases = [
     niche: 'Списание долгов',
     orderedService: 'Маркетинговый анализ',
     eyebrow: 'Банкротство физических лиц',
-    cover: { src: caseBankruptcyAudienceLight, srcDark: caseBankruptcyAudienceDark, alt: 'Анализ целевой аудитории для услуги банкротства физических лиц' },
+    cover: { src: caseBankruptcyAudienceLight, srcDark: caseBankruptcyAudienceDark, alt: 'Анализ целевой аудитории для услуги банкротства физических лиц', mobileCrop: DOC_MOBILE_CROP },
     gallery: [
       { light: caseBankruptcyAudienceLight, dark: caseBankruptcyAudienceDark, alt: 'Анализ целевой аудитории для услуги банкротства физических лиц', mobileCrop: DOC_MOBILE_CROP },
       { light: caseBankruptcyBriefLight, dark: caseBankruptcyBriefDark, alt: 'Обезличенный бриф по рекламе для банкротства физических лиц', mobileCrop: DOC_MOBILE_CROP },
@@ -112,7 +111,6 @@ export const cases = [
     ],
     metrics: [],
     description: [
-      'Анализ ниши за 14 рабочих дней',
       '5 типов клиентских запросов, у каждого свой повод обратиться',
       'По анализу запускаются реклама, сайт и айдентика',
     ],

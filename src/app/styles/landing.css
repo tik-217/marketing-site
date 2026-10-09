@@ -2336,3 +2336,5 @@ img.theme-image--dark {
     --crop-w: var(--m-w);
   }
 }
+
+.case-preview-card__eyebrow { font-size: var(--text-caption); color: var(--text-secondary); }
