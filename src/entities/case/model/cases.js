@@ -16,6 +16,7 @@ import caseBankruptcyCompetitorsLight from '../../../shared/assets/images/case-b
 import caseBankruptcyCompetitorsDark from '../../../shared/assets/images/case-bankruptcy-competitors-dark.avif'
 import caseBankruptcyUspLight from '../../../shared/assets/images/case-bankruptcy-usp-light.avif'
 import caseBankruptcyUspDark from '../../../shared/assets/images/case-bankruptcy-usp-dark.avif'
+import { COMPETITORS_LEGAL_CROP, DIRECT_CROP } from './crops'
 import { documentLinks } from '../../../shared/config/documentLinks'
 
 // TODO: под ссылками "Бриф", "Анализ ЦА", "Анализ конкурентов", "УТП" нужна одна находка из каждого документа.
@@ -35,9 +36,9 @@ export const cases = [
     gallery: [
       { light: caseLegalBriefLight, dark: caseLegalBriefDark, alt: 'Бриф перед запуском Яндекс Директа' },
       { light: caseLegalAudienceLight, dark: caseLegalAudienceDark, alt: 'Описание целевой аудитории' },
-      { light: caseLegalCompetitorsLight, dark: caseLegalCompetitorsDark, alt: 'Анализ конкурентов' },
+      { light: caseLegalCompetitorsLight, dark: caseLegalCompetitorsDark, alt: 'Анализ конкурентов', crop: COMPETITORS_LEGAL_CROP },
       { light: caseLegalUspLight, dark: caseLegalUspDark, alt: 'Уникальное торговое предложение' },
-      { light: caseLegalDirect, alt: 'Кампании в кабинете Яндекс Директа' },
+      { light: caseLegalDirect, alt: 'Кампании в кабинете Яндекс Директа', crop: DIRECT_CROP },
       { light: caseLegalMetrika, alt: 'Конверсии в Яндекс Метрике' },
     ],
     status: 'in_progress',

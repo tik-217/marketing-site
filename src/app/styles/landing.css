@@ -2334,3 +2334,26 @@ img.theme-image--dark {
   .comparison-panel .comparison-row__label { flex: 0 0 min(34%, 320px); }
   .comparison-panel .comparison-row__value { flex: 1; }
 }
+
+/* Фрагмент скриншота: рамка 16:10, кадр привязан к левому верхнему углу фрагмента (--crop-x, --crop-y, --crop-w). */
+.crop {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  aspect-ratio: 16 / 10;
+  container-type: inline-size;
+  background: var(--bg-surface-strong);
+}
+
+.crop img {
+  position: absolute;
+  max-width: none;
+  aspect-ratio: auto;
+  object-fit: fill;
+  width: calc(100% / var(--crop-w));
+  height: auto;
+  left: calc(-100% * var(--crop-x) / var(--crop-w));
+  top: calc(-100cqw * var(--crop-y) / var(--crop-w) * 0.6275); /* 1004 / 1600 */
+}
+
+.case-preview-card__crop { width: 100%; }

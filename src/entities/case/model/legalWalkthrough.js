@@ -1,3 +1,4 @@
+import { COMPETITORS_LEGAL_CROP, DIRECT_CROP } from './crops'
 import brief from '../../../shared/assets/images/case-legal-brief-light.avif'
 import briefDark from '../../../shared/assets/images/case-legal-brief-dark.avif'
 import audience from '../../../shared/assets/images/case-legal-audience-light.avif'
@@ -30,7 +31,7 @@ export const legalWalkthrough = {
           text: 'У каждого сегмента свой повод узаконить объект',
         },
         {
-          image: { src: competitors, srcDark: competitorsDark, alt: 'Анализ конкурентов' },
+          image: { src: competitors, srcDark: competitorsDark, alt: 'Анализ конкурентов', crop: COMPETITORS_LEGAL_CROP },
           title: 'Разобрал объявления конкурентов в Яндекс Директе',
           text: 'Что они обещают и чем объясняют свои преимущества',
         },
@@ -46,7 +47,7 @@ export const legalWalkthrough = {
       label: 'Реклама и результат',
       steps: [
         {
-          image: { src: direct, alt: 'Кампании в кабинете Яндекс Директа' },
+          image: { src: direct, alt: 'Кампании в кабинете Яндекс Директа', crop: DIRECT_CROP },
           title: 'Запустил поиск в 18 регионах',
           text: 'Объявления видят те, кто ищет, как узаконить самовольную постройку',
         },
