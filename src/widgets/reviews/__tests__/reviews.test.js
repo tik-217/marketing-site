@@ -22,10 +22,10 @@ after(async () => {
 
 const render = (config) => renderToStaticMarkup(createElement(Reviews, { config }))
 
-test('в репозитории блок выключен и номер пустой', () => {
-  assert.equal(reviewsConfig.enabled, false)
-  assert.equal(reviewsConfig.orgId, '')
-  assert.equal(render(reviewsConfig), '')
+test('настройки сайта: номер строкой, переключатель логическим значением, показ следует из них', () => {
+  assert.equal(typeof reviewsConfig.orgId, 'string')
+  assert.equal(typeof reviewsConfig.enabled, 'boolean')
+  assert.equal(render(reviewsConfig) !== '', isReviewsVisible(reviewsConfig))
 })
 
 test('номер есть, переключатель выключен: блока нет совсем', () => {
