@@ -8,7 +8,7 @@ export function Reviews({ config = reviewsConfig }) {
 
   return (
     <Section containerClassName="stack">
-      <h2 className="section-heading">Эти отзывы клиенты оставили на Яндекс Картах. Изменить их я не могу</h2>
+      <h2 className="section-heading">Эти отзывы клиенты оставили на Яндекс Картах</h2>
       <div className="reviews-card">
         <iframe
           className="reviews-card__frame"

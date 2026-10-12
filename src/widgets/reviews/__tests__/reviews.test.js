@@ -41,7 +41,7 @@ test('переключатель включен, номера нет: блока
 
 test('номер и переключатель: заголовок, ленивый iframe и ссылка в новую вкладку', () => {
   const html = render({ orgId: '123', enabled: true })
-  assert.match(html, /Эти отзывы клиенты оставили на Яндекс Картах\. Изменить их я не могу/)
+  assert.match(html, /Эти отзывы клиенты оставили на Яндекс Картах/)
   assert.match(html, /<iframe[^>]*src="https:\/\/yandex\.ru\/maps-reviews-widget\/123\?comments"/)
   assert.match(html, /loading="lazy"/)
   assert.match(html, /href="https:\/\/yandex\.ru\/maps\/org\/123\/reviews\/"[^>]*target="_blank"[^>]*rel="noopener noreferrer"/)
