@@ -3,6 +3,7 @@ import { Header } from '../../../widgets/header'
 import { Hero } from '../../../widgets/hero'
 import { Cases } from '../../../widgets/cases'
 import { CaseWalkthrough } from '../../../widgets/case-steps'
+import { Reviews } from '../../../widgets/reviews'
 import { About } from '../../../widgets/about'
 import { Situations } from '../../../widgets/situations'
 import { Audit } from '../../../widgets/audit'
@@ -22,6 +23,7 @@ export function HomePage() {
           <Hero />
           <Cases />
           <CaseWalkthrough />
+          <Reviews />
           <About />
           <Situations />
           <Audit id="audit-cases" />
