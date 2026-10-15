@@ -85,10 +85,10 @@ if (failed.length > 0) {
   process.exit(1)
 }
 
-// sitemap.xml: lastmod у всех адресов ставится датой сборки, чтобы не править вручную.
+// sitemap.xml: lastmod у всех адресов ставится датой сборки (по Москве), чтобы не править вручную.
 try {
   const sitemapPath = resolve(dist, 'sitemap.xml')
-  const date = new Date().toISOString().slice(0, 10)
+  const date = new Date().toLocaleDateString('sv-SE', { timeZone: 'Europe/Moscow' }) // ГГГГ-ММ-ДД по Москве
   const sitemap = readFileSync(sitemapPath, 'utf8')
     .replace(/\s*<lastmod>[^<]*<\/lastmod>/g, '')
     .replace(/(<loc>[^<]*<\/loc>)/g, `$1\n    <lastmod>${date}</lastmod>`)
