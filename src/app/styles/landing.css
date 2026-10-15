@@ -2374,30 +2374,46 @@ img.theme-image--dark {
   .comparison-tabs .tab { font-size: 12px; padding-inline: 2px; }
 }
 
-/* ---------- отзывы с Яндекс Карт ---------- */
+/* ---------- отзывы с Яндекс Карт: скриншоты настоящих отзывов ---------- */
 
-/* Карточка как у кейсов. Фон белый всегда: виджет Яндекса белый и в темной теме, так он читается как карточка. */
-.reviews-card {
+.reviews-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
   width: 100%;
-  max-width: 760px;
+  max-width: 900px;
+}
+
+/* Карточка как у кейсов. Фон белый всегда: скриншот белый и в темной теме, так он читается как карточка. */
+.reviews-card {
+  display: block;
+  width: 100%;
+  height: auto;
   background: #fff;
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-lg);
-  overflow: hidden;
 }
 
 [data-theme='dark'] .reviews-card { box-shadow: var(--shadow-md); }
 
-.reviews-card__frame {
-  display: block;
-  width: 100%;
-  height: 540px;
-  min-height: 500px;
-  border: 0;
-}
-
 .reviews-link { align-self: flex-start; color: var(--link); font-weight: 600; }
 
+/* Телефон: скриншоты шириной 1484 px сжимать в 360 нельзя, текст не читается. Показываем в читаемом масштабе, листаем свайпом. */
 @media (max-width: 768px) {
-  .reviews-card__frame { height: 520px; }
+  .reviews-list {
+    flex-direction: row;
+    align-items: flex-start;
+    max-width: none;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    margin-inline: calc(-1 * var(--gutter));
+    padding-inline: var(--gutter);
+    scroll-padding-inline: var(--gutter);
+    padding-bottom: var(--space-2);
+  }
+  .reviews-card {
+    flex: 0 0 auto;
+    width: 760px;
+    scroll-snap-align: start;
+  }
 }
