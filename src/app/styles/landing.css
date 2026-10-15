@@ -2267,94 +2267,7 @@ img.theme-image--dark {
 
 /* Узкий телефон: четыре вкладки сравнения должны помещаться в одну строку без обрезки. */
 
-/* ---------- отзывы с Профи.ру: слайдер скриншотов настоящих отзывов ---------- */
 
-.reviews-slider { width: 100%; max-width: 900px; }
-
-.reviews-slider__frame { position: relative; }
-
-.reviews-slider__track {
-  display: flex;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  scrollbar-width: none;
-  align-items: center; /* скриншоты разной высоты стоят по центру слайдера */
-}
-
-.reviews-slider__track::-webkit-scrollbar { display: none; }
-
-.reviews-slider__slide {
-  flex: 0 0 100%;
-  min-width: 0;
-  scroll-snap-align: start;
-}
-
-/* Карточка как у кейсов. Фон белый всегда: скриншот белый и в темной теме, так он читается как карточка. */
-.reviews-card {
-  display: block;
-  width: 100%;
-  height: auto;
-  background: #fff;
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-lg);
-}
-
-[data-theme='dark'] .reviews-card { box-shadow: var(--shadow-md); }
-
-.reviews-slider__arrow {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  padding: 0;
-  border: 1px solid var(--border-default);
-  border-radius: 50%;
-  background: var(--bg-page);
-  color: var(--text-primary);
-  cursor: pointer;
-}
-
-.reviews-slider__arrow:hover { background: var(--bg-surface-strong); }
-.reviews-slider__arrow--prev { left: var(--space-2); }
-.reviews-slider__arrow--next { right: var(--space-2); }
-
-.reviews-slider__dots {
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-  padding-top: var(--space-3);
-}
-
-.reviews-slider__dot {
-  width: 8px;
-  height: 8px;
-  padding: 0;
-  border: 0;
-  border-radius: 50%;
-  background: var(--border-strong);
-  cursor: pointer;
-}
-
-.reviews-slider__dot.is-active { background: var(--accent); }
-
-.reviews-link { align-self: flex-start; color: var(--link); font-weight: 600; }
-
-/* Телефон: скриншоты шириной 1484 px в 360 не сжимаем, текст не читается. Слайд в читаемом масштабе, листаем свайпом, стрелки скрыты. */
-@media (max-width: 768px) {
-  .reviews-slider { max-width: none; }
-  .reviews-slider__arrow { display: none; }
-  .reviews-slider__track {
-    gap: var(--space-4);
-    margin-inline: calc(-1 * var(--gutter));
-    padding-inline: var(--gutter);
-    scroll-padding-inline: var(--gutter);
-  }
-  .reviews-slider__slide { flex: 0 0 760px; }
-}
 
 @media (min-width: 769px) {
   .hero__headline { font-size: clamp(26px, 2.9vw, 44px); }
@@ -2452,3 +2365,51 @@ img.theme-image--dark {
     min-height: 44px;
   }
 }
+
+/* ---------- отзывы с Профи.ру: две карточки ---------- */
+
+.reviews-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+}
+
+@media (min-width: 769px) {
+  .reviews-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
+}
+
+/* Карточка как у кейсов: та же рамка, скругление и фон. */
+.review-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: 0;
+  padding: var(--space-5);
+  background: var(--bg-page);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+}
+
+.review-card__top { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); }
+.review-card__date { font-size: var(--text-sm); color: var(--text-secondary); }
+.review-card__name { font-family: var(--font-display); font-weight: 700; font-size: var(--text-card-title); line-height: var(--leading-snug); }
+.review-card__tag { font-size: var(--text-sm); color: var(--text-secondary); }
+.review-card__text { margin: var(--space-2) 0 0; font-size: var(--text-body); color: var(--text-secondary); }
+
+.review-card__stars { display: inline-flex; gap: 2px; font-size: 22px; line-height: 1; }
+
+.review-card__star {
+  background: linear-gradient(90deg, #f5a623 var(--fill), var(--border-default) var(--fill));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.reviews-link { align-self: flex-start; color: var(--link); font-weight: 600; }
+
+.case-result__list { padding-left: 1.2em; list-style: disc; display: flex; flex-direction: column; gap: var(--space-2); color: var(--gray-200); }
+.case-result__list li::marker { color: var(--accent-400); }
+
+/* Темная тема: мелкий текст в ценах и FAQ не ниже 7:1 к фону (цвета фона не менялись). */
+[data-theme='dark'] .pricing-step__meta { color: var(--gray-200); }
+[data-theme='dark'] .faq-item .faq-icon { color: var(--gray-100); }

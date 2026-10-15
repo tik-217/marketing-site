@@ -64,6 +64,13 @@ export function CasePage() {
                 </div>
               )}
               <p className="case-result__text">{item.resultText}</p>
+              {Array.isArray(item.description) && (
+                <ul className="case-result__list">
+                  {item.description.map((line) => (
+                    <li key={line}>{line}</li>
+                  ))}
+                </ul>
+              )}
             </section>
           </article>
         </div>

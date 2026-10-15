@@ -11,6 +11,7 @@ test('sitemap: главная, аудит, кейсы и две страницы
     assert.ok(sitemap.includes(`<loc>https://gabulyan-tigran.ru${path}</loc>`), path)
   }
   assert.equal(sitemap.includes('/audit/report'), false)
+  assert.equal((sitemap.match(/<lastmod>\d{4}-\d{2}-\d{2}<\/lastmod>/g) || []).length, 5)
 })
 
 test('meta description сайта', () => {
@@ -25,10 +26,11 @@ test('JSON-LD ProfessionalService на главной', () => {
   const home = read('src/pages/home/ui/HomePage.jsx')
   assert.ok(home.includes("'@type': 'ProfessionalService'"))
   assert.ok(home.includes("name: 'Габулян Тигран'"))
-  assert.ok(home.includes("telephone: '+7 918 022-09-01'"))
-  assert.ok(home.includes("addressLocality: 'Анапа'"))
+  assert.ok(home.includes("telephone: '+79180220901'"))
+  assert.ok(home.includes("addressLocality: 'Анапа', addressCountry: 'RU'"))
   assert.ok(home.includes("areaServed: 'RU'"))
-  assert.ok(home.includes('sameAs: [contacts.telegramUrl, contacts.instagramUrl]'))
+  assert.ok(home.includes("description: 'Маркетинг для юридических фирм: анализ ниши, сайт и Яндекс Директ'"))
+  assert.ok(home.includes("sameAs: ['https://t.me/tigran_front', 'https://www.instagram.com/tigran_pro_marketing/']"))
 })
 
 test('сборка запускает серверную сборку и пререндер', () => {

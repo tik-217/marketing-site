@@ -1,6 +1,4 @@
 import { Helmet } from 'react-helmet-async'
-import { contacts } from '../../../shared/config/contacts'
-import { siteConfig } from '../../../shared/config/site'
 import { Seo } from '../../../shared/lib/seo'
 import { Header } from '../../../widgets/header'
 import { Hero } from '../../../widgets/hero'
@@ -20,11 +18,12 @@ const professionalService = {
   '@context': 'https://schema.org',
   '@type': 'ProfessionalService',
   name: 'Габулян Тигран',
-  telephone: '+7 918 022-09-01',
-  address: { '@type': 'PostalAddress', addressLocality: 'Анапа' },
+  description: 'Маркетинг для юридических фирм: анализ ниши, сайт и Яндекс Директ',
+  url: 'https://gabulyan-tigran.ru',
+  telephone: '+79180220901',
+  address: { '@type': 'PostalAddress', addressLocality: 'Анапа', addressCountry: 'RU' },
   areaServed: 'RU',
-  url: siteConfig.url,
-  sameAs: [contacts.telegramUrl, contacts.instagramUrl],
+  sameAs: ['https://t.me/tigran_front', 'https://www.instagram.com/tigran_pro_marketing/'],
 }
 
 export function HomePage() {

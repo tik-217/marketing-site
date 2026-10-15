@@ -1,24 +1,39 @@
 import { isReviewsVisible, reviewsConfig } from '../../../shared/config/reviews'
 import { Section } from '../../../shared/ui'
-import { ReviewsSlider } from './ReviewsSlider'
-import reviewArtem from '../../../shared/assets/images/review-artem.avif'
-import reviewAndrey from '../../../shared/assets/images/review-andrey.avif'
 
-// Скриншоты настоящих отзывов с Профи.ру. Размеры файлов 1484x342 и 1484x384.
+// Настоящие отзывы с Профи.ру, тексты без правок. Строка "Стоимость работ" и сумма из отзыва не показываются.
 const reviews = [
   {
-    src: reviewArtem,
-    width: 1484,
-    height: 342,
-    alt: 'Отзыв Артема на Профи.ру, 5 звезд, 9 октября 2026. Настройка Яндекс.Директ. Все прошло отлично! Будем сотрудничать!',
+    name: 'Андрей Барс Консалт',
+    date: '12 октября 2026',
+    rating: 4.5,
+    tag: 'Настройка Яндекс.Директ',
+    text: 'Начали работать с Тиграном по 2 проектам компании - специалист внимательный, вежливый, владеет инструментами Я.Директ и нейросетями на профессиональном уровне, есть опыт в разработке, широкий кругозор.',
   },
   {
-    src: reviewAndrey,
-    width: 1484,
-    height: 384,
-    alt: 'Отзыв Андрея Барс Консалт на Профи.ру, 12 октября 2026. Настройка Яндекс.Директ. Начали работать с Тиграном по 2 проектам компании, специалист внимательный, вежливый, владеет инструментами Я.Директ и нейросетями на профессиональном уровне, есть опыт в разработке, широкий кругозор.',
+    name: 'Артем',
+    date: '9 октября 2026',
+    rating: 5,
+    tag: 'Настройка Яндекс.Директ',
+    text: 'Все прошло отлично! Будем сотрудничать!',
   },
 ]
+
+function Stars({ rating }) {
+  const label = `Оценка ${String(rating).replace('.', ',')} из 5`
+  return (
+    <span className="review-card__stars" role="img" aria-label={label}>
+      {[1, 2, 3, 4, 5].map((n) => {
+        const fill = Math.max(0, Math.min(1, rating - (n - 1)))
+        return (
+          <span className="review-card__star" key={n} style={{ '--fill': `${fill * 100}%` }} aria-hidden="true">
+            ★
+          </span>
+        )
+      })}
+    </span>
+  )
+}
 
 export function Reviews({ config = reviewsConfig }) {
   if (!isReviewsVisible(config)) return null
@@ -26,7 +41,19 @@ export function Reviews({ config = reviewsConfig }) {
   return (
     <Section containerClassName="stack">
       <h2 className="section-heading">Эти отзывы клиенты оставили на Профи.ру</h2>
-      <ReviewsSlider slides={reviews} />
+      <div className="reviews-grid">
+        {reviews.map((item) => (
+          <figure className="review-card" key={item.name}>
+            <div className="review-card__top">
+              <Stars rating={item.rating} />
+              <span className="review-card__date">{item.date}</span>
+            </div>
+            <figcaption className="review-card__name">{item.name}</figcaption>
+            <span className="review-card__tag">{item.tag}</span>
+            <blockquote className="review-card__text">{item.text}</blockquote>
+          </figure>
+        ))}
+      </div>
       <a
         className="reviews-link"
         href={String(config.profileUrl).trim()}
