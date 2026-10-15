@@ -2385,7 +2385,7 @@ img.theme-image--dark {
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
-  align-items: flex-start;
+  align-items: center; /* скриншоты разной высоты стоят по центру слайдера */
 }
 
 .reviews-slider__track::-webkit-scrollbar { display: none; }
