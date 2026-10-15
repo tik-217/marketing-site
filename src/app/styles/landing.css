@@ -2466,22 +2466,6 @@ img.theme-image--dark {
 
 .audit-form__hint { font-size: var(--text-sm); color: var(--text-secondary); }
 
-.case-preview-card__pills {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2);
-  padding: 0;
-  list-style: none;
-}
-
-.case-preview-card__pills li {
-  padding: 3px 10px;
-  border: 1px solid var(--border-default);
-  border-radius: var(--radius-pill);
-  font-size: var(--text-caption);
-  color: var(--text-secondary);
-}
-
 .pricing-row__price-note { display: block; font-size: var(--text-caption); font-weight: 400; color: var(--text-secondary); }
 
 /* ---------- короткий список шагов кейса на главной ---------- */
@@ -2501,16 +2485,6 @@ img.theme-image--dark {
 .steps-list__title { display: block; font-weight: 700; font-size: 18px; line-height: var(--leading-snug); }
 .steps-list__text { display: block; color: var(--text-secondary); }
 .walk-link { align-self: flex-start; color: var(--link); font-weight: 600; }
-
-/* Заглушка под iframe отзывов: карточка как у кейсов. */
-.reviews-placeholder {
-  width: 100%;
-  max-width: 760px;
-  min-height: 160px;
-  background: var(--bg-page);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-lg);
-}
 
 /* Сравнение без вкладок: на телефоне и планшете карточки списком друг под другом, на компьютере четыре колонки. */
 .comparison-grid { display: grid; grid-template-columns: 1fr; gap: var(--space-4); }
@@ -2579,4 +2553,13 @@ img.theme-image--dark {
 
 @media (max-width: 420px) {
   .hero__direct { font-size: 13px; }
+}
+
+/* Кнопки в пакетах: подпись длиннее колонки, поэтому переносится на две строки, а не вылезает за кнопку. */
+.package-table__cta .btn,
+.package-plan__cta .btn {
+  white-space: normal;
+  min-height: 52px;
+  padding: 10px var(--space-3);
+  line-height: 1.25;
 }

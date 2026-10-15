@@ -48,8 +48,3 @@ export const packages = [
     duration: 'около 55',
   },
 ]
-
-export const packageDiscount = {
-  title: 'Скидка 8% действует только при заказе пакетом',
-  description: 'Услуги можно собрать раздельно, но скидка тогда не сохраняется.',
-}

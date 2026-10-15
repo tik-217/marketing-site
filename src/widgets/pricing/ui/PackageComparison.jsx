@@ -10,13 +10,12 @@ function PackageStatus({ included }) {
 }
 
 const summaryRows = [
-  { key: 'modulesTotal', label: 'Сумма модулей' },
-  { key: 'price', label: 'Цена пакета', hint: 'скидка 8%', highlight: true },
+  { key: 'price', label: 'Цена пакета', highlight: true },
   { key: 'monthly', label: 'Дальше в месяц' },
   { key: 'duration', label: 'Срок', hint: 'рабочих дней' },
 ]
 
-export function PackageComparison({ modules, packages, discount }) {
+export function PackageComparison({ modules, packages }) {
   return (
     <div className="package-comparison">
       <div className="package-comparison__desktop">
@@ -122,11 +121,6 @@ export function PackageComparison({ modules, packages, discount }) {
           </article>
         ))}
       </div>
-
-      <aside className="package-comparison__note">
-        <strong>{discount.title}</strong>
-        <span>{discount.description}</span>
-      </aside>
     </div>
   )
 }

@@ -40,8 +40,8 @@ export function HomePage() {
         <main>
           <Hero />
           <Cases />
-          <Reviews />
           <CaseWalkthrough />
+          <Reviews />
           <Situations />
           <Pricing />
           <Comparison />

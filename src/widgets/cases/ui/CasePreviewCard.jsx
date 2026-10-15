@@ -31,7 +31,6 @@ export function CasePreviewCard({
   title,
   pageTitle,
   eyebrow,
-  pills,
   cover,
   gallery,
   orderedService,
@@ -56,13 +55,6 @@ export function CasePreviewCard({
               {pageTitle || title}
             </Link>
           </TitleTag>
-          {pills && (
-            <ul className="case-preview-card__pills">
-              {pills.map((pill) => (
-                <li key={pill}>{pill}</li>
-              ))}
-            </ul>
-          )}
           <Summary description={description} />
         </div>
       </article>
@@ -84,13 +76,6 @@ export function CasePreviewCard({
         <CaseBadgeRow orderedService={orderedService} status={status} />
         <p className="case-preview-card__eyebrow">{eyebrow || title}</p>
         <TitleTag className="case-preview-card__title">{pageTitle || title}</TitleTag>
-        {pills && (
-          <ul className="case-preview-card__pills">
-            {pills.map((pill) => (
-              <li key={pill}>{pill}</li>
-            ))}
-          </ul>
-        )}
         <Summary description={description} />
       </div>
     </Link>

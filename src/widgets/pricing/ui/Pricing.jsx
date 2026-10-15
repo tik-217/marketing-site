@@ -1,5 +1,5 @@
 import { useLayoutEffect, useRef, useState } from 'react'
-import { modules, packageDiscount, packageModules, packages } from '../../../entities/pricing'
+import { modules, packageModules, packages } from '../../../entities/pricing'
 import { CtaButton, Section } from '../../../shared/ui'
 import { moduleSource } from '../../../shared/lib/telegramSource'
 import { PackageComparison } from './PackageComparison'
@@ -173,7 +173,7 @@ export function Pricing() {
           })}
         </div>
       ) : (
-        <PackageComparison modules={packageModules} packages={packages} discount={packageDiscount} />
+        <PackageComparison modules={packageModules} packages={packages} />
       )}
 
     </Section>
