@@ -7,9 +7,9 @@ export function Hero() {
     <section className="hero">
       <div className="container hero__inner">
         <div className="hero__text">
-          <h1 className="hero__headline">Привожу клиентов юридическим фирмам через сайт и Яндекс Директ</h1>
+          <h1 className="hero__headline">Приведу юридической фирме первые заявки из Яндекса за месяц, а сайт и рекламный кабинет останутся у вас</h1>
           <p className="hero__lead">
-            Сначала разбираю нишу и конкурентов, потом собираю сайт и рекламу под то, что ищут ваши клиенты.
+            Сначала разбираю спрос и конкурентов в вашей нише, потом собираю сайт и рекламу по итогам анализа. В последнем проекте одна сделка окупила маркетинг в 11 раз.
           </p>
           <div className="hero__cta">
             <CtaButton source="s-hero" />

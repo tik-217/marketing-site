@@ -185,7 +185,8 @@
 .hero__text { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-5); }
 
 .hero__headline {
-  font-size: var(--text-h1);
+  /* длинный заголовок в 4 строки на любой ширине */
+  font-size: clamp(24px, 6.4vw, 44px);
   font-weight: 800;
   line-height: var(--leading-tight);
   color: var(--white);
@@ -2461,4 +2462,13 @@ img.theme-image--dark {
     scroll-padding-inline: var(--gutter);
   }
   .reviews-slider__slide { flex: 0 0 760px; }
+}
+
+@media (min-width: 769px) {
+  .hero__headline { font-size: clamp(26px, 2.9vw, 44px); }
+  .hero__inner { grid-template-columns: 1.5fr 1fr; }
+}
+
+@media (min-width: 1280px) {
+  .hero__inner { grid-template-columns: 1.3fr 1fr; }
 }
