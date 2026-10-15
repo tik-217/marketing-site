@@ -1,5 +1,6 @@
 import { isReviewsVisible, reviewsConfig } from '../../../shared/config/reviews'
 import { Section } from '../../../shared/ui'
+import { ReviewsSlider } from './ReviewsSlider'
 import reviewArtem from '../../../shared/assets/images/review-artem.avif'
 import reviewAndrey from '../../../shared/assets/images/review-andrey.avif'
 
@@ -25,20 +26,7 @@ export function Reviews({ config = reviewsConfig }) {
   return (
     <Section containerClassName="stack">
       <h2 className="section-heading">Эти отзывы клиенты оставили на Профи.ру</h2>
-      <div className="reviews-list">
-        {reviews.map((item) => (
-          <img
-            key={item.src}
-            className="reviews-card"
-            src={item.src}
-            width={item.width}
-            height={item.height}
-            alt={item.alt}
-            loading="lazy"
-            decoding="async"
-          />
-        ))}
-      </div>
+      <ReviewsSlider slides={reviews} />
       <a
         className="reviews-link"
         href={String(config.profileUrl).trim()}

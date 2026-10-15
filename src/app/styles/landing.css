@@ -2374,14 +2374,26 @@ img.theme-image--dark {
   .comparison-tabs .tab { font-size: 12px; padding-inline: 2px; }
 }
 
-/* ---------- отзывы с Профи.ру: скриншоты настоящих отзывов ---------- */
+/* ---------- отзывы с Профи.ру: слайдер скриншотов настоящих отзывов ---------- */
 
-.reviews-list {
+.reviews-slider { width: 100%; max-width: 900px; }
+
+.reviews-slider__frame { position: relative; }
+
+.reviews-slider__track {
   display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
-  width: 100%;
-  max-width: 900px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  align-items: flex-start;
+}
+
+.reviews-slider__track::-webkit-scrollbar { display: none; }
+
+.reviews-slider__slide {
+  flex: 0 0 100%;
+  min-width: 0;
+  scroll-snap-align: start;
 }
 
 /* Карточка как у кейсов. Фон белый всегда: скриншот белый и в темной теме, так он читается как карточка. */
@@ -2396,24 +2408,57 @@ img.theme-image--dark {
 
 [data-theme='dark'] .reviews-card { box-shadow: var(--shadow-md); }
 
+.reviews-slider__arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 1px solid var(--border-default);
+  border-radius: 50%;
+  background: var(--bg-page);
+  color: var(--text-primary);
+  cursor: pointer;
+}
+
+.reviews-slider__arrow:hover { background: var(--bg-surface-strong); }
+.reviews-slider__arrow--prev { left: var(--space-2); }
+.reviews-slider__arrow--next { right: var(--space-2); }
+
+.reviews-slider__dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  padding-top: var(--space-3);
+}
+
+.reviews-slider__dot {
+  width: 8px;
+  height: 8px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--border-strong);
+  cursor: pointer;
+}
+
+.reviews-slider__dot.is-active { background: var(--accent); }
+
 .reviews-link { align-self: flex-start; color: var(--link); font-weight: 600; }
 
-/* Телефон: скриншоты шириной 1484 px сжимать в 360 нельзя, текст не читается. Показываем в читаемом масштабе, листаем свайпом. */
+/* Телефон: скриншоты шириной 1484 px в 360 не сжимаем, текст не читается. Слайд в читаемом масштабе, листаем свайпом, стрелки скрыты. */
 @media (max-width: 768px) {
-  .reviews-list {
-    flex-direction: row;
-    align-items: flex-start;
-    max-width: none;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
+  .reviews-slider { max-width: none; }
+  .reviews-slider__arrow { display: none; }
+  .reviews-slider__track {
+    gap: var(--space-4);
     margin-inline: calc(-1 * var(--gutter));
     padding-inline: var(--gutter);
     scroll-padding-inline: var(--gutter);
-    padding-bottom: var(--space-2);
   }
-  .reviews-card {
-    flex: 0 0 auto;
-    width: 760px;
-    scroll-snap-align: start;
-  }
+  .reviews-slider__slide { flex: 0 0 760px; }
 }
