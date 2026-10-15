@@ -2376,7 +2376,7 @@ img.theme-image--dark {
 
 /* ---------- отзывы с Профи.ру: слайдер скриншотов настоящих отзывов ---------- */
 
-.reviews-slider { width: 100%; max-width: 900px; margin-inline: auto; }
+.reviews-slider { width: 100%; max-width: 900px; }
 
 .reviews-slider__frame { position: relative; }
 
@@ -2448,11 +2448,7 @@ img.theme-image--dark {
 
 .reviews-slider__dot.is-active { background: var(--accent); }
 
-.reviews-link { align-self: center; color: var(--link); font-weight: 600; }
-
-@media (max-width: 768px) {
-  .reviews-link { align-self: flex-start; }
-}
+.reviews-link { align-self: flex-start; color: var(--link); font-weight: 600; }
 
 /* Телефон: скриншоты шириной 1484 px в 360 не сжимаем, текст не читается. Слайд в читаемом масштабе, листаем свайпом, стрелки скрыты. */
 @media (max-width: 768px) {
