@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { sendTelegramMessage } from '../../../shared/api/telegram'
 import { contacts } from '../../../shared/config/contacts'
+import { reachGoal } from '../../../shared/lib/analytics/goals'
 import { Button, Eyebrow, Section } from '../../../shared/ui'
 
 export function Audit({ id }) {
@@ -20,6 +21,7 @@ export function Audit({ id }) {
     try {
       await sendTelegramMessage(`Новая заявка с сайта\nКонтакт: ${contact}`)
       setSent(true)
+      reachGoal('form_submit')
     } catch {
       setError('Не удалось отправить. Напишите напрямую в Telegram.')
     } finally {
@@ -38,18 +40,29 @@ export function Audit({ id }) {
         </p>
       </div>
 
-      <form className="audit-form" onSubmit={handleSubmit}>
+      <form className="audit-form" method="post" action="#" onSubmit={handleSubmit}>
         {sent ? (
           <div className="stack" style={{ gap: 'var(--space-3)', padding: '24px 0' }}>
-            <h3 className="audit-form__success-title">Заявка отправлена</h3>
-            <p style={{ color: 'var(--text-secondary)' }}>Отвечу в течение 30 минут. Документ пришлю в течение 24 часов после доступов.</p>
+            <h3 className="audit-form__success-title">Получил. Отвечу в течение 30 минут в рабочее время</h3>
+            <p style={{ color: 'var(--text-secondary)' }}>
+              Если срочно, напишите в{' '}
+              <a href={contacts.telegramUrl} target="_blank" rel="noopener noreferrer">
+                Telegram
+              </a>
+            </p>
           </div>
         ) : (
           <>
+            <label className="audit-form__hint" htmlFor={`${id}-contact`}>
+              Если не пользуетесь Telegram, оставьте телефон или почту
+            </label>
             <input
+              id={`${id}-contact`}
               type="text"
               name="contact"
-              placeholder="Телеграм или телефон"
+              inputMode="tel"
+              autoComplete="tel"
+              placeholder="Телефон, Telegram или почта"
               className="audit-form__input"
               required
             />
@@ -63,7 +76,7 @@ export function Audit({ id }) {
               </span>
             </label>
             <Button as="button" type="submit" block className="audit-form__submit" disabled={isSubmitting}>
-              {isSubmitting ? 'Отправляю…' : contacts.ctaLabel}
+              {isSubmitting ? 'Отправляю…' : 'Оставить контакт, свяжусь сам'}
             </Button>
             {error ? (
               <p className="audit-form__help" style={{ color: 'var(--accent-700, var(--accent))' }}>

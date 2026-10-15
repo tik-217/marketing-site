@@ -1,8 +1,7 @@
-export function ComparisonPanel({ title, rows, footers, inverse, isActive }) {
+export function ComparisonPanel({ title, rows, footers, inverse }) {
   const classes = [
     'comparison-panel',
     inverse && 'comparison-panel--inverse',
-    isActive && 'is-active',
   ]
     .filter(Boolean)
     .join(' ')

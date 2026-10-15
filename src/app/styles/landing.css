@@ -7,12 +7,6 @@
   top: 0;
   background: var(--bg-page);
   z-index: 20;
-  transform: translateY(0);
-  transition: transform 220ms ease;
-}
-
-.site-header--hidden {
-  transform: translateY(-100%);
 }
 
 .site-header__inner {
@@ -94,7 +88,7 @@
   stroke-width: 1.7;
 }
 
-.site-header__phone { width: auto; height: 24px; }
+.site-header__phone { width: auto; min-width: 44px; height: 44px; }
 .site-header__phone span { display: none; }
 
 @media (min-width: 861px) {
@@ -103,8 +97,8 @@
 
 .social-link--icon {
   justify-content: center;
-  width: 24px;
-  height: 24px;
+  width: 44px;
+  height: 44px;
 }
 
 @media (max-width: 380px) {
@@ -126,11 +120,7 @@
 
 @media (min-width: 861px) {
   .site-header {
-    position: static;
     padding-block: var(--space-5);
-  }
-  .site-header--hidden {
-    transform: none;
   }
   .site-header__name,
   .site-header__divider,
@@ -305,27 +295,19 @@
 
 /* ---------- comparison ---------- */
 
-.comparison-tabs {
-  display: flex;
-}
-
 .comparison-grid {
   display: grid;
   grid-template-columns: 1fr;
 }
 
 .comparison-panel {
-  display: none;
+  display: flex;
   border: 1px solid var(--border-subtle);
   background: var(--bg-surface);
   border-radius: var(--radius-md);
   padding: var(--space-5);
   flex-direction: column;
   gap: var(--space-4);
-}
-
-.comparison-panel.is-active {
-  display: flex;
 }
 
 .comparison-panel--inverse {
@@ -1759,26 +1741,35 @@
 
 .case-preview-card__dots {
   position: absolute;
-  bottom: var(--space-2);
+  bottom: 0;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
-  gap: 6px;
+  gap: 0;
 }
 
 .case-preview-card__dot {
-  width: 7px;
-  height: 7px;
+  position: relative;
+  width: 24px;  /* область касания 24x24, сама точка 12x12 */
+  height: 24px;
   padding: 0;
   border: 0;
-  border-radius: 50%;
-  background: var(--white);
-  opacity: 0.6;
-  box-shadow: 0 0 0 1px oklch(16% 0.008 250 / 0.2);
+  background: none;
   cursor: pointer;
+  --dot-color: var(--white);
 }
 
-.case-preview-card__dot.is-active {
+.case-preview-card__dot::after {
+  content: '';
+  position: absolute;
+  inset: 6px;
+  border-radius: 50%;
+  background: var(--dot-color);
+  opacity: 0.6;
+  box-shadow: 0 0 0 1px oklch(16% 0.008 250 / 0.2);
+}
+
+.case-preview-card__dot.is-active::after {
   opacity: 1;
   background: var(--accent);
 }
@@ -2347,16 +2338,13 @@ img.theme-image--dark {
     position: static;
     transform: none;
     justify-content: center;
-    gap: 8px;
-    padding: var(--space-3) 0 var(--space-2);
+    gap: 4px;
+    padding: var(--space-2) 0;
     background: var(--bg-page);
   }
-  .case-preview-card__dot {
-    background: var(--border-strong);
-    opacity: 1;
-    box-shadow: none;
-  }
-  .case-preview-card__dot.is-active { background: var(--accent); }
+  .case-preview-card__dot { --dot-color: var(--border-strong); }
+  .case-preview-card__dot::after { opacity: 1; box-shadow: none; }
+  .case-preview-card__dot.is-active::after { background: var(--accent); }
 }
 
 /* Узкий телефон: четыре вкладки сравнения должны помещаться в одну строку без обрезки. */
@@ -2471,4 +2459,117 @@ img.theme-image--dark {
 
 @media (min-width: 1280px) {
   .hero__inner { grid-template-columns: 1.3fr 1fr; }
+}
+
+.hero__direct a { color: var(--white); text-decoration: underline; text-underline-offset: 3px; }
+.hero__direct a:hover { color: var(--gray-200); }
+
+.audit-form__hint { font-size: var(--text-sm); color: var(--text-secondary); }
+
+.case-preview-card__pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  padding: 0;
+  list-style: none;
+}
+
+.case-preview-card__pills li {
+  padding: 3px 10px;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-pill);
+  font-size: var(--text-caption);
+  color: var(--text-secondary);
+}
+
+.pricing-row__price-note { display: block; font-size: var(--text-caption); font-weight: 400; color: var(--text-secondary); }
+
+/* ---------- короткий список шагов кейса на главной ---------- */
+
+.steps-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  max-width: 760px;
+  padding-left: 1.6em;
+  list-style: decimal;
+  font-size: var(--text-body);
+}
+
+.steps-list li::marker { color: var(--link); font-weight: 700; }
+.steps-list__item { padding-left: var(--space-1); }
+.steps-list__title { display: block; font-weight: 700; font-size: 18px; line-height: var(--leading-snug); }
+.steps-list__text { display: block; color: var(--text-secondary); }
+.walk-link { align-self: flex-start; color: var(--link); font-weight: 600; }
+
+/* Заглушка под iframe отзывов: карточка как у кейсов. */
+.reviews-placeholder {
+  width: 100%;
+  max-width: 760px;
+  min-height: 160px;
+  background: var(--bg-page);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+}
+
+/* Сравнение без вкладок: на телефоне и планшете карточки списком друг под другом, на компьютере четыре колонки. */
+.comparison-grid { display: grid; grid-template-columns: 1fr; gap: var(--space-4); }
+.comparison-panel { max-width: none; }
+
+@media (min-width: 1100px) {
+  .comparison-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-rows: repeat(8, auto);
+    column-gap: var(--space-4);
+    row-gap: var(--space-4);
+    align-items: stretch;
+  }
+  .comparison-panel {
+    display: grid;
+    grid-row: 1 / span 8;
+    grid-template-rows: subgrid;
+    padding: var(--space-5) var(--space-4);
+    gap: inherit;
+  }
+  .comparison-panel .comparison-row,
+  .comparison-panel .comparison-footer { flex-direction: column; gap: 3px; }
+  .comparison-panel .comparison-row__label { flex: none; }
+}
+
+/* Шапка на телефоне: высота 48 px, иконки с областью касания 44x44. */
+@media (max-width: 860px) {
+  .site-header { padding-block: 0; }
+  .site-header__inner { min-height: 47px; }
+  .site-header__socials { gap: 0; }
+}
+
+@media (max-width: 420px) {
+  .site-header__divider,
+  .site-header__role { display: none; }
+}
+
+/* Подвал: ссылки на Telegram и Instagram с областью касания не меньше 44 px по высоте. */
+.site-footer .social-link,
+.site-footer__phone { min-height: 44px; }
+
+/* ---------- нижняя панель с кнопкой, только телефон ---------- */
+
+.sticky-cta { display: none; }
+
+@media (max-width: 768px) {
+  .sticky-cta {
+    display: flex;
+    align-items: center;
+    position: fixed;
+    inset: auto 0 0 0;
+    z-index: 30;
+    height: calc(56px + env(safe-area-inset-bottom, 0px));
+    padding: 0 var(--gutter) env(safe-area-inset-bottom, 0px);
+    background: var(--bg-page);
+    border-top: 1px solid var(--border-default);
+    transform: translateY(100%);
+    transition: transform 200ms ease;
+  }
+  .sticky-cta.is-visible { transform: translateY(0); }
+  .sticky-cta .btn { min-height: 44px; padding-block: 10px; }
 }

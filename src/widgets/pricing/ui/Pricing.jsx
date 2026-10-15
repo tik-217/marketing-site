@@ -82,7 +82,10 @@ export function Pricing() {
                     <span className="pricing-row__title">{module.title}</span>
                     {module.duration && <span className="pricing-row__duration">{module.duration}</span>}
                   </span>
-                  <span className="pricing-row__price">{module.price}</span>
+                  <span className="pricing-row__price">
+                    {module.price}
+                    {module.priceNote && <span className="pricing-row__price-note">{module.priceNote}</span>}
+                  </span>
                   <span className="pricing-row__toggle" aria-hidden="true">
                     {isOpen ? '−' : '+'}
                   </span>
