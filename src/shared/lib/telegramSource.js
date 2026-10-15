@@ -1,7 +1,6 @@
-// Сопоставление id пакетов и модулей на сайте (src/entities/pricing) с кодами,
-// которые понимает бот (см. PACKAGE_NAMES и MODULE_NAMES в telegram-bot/texts.py).
-// Часть id на сайте называется иначе, чем в боте: пакет "launch" на сайте это
-// "zero" в боте, модуль "ads" это "direct", модуль "telegram" это "tg".
+// Названия блоков для кнопок: source вида "s-hero" превращается в data-cta="hero".
+// Коды пакетов и модулей сохранены прежними ("launch" это "zero", "ads" это "direct", "telegram" это "tg"),
+// чтобы названия блоков в Метрике совпадали со старыми метками start.
 const packageCodes = {
   direct: 'direct',
   traffic: 'traffic',
@@ -25,4 +24,12 @@ export function packageSource(packageId) {
 export function moduleSource(moduleId) {
   const code = moduleCodes[moduleId]
   return code ? `s-pricing__m-${code}` : 's-pricing'
+}
+
+/** "s-hero" -> "hero", "s-pricing__p-direct" -> "pricing-direct", "s-pricing__m-direct" -> "pricing-module-direct". */
+export function ctaName(source) {
+  return String(source)
+    .replace(/^s-/, '')
+    .replace('__p-', '-')
+    .replace('__m-', '-module-')
 }

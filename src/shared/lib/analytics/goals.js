@@ -1,12 +1,14 @@
 // Цели Яндекс Метрики (счетчик 112916010), которые не зависят от аудита.
-// bot_click: любая ссылка на tigran_audit_bot. phone_click: любая ссылка tel:.
-// sticky_click: кнопка нижней панели. form_submit: успешная отправка формы с контактом.
+// tg_click: клик по любой ссылке с data-cta, параметр block это значение data-cta.
+// phone_click: клик по любой ссылке tel:. form_submit: успешная отправка формы с контактом.
 // Счетчик подключен в index.html. Если его нет, события просто не уходят.
 export const METRIKA_COUNTER_ID = 112916010
 
-export function reachGoal(name) {
+export function reachGoal(name, params) {
   try {
-    if (typeof globalThis.ym === 'function') globalThis.ym(METRIKA_COUNTER_ID, 'reachGoal', name)
+    if (typeof globalThis.ym !== 'function') return
+    if (params) globalThis.ym(METRIKA_COUNTER_ID, 'reachGoal', name, params)
+    else globalThis.ym(METRIKA_COUNTER_ID, 'reachGoal', name)
   } catch {
     // аналитика не должна ломать страницу
   }
@@ -16,19 +18,18 @@ export function reachGoal(name) {
 export function goalsForLink(link) {
   if (!link) return []
   const goals = []
+  const cta = link.getAttribute('data-cta')
+  if (cta) goals.push({ name: 'tg_click', params: { block: cta } })
   const href = link.getAttribute('href') || ''
-  if (href.includes('tigran_audit_bot')) goals.push('bot_click')
-  if (href.startsWith('tel:')) goals.push('phone_click')
-  const own = link.getAttribute('data-goal')
-  if (own) goals.push(own)
+  if (href.startsWith('tel:')) goals.push({ name: 'phone_click' })
   return goals
 }
 
-/** Один обработчик на весь документ: ничего не нужно вешать на каждую ссылку. */
+/** Один обработчик на весь документ: ничего не нужно вешать на каждую кнопку. */
 export function initLinkGoals(doc = document) {
   const onClick = (event) => {
     const link = event.target instanceof Element ? event.target.closest('a[href]') : null
-    for (const goal of goalsForLink(link)) reachGoal(goal)
+    for (const goal of goalsForLink(link)) reachGoal(goal.name, goal.params)
   }
   doc.addEventListener('click', onClick)
   return () => doc.removeEventListener('click', onClick)

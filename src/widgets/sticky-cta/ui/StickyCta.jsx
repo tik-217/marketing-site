@@ -40,7 +40,7 @@ export function StickyCta() {
 
   return (
     <div className={visible ? 'sticky-cta is-visible' : 'sticky-cta'} aria-hidden={!visible}>
-      <CtaButton source="s-sticky" data-goal="sticky_click" block tabIndex={visible ? 0 : -1} />
+      <CtaButton source="s-sticky" block tabIndex={visible ? 0 : -1} />
     </div>
   )
 }

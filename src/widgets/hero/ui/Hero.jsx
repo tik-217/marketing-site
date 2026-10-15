@@ -18,10 +18,9 @@ export function Hero() {
           </p>
           <div className="hero__cta">
             <CtaButton source="s-hero" />
-            <p className="hero__help">Бесплатно, пять вопросов в Telegram-боте</p>
+            <p className="hero__help">Бесплатно. Откроется чат со мной в Telegram, отвечу в течение 30 минут</p>
             <p className="hero__help hero__direct">
-              Или напишите напрямую: <a href="tel:+79180220901">{contacts.phone}</a> ·{' '}
-              <a href={contacts.telegramUrl} target="_blank" rel="noopener noreferrer">Telegram</a>
+              Или позвоните: <a href="tel:+79180220901">{contacts.phone}</a>
             </p>
           </div>
         </div>
