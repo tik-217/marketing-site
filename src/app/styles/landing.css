@@ -2573,3 +2573,10 @@ img.theme-image--dark {
   .sticky-cta.is-visible { transform: translateY(0); }
   .sticky-cta .btn { min-height: 44px; padding-block: 10px; }
 }
+
+/* Строка с телефоном и Telegram под кнопкой должна оставаться в одну строку и на узком телефоне. */
+.hero__direct { white-space: nowrap; }
+
+@media (max-width: 420px) {
+  .hero__direct { font-size: 13px; }
+}
