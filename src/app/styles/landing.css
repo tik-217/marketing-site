@@ -188,6 +188,7 @@
 .hero__help { font-size: 15px; color: var(--gray-300); max-width: 46ch; }
 
 .hero picture { display: contents; } /* картинка остается прямым элементом сетки первого экрана */
+.hero picture source { display: none; } /* общий сброс делает source блочным, и он занимал ячейку сетки */
 
 .hero__portrait {
   display: block;
