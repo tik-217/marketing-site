@@ -22,28 +22,31 @@ after(async () => {
 
 const render = (config) => renderToStaticMarkup(createElement(Reviews, { config }))
 
-test('настройки сайта: номер строкой, переключатель логическим значением, показ следует из них', () => {
-  assert.equal(typeof reviewsConfig.orgId, 'string')
+test('настройки сайта: ссылка строкой, переключатель логическим значением, показ следует из них', () => {
+  assert.equal(typeof reviewsConfig.profileUrl, 'string')
   assert.equal(typeof reviewsConfig.enabled, 'boolean')
   assert.equal(render(reviewsConfig) !== '', isReviewsVisible(reviewsConfig))
 })
 
-test('номер есть, переключатель выключен: блока нет совсем', () => {
-  assert.equal(isReviewsVisible({ orgId: '123', enabled: false }), false)
-  assert.equal(render({ orgId: '123', enabled: false }), '')
+const url = 'https://profi.ru/profile/Test/#reviews-tab'
+
+test('ссылка есть, переключатель выключен: блока нет совсем', () => {
+  assert.equal(isReviewsVisible({ profileUrl: url, enabled: false }), false)
+  assert.equal(render({ profileUrl: url, enabled: false }), '')
 })
 
-test('переключатель включен, номера нет: блока нет совсем', () => {
-  assert.equal(isReviewsVisible({ orgId: '', enabled: true }), false)
-  assert.equal(isReviewsVisible({ orgId: '   ', enabled: true }), false)
-  assert.equal(render({ orgId: '', enabled: true }), '')
+test('переключатель включен, ссылки нет: блока нет совсем', () => {
+  assert.equal(isReviewsVisible({ profileUrl: '', enabled: true }), false)
+  assert.equal(isReviewsVisible({ profileUrl: '   ', enabled: true }), false)
+  assert.equal(render({ profileUrl: '', enabled: true }), '')
 })
 
-test('номер и переключатель: заголовок, два скриншота отзывов и ссылка в новую вкладку', () => {
-  const html = render({ orgId: '123', enabled: true })
-  assert.match(html, /Эти отзывы клиенты оставили на Яндекс Картах/)
+test('ссылка и переключатель: заголовок, два скриншота и ссылка на Профи.ру в новой вкладке', () => {
+  const html = render({ profileUrl: url, enabled: true })
+  assert.match(html, /Эти отзывы клиенты оставили на Профи\.ру/)
+  assert.equal(html.includes('Яндекс Карт'), false)
   assert.equal(html.includes('<iframe'), false)
   assert.equal((html.match(/<img/g) || []).length, 2)
-  assert.match(html, /Все отзывы на Яндекс Картах/)
-  assert.match(html, /href="https:\/\/yandex\.ru\/maps\/org\/123\/reviews\/"[^>]*target="_blank"[^>]*rel="noopener noreferrer"/)
+  assert.match(html, /Все отзывы на Профи\.ру/)
+  assert.match(html, /href="https:\/\/profi\.ru\/profile\/Test\/#reviews-tab"[^>]*target="_blank"[^>]*rel="noopener noreferrer"/)
 })

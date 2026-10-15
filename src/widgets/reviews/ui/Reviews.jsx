@@ -3,30 +3,28 @@ import { Section } from '../../../shared/ui'
 import reviewArtem from '../../../shared/assets/images/review-artem.avif'
 import reviewAndrey from '../../../shared/assets/images/review-andrey.avif'
 
-// Скриншоты настоящих отзывов с Яндекс Карт. Размеры файлов 1484x342 и 1484x384.
+// Скриншоты настоящих отзывов с Профи.ру. Размеры файлов 1484x342 и 1484x384.
 const reviews = [
   {
     src: reviewArtem,
     width: 1484,
     height: 342,
-    alt: 'Отзыв Артема на Яндекс Картах, 5 звезд, 9 октября 2026. Настройка Яндекс.Директ. Все прошло отлично! Будем сотрудничать!',
+    alt: 'Отзыв Артема на Профи.ру, 5 звезд, 9 октября 2026. Настройка Яндекс.Директ. Все прошло отлично! Будем сотрудничать!',
   },
   {
     src: reviewAndrey,
     width: 1484,
     height: 384,
-    alt: 'Отзыв Андрея Барс Консалт на Яндекс Картах, 12 октября 2026. Настройка Яндекс.Директ. Начали работать с Тиграном по 2 проектам компании, специалист внимательный, вежливый, владеет инструментами Я.Директ и нейросетями на профессиональном уровне, есть опыт в разработке, широкий кругозор.',
+    alt: 'Отзыв Андрея Барс Консалт на Профи.ру, 12 октября 2026. Настройка Яндекс.Директ. Начали работать с Тиграном по 2 проектам компании, специалист внимательный, вежливый, владеет инструментами Я.Директ и нейросетями на профессиональном уровне, есть опыт в разработке, широкий кругозор.',
   },
 ]
 
 export function Reviews({ config = reviewsConfig }) {
   if (!isReviewsVisible(config)) return null
 
-  const orgId = encodeURIComponent(String(config.orgId).trim())
-
   return (
     <Section containerClassName="stack">
-      <h2 className="section-heading">Эти отзывы клиенты оставили на Яндекс Картах</h2>
+      <h2 className="section-heading">Эти отзывы клиенты оставили на Профи.ру</h2>
       <div className="reviews-list">
         {reviews.map((item) => (
           <img
@@ -43,11 +41,11 @@ export function Reviews({ config = reviewsConfig }) {
       </div>
       <a
         className="reviews-link"
-        href={`https://yandex.ru/maps/org/${orgId}/reviews/`}
+        href={String(config.profileUrl).trim()}
         target="_blank"
         rel="noopener noreferrer"
       >
-        Все отзывы на Яндекс Картах <span aria-hidden="true">→</span>
+        Все отзывы на Профи.ру <span aria-hidden="true">→</span>
       </a>
     </Section>
   )
