@@ -120,7 +120,7 @@
 
 @media (min-width: 861px) {
   .site-header {
-    padding-block: var(--space-5);
+    padding-block: var(--space-3); /* шапка липкая, иконки 44 px: так она остается невысокой */
   }
   .site-header__name,
   .site-header__divider,
@@ -2370,7 +2370,7 @@ img.theme-image--dark {
 
 .audit-form__hint { font-size: var(--text-sm); color: var(--text-secondary); }
 
-.pricing-row__price-note { display: block; font-size: var(--text-caption); font-weight: 400; color: var(--text-secondary); }
+.pricing-row__price-note { display: block; font-size: var(--text-caption); font-weight: 400; color: var(--text-secondary); white-space: normal; }
 
 /* ---------- короткий список шагов кейса на главной ---------- */
 
@@ -2437,4 +2437,18 @@ img.theme-image--dark {
   min-height: 52px;
   padding: 10px var(--space-3);
   line-height: 1.25;
+}
+
+/* Отдельные ссылки на телефоне: область касания не меньше 44 px по высоте. */
+@media (max-width: 768px) {
+  .site-header__brand,
+  .site-footer__brand { min-height: 44px; }
+  .walk-link,
+  .reviews-link,
+  .situation-card__link,
+  .site-footer__nav a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
 }
