@@ -9,7 +9,6 @@ import { Reviews } from '../../../widgets/reviews'
 import { CaseWalkthrough } from '../../../widgets/case-steps'
 import { Situations } from '../../../widgets/situations'
 import { Pricing } from '../../../widgets/pricing'
-import { Comparison } from '../../../widgets/comparison'
 import { About } from '../../../widgets/about'
 import { Terms } from '../../../widgets/terms'
 import { Faq } from '../../../widgets/faq'
@@ -44,7 +43,6 @@ export function HomePage() {
           <Reviews />
           <Situations />
           <Pricing />
-          <Comparison />
           <About />
           <Terms />
           <Faq />

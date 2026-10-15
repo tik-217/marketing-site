@@ -293,79 +293,11 @@
   .tab { flex: none; padding: 13px 30px; font-size: var(--text-body); }
 }
 
-/* ---------- comparison ---------- */
-
-.comparison-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-}
-
-.comparison-panel {
-  display: flex;
-  border: 1px solid var(--border-subtle);
-  background: var(--bg-surface);
-  border-radius: var(--radius-md);
-  padding: var(--space-5);
-  flex-direction: column;
-  gap: var(--space-4);
-}
-
-.comparison-panel--inverse {
-  border: 2px solid var(--accent);
-  background: var(--bg-inverse);
-  color: var(--gray-200);
-}
-
-.comparison-panel__title {
-  font-size: var(--text-card-title);
-}
-
-.comparison-panel--inverse .comparison-panel__title { color: var(--white); }
-
-.comparison-row {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-}
-
-.comparison-row__label {
-  font-size: var(--text-caption);
-  letter-spacing: var(--tracking-wide);
-  text-transform: uppercase;
-  color: var(--text-secondary);
-}
-
-.comparison-panel--inverse .comparison-row__label { color: var(--gray-300); }
-
-.comparison-row__value {
-  font-size: var(--text-sm);
-}
-
-.comparison-panel--inverse .comparison-row__value { font-weight: 600; }
-
-.comparison-footer {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  padding-top: var(--space-4);
-  border-top: 1px solid var(--border-subtle);
-}
-
-.comparison-footer .comparison-row__label {
-  letter-spacing: var(--tracking-normal);
-}
-
-.comparison-cta,
-.pricing-cta,
-.boundaries-cta {
-  align-self: flex-start;
-}
 
 .pricing-cta {
+  align-self: flex-start;
   margin-top: var(--space-5);
 }
-
-.comparison-panel--inverse .comparison-footer { border-top-color: var(--gray-700); }
 
 /* ---------- section lead ---------- */
 
@@ -1181,7 +1113,6 @@
   color: var(--white);
   max-width: 26ch;
 }
-
 
 .audit__lead {
   color: var(--gray-200);
@@ -2194,7 +2125,6 @@ img.theme-image--dark {
 
 /* ---------- кейс по шагам ---------- */
 
-
 .walk-screen { display: flex; flex-direction: column; gap: var(--space-4); }
 .walk-screen__label { font-size: var(--text-card-title); color: var(--text-primary); }
 
@@ -2211,7 +2141,6 @@ img.theme-image--dark {
 }
 
 .walk-steps--large { grid-template-columns: 1fr; }
-
 
 @media (max-width: 860px) {
   .walk-steps:not(.walk-steps--large) {
@@ -2251,7 +2180,6 @@ img.theme-image--dark {
 
 .walk-steps--large .walk-step__image img { aspect-ratio: auto; object-fit: contain; }
 
-
 .walk-step__title { display: flex; gap: var(--space-2); align-items: baseline; font-weight: 700; font-size: 18px; line-height: var(--leading-snug); }
 .walk-step__num { color: var(--link); font-size: var(--text-sm); }
 .walk-step__text { color: var(--text-secondary); font-size: var(--text-body); }
@@ -2279,16 +2207,6 @@ img.theme-image--dark {
 .case-detail-header__first-lead { font-size: var(--text-lg); color: var(--text-secondary); }
 
 .case-walk { display: flex; flex-direction: column; gap: var(--space-5); }
-
-@media (min-width: 861px) {
-  .comparison-panel .comparison-row,
-  .comparison-panel .comparison-footer {
-    flex-direction: row;
-    gap: var(--space-5);
-  }
-  .comparison-panel .comparison-row__label { flex: 0 0 min(34%, 320px); }
-  .comparison-panel .comparison-row__value { flex: 1; }
-}
 
 /* Фрагмент скриншота: рамка 16:10, кадр привязан к левому верхнему углу фрагмента (--crop-x, --crop-y, --crop-w). */
 .crop {
@@ -2348,20 +2266,6 @@ img.theme-image--dark {
 }
 
 /* Узкий телефон: четыре вкладки сравнения должны помещаться в одну строку без обрезки. */
-@media (max-width: 480px) {
-  .comparison-tabs .tab {
-    flex: 1 1 0;
-    min-width: 0;
-    padding: 12px 4px;
-    font-size: 13px;
-    white-space: nowrap;
-    text-align: center;
-  }
-}
-
-@media (max-width: 340px) {
-  .comparison-tabs .tab { font-size: 12px; padding-inline: 2px; }
-}
 
 /* ---------- отзывы с Профи.ру: слайдер скриншотов настоящих отзывов ---------- */
 
@@ -2487,28 +2391,6 @@ img.theme-image--dark {
 .walk-link { align-self: flex-start; color: var(--link); font-weight: 600; }
 
 /* Сравнение без вкладок: на телефоне и планшете карточки списком друг под другом, на компьютере четыре колонки. */
-.comparison-grid { display: grid; grid-template-columns: 1fr; gap: var(--space-4); }
-.comparison-panel { max-width: none; }
-
-@media (min-width: 1100px) {
-  .comparison-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    grid-template-rows: repeat(8, auto);
-    column-gap: var(--space-4);
-    row-gap: var(--space-4);
-    align-items: stretch;
-  }
-  .comparison-panel {
-    display: grid;
-    grid-row: 1 / span 8;
-    grid-template-rows: subgrid;
-    padding: var(--space-5) var(--space-4);
-    gap: inherit;
-  }
-  .comparison-panel .comparison-row,
-  .comparison-panel .comparison-footer { flex-direction: column; gap: 3px; }
-  .comparison-panel .comparison-row__label { flex: none; }
-}
 
 /* Шапка на телефоне: высота 48 px, иконки с областью касания 44x44. */
 @media (max-width: 860px) {
