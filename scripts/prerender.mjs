@@ -58,16 +58,21 @@ const template = readFileSync(resolve(dist, 'index.html'), 'utf8')
 // их собирает JavaScript в браузере, как и раньше.
 copyFileSync(resolve(dist, 'index.html'), resolve(dist, 'app-shell.html'))
 
-const { render } = await import(pathToFileURL(resolve(root, 'dist-ssr/entry-server.js')).href)
+const { render, professionalService } = await import(pathToFileURL(resolve(root, 'dist-ssr/entry-server.js')).href)
 
 const failed = []
 for (const page of pages) {
   try {
-    const { body, head } = splitHead(render(page.url))
+    const split = splitHead(render(page.url))
+    const { body } = split
+    // JSON-LD только у главной и без data-prerender: браузер его не трогает.
+    const head = page.url === '/'
+      ? `${split.head}\n    <script type="application/ld+json">${JSON.stringify(professionalService)}</script>`
+      : split.head
     if (!/<h1[\s>]/.test(body)) throw new Error('в результате нет заголовка h1')
 
     const output = template
-      .replace('<div id="root"></div>', () => `<div id="root">${body}</div>`)
+      .replace('<div id="root"></div>', () => `<div id="root" data-prerendered>${body}</div>`)
       .replace('</head>', () => `${head}\n  </head>`)
 
     const target = resolve(dist, page.file)

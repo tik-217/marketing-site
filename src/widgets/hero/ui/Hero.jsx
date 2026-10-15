@@ -2,13 +2,15 @@ import { Helmet } from 'react-helmet-async'
 import { contacts } from '../../../shared/config/contacts'
 import { CtaButton } from '../../../shared/ui'
 import portrait from '../../../shared/assets/images/tigran-portrait.avif'
+import portraitSmall from '../../../shared/assets/images/tigran-portrait-480.avif'
 
 /** Главный экран: текст слева, крупный черно-белый портрет справа, фон однотонный. */
 export function Hero() {
   return (
     <section className="hero">
       <Helmet>
-        <link rel="preload" as="image" type="image/avif" href={portrait} />
+        <link rel="preload" as="image" type="image/avif" href={portraitSmall} media="(max-width: 768px)" />
+        <link rel="preload" as="image" type="image/avif" href={portrait} media="(min-width: 769px)" />
       </Helmet>
       <div className="container hero__inner">
         <div className="hero__text">
@@ -24,7 +26,18 @@ export function Hero() {
             </p>
           </div>
         </div>
-        <img src={portrait} alt="Габулян Тигран" className="hero__portrait" fetchPriority="high" decoding="async" />
+        <picture>
+          <source media="(max-width: 768px)" srcSet={portraitSmall} type="image/avif" />
+          <img
+            src={portrait}
+            alt="Габулян Тигран"
+            className="hero__portrait"
+            width="606"
+            height="808"
+            fetchPriority="high"
+            decoding="async"
+          />
+        </picture>
       </div>
     </section>
   )

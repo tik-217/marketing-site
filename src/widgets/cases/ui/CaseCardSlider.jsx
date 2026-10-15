@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { CropPicture } from '../../../shared/ui'
 
 function Chevron({ direction }) {
@@ -17,8 +17,25 @@ export function CaseCardSlider({ slides }) {
   const trackRef = useRef(null)
   const drag = useRef(null)
   const [index, setIndex] = useState(0)
+  // Первую картинку грузим сразу, остальные только когда слайдер попал на экран: иначе 9 картинок
+  // тянут канал вместе с первым экраном. До этого у них нет src (и в готовом HTML тоже).
+  const [showRest, setShowRest] = useState(false)
+  const rootRef = useRef(null)
   const [dragging, setDragging] = useState(false)
   const hasControls = slides.length > 1
+
+  useEffect(() => {
+    const element = rootRef.current
+    if (!element || showRest) return undefined
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) setShowRest(true)
+      },
+      { rootMargin: '100px 0px' },
+    )
+    observer.observe(element)
+    return () => observer.disconnect()
+  }, [showRest])
 
   function goToIndex(nextIndex) {
     const track = trackRef.current
@@ -82,7 +99,7 @@ export function CaseCardSlider({ slides }) {
   }
 
   return (
-    <div className="case-preview-card__slider">
+    <div className="case-preview-card__slider" ref={rootRef}>
       <div
         className={dragging ? 'case-preview-card__slider-track is-dragging' : 'case-preview-card__slider-track'}
         ref={trackRef}
@@ -92,17 +109,17 @@ export function CaseCardSlider({ slides }) {
         onPointerUp={handlePointerEnd}
         onPointerCancel={handlePointerEnd}
       >
-        {slides.map((slide) => (
+        {slides.map((slide, slideIndex) => (
           <div className="case-preview-card__slide" key={slide.alt}>
             {slide.crop || slide.mobileCrop ? (
-              <CropPicture src={slide.light} srcDark={slide.dark} alt={slide.alt} crop={slide.crop} mobileCrop={slide.mobileCrop} className="case-preview-card__crop" draggable={false} />
+              <CropPicture src={slideIndex === 0 || showRest ? slide.light : undefined} srcDark={slideIndex === 0 || showRest ? slide.dark : undefined} alt={slide.alt} crop={slide.crop} mobileCrop={slide.mobileCrop} className="case-preview-card__crop" draggable={false} fetchPriority={slideIndex > 0 ? 'low' : undefined} />
             ) : slide.dark ? (
               <>
-                <img src={slide.light} alt={slide.alt} loading="lazy" decoding="async" draggable={false} className="case-preview-card__cover theme-image--light" />
-                <img src={slide.dark} alt={slide.alt} loading="lazy" decoding="async" draggable={false} className="case-preview-card__cover theme-image--dark" />
+                <img src={slideIndex === 0 || showRest ? slide.light : undefined} alt={slide.alt} loading="lazy" decoding="async" fetchPriority={slideIndex > 0 ? 'low' : undefined} draggable={false} className="case-preview-card__cover theme-image--light" />
+                <img src={slideIndex === 0 || showRest ? slide.dark : undefined} alt={slide.alt} loading="lazy" decoding="async" fetchPriority={slideIndex > 0 ? 'low' : undefined} draggable={false} className="case-preview-card__cover theme-image--dark" />
               </>
             ) : (
-              <img src={slide.light} alt={slide.alt} loading="lazy" decoding="async" draggable={false} className="case-preview-card__cover" />
+              <img src={slideIndex === 0 || showRest ? slide.light : undefined} alt={slide.alt} loading="lazy" decoding="async" fetchPriority={slideIndex > 0 ? 'low' : undefined} draggable={false} className="case-preview-card__cover" />
             )}
           </div>
         ))}

@@ -3,6 +3,8 @@ import { HelmetProvider } from 'react-helmet-async'
 import { StaticRouter } from 'react-router-dom'
 import { AppRoutes } from './app/AppRoutes'
 
+export { professionalService } from './shared/config/jsonld'
+
 /**
  * Рендер страницы в строку HTML для пререндера при сборке (scripts/prerender.mjs).
  * В React 19 теги <title>, <meta>, <link> и <script> из Helmet попадают прямо в эту строку,

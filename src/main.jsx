@@ -1,5 +1,5 @@
 import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
+import { createRoot, hydrateRoot } from 'react-dom/client'
 import { App } from './app/App'
 import { initLinkGoals } from './shared/lib/analytics/goals'
 import { initTheme } from './shared/lib/theme/theme'
@@ -10,8 +10,15 @@ document.head.querySelectorAll('[data-prerender]').forEach((element) => element.
 initTheme()
 initLinkGoals()
 
-createRoot(document.getElementById('root')).render(
+const root = document.getElementById('root')
+const app = (
   <StrictMode>
     <App />
-  </StrictMode>,
+  </StrictMode>
 )
+
+// Страница отрендерена при сборке: подключаемся к готовой разметке, чтобы не перерисовывать ее заново
+// (иначе заголовок и картинка первого экрана появляются второй раз только после загрузки JavaScript).
+// Остальные адреса (отчеты, политика, 404) приходят с пустой оболочкой, их рисуем как раньше.
+if (root.hasAttribute('data-prerendered')) hydrateRoot(root, app)
+else createRoot(root).render(app)

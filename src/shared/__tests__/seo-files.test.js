@@ -23,7 +23,7 @@ test('meta description сайта', () => {
 })
 
 test('JSON-LD ProfessionalService на главной', () => {
-  const home = read('src/pages/home/ui/HomePage.jsx')
+  const home = read('src/shared/config/jsonld.js')
   assert.ok(home.includes("'@type': 'ProfessionalService'"))
   assert.ok(home.includes("name: 'Габулян Тигран'"))
   assert.ok(home.includes("telephone: '+79180220901'"))
