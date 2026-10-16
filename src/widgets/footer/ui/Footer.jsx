@@ -1,8 +1,13 @@
 import { Link, useLocation } from 'react-router-dom'
 import { contacts } from '../../../shared/config/contacts'
+import { ctaName } from '../../../shared/lib/telegramSource'
 import { CtaButton, InstagramIcon, TelegramIcon } from '../../../shared/ui'
 
-export function Footer() {
+/**
+ * chat: для страницы /bankrotstvo свой адрес чата, подпись и название блока для кнопки и ссылки Telegram.
+ * hideAuditLink убирает ссылку на /audit из подвала.
+ */
+export function Footer({ chat, hideAuditLink = false }) {
   const { pathname } = useLocation()
 
   return (
@@ -14,19 +19,30 @@ export function Footer() {
             <span className="site-header__divider">|</span>
             <span className="site-header__role">Маркетолог</span>
           </Link>
-          <CtaButton source={pathname.startsWith('/audit') ? 's-audit-footer' : 's-footer'} className="site-footer__cta" />
+          <CtaButton
+            source={chat?.source ?? (pathname.startsWith('/audit') ? 's-audit-footer' : 's-footer')}
+            href={chat?.href}
+            label={chat?.label}
+            className="site-footer__cta"
+          />
         </div>
 
         <div className="site-footer__row">
           <nav className="site-footer__nav">
-            {pathname !== '/audit' && <Link to="/audit">Аудит сайта</Link>}
+            {pathname !== '/audit' && !hideAuditLink && <Link to="/audit">Аудит сайта</Link>}
             <Link to="/privacy">Политика данных</Link>
           </nav>
           <div className="site-footer__contacts">
             <a href="tel:+79180220901" className="site-footer__phone">
               {contacts.phone}
             </a>
-            <a href={contacts.telegramUrl} target="_blank" rel="noopener noreferrer" className="social-link">
+            <a
+              href={chat?.href ?? contacts.telegramUrl}
+              data-cta={chat ? ctaName(chat.source) : undefined}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="social-link"
+            >
               <TelegramIcon />
               <span>Telegram</span>
             </a>

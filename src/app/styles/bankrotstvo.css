@@ -12,8 +12,6 @@
   border: 0;
 }
 
-.hero__proof { max-width: 52ch; color: var(--gray-300); font-size: 16px; line-height: 1.5; }
-
 .audit__cta { align-self: flex-start; }
 
 .lead-conclusion { max-width: 62ch; font-weight: 600; font-size: var(--text-body); }
@@ -63,3 +61,12 @@
     margin-top: var(--space-2);
   }
 }
+
+/* Заголовки этой страницы шире, чем на главной, и переносятся ровно: "Не гарантирую цену лида" не рвется посередине. */
+.bankrotstvo-page .section-heading {
+  max-width: 36ch;
+  text-wrap: balance;
+}
+
+/* Подблок "Кто делает" рядом с роликом внутри блока шагов. */
+.about--inline { margin-top: var(--space-4); }

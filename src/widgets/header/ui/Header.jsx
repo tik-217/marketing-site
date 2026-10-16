@@ -3,7 +3,8 @@ import { Link, useLocation } from 'react-router-dom'
 import { contacts } from '../../../shared/config/contacts'
 import { InstagramIcon, PhoneIcon, TelegramIcon } from '../../../shared/ui'
 
-export function Header() {
+/** telegram: свой адрес и название блока для иконки Telegram (на странице /bankrotstvo), по умолчанию общий чат. */
+export function Header({ telegram }) {
   const headerRef = useRef(null)
   const heightRef = useRef(0)
   const { pathname } = useLocation()
@@ -40,7 +41,8 @@ export function Header() {
             <span>{contacts.phone}</span>
           </a>
           <a
-            href={contacts.telegramUrl}
+            href={telegram?.href ?? contacts.telegramUrl}
+            data-cta={telegram?.block}
             target="_blank"
             rel="noopener noreferrer"
             className="social-link social-link--icon"
