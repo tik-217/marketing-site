@@ -88,7 +88,7 @@
   stroke-width: 1.7;
 }
 
-.site-header__phone { width: auto; min-width: 44px; height: 44px; }
+.site-header__phone { width: auto; min-width: 44px; height: 44px; justify-content: center; /* иконка по центру области касания, иначе справа от нее пустое место */ }
 .site-header__phone span { display: none; }
 
 @media (min-width: 861px) {
