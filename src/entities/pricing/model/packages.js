@@ -1,6 +1,9 @@
 // Цена рекламы в месяц. Одно значение для модуля, пакетов и страницы /bankrotstvo.
 export const adsMonthly = '39 000 ₽'
 
+// Срок запуска рекламы при готовом анализе, рабочих дней.
+export const adsLaunchDays = 14
+
 export const packageModules = [
   { id: 'analysis', label: 'Анализ', price: '50 000 ₽' },
   { id: 'ads', label: 'Реклама', price: `${adsMonthly}/мес` },
@@ -18,7 +21,7 @@ export const packages = [
     modulesTotal: '89 000 ₽',
     price: '89 000 ₽',
     monthly: adsMonthly,
-    duration: 'около 28',
+    duration: 'около 20',
   },
   {
     id: 'traffic',
@@ -28,7 +31,7 @@ export const packages = [
     modulesTotal: '159 000 ₽',
     price: '159 000 ₽',
     monthly: adsMonthly,
-    duration: 'около 42',
+    duration: 'около 35',
   },
   {
     id: 'system',

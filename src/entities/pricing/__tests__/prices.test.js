@@ -2,7 +2,7 @@
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import { test } from 'node:test'
-import { adsMonthly, packageModules, packages } from '../model/packages.js'
+import { adsLaunchDays, adsMonthly, packageModules, packages } from '../model/packages.js'
 
 const read = (path) => readFileSync(new URL(`../../../../${path}`, import.meta.url), 'utf8')
 
@@ -47,4 +47,11 @@ test('старых цен и слова про скидку нет в данны
     }
     assert.equal(/скидк/i.test(source), false, `${file}: скидка`)
   }
+})
+
+test('сроки пакетов: Директ 20, Трафик 35, Система и Запуск с нуля не менялись, реклама 14', () => {
+  const days = Object.fromEntries(packages.map((pkg) => [pkg.id, pkg.duration]))
+  assert.deepEqual(days, { direct: 'около 20', traffic: 'около 35', system: 'около 42', launch: 'около 55' })
+  assert.equal(adsLaunchDays, 14)
+  assert.ok(read('src/entities/pricing/model/modules.js').includes('Срок запуска ${adsLaunchDays} рабочих дней'))
 })

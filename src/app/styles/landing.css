@@ -1483,6 +1483,9 @@
 .site-footer__cta {
   padding: var(--space-3) var(--space-5);
   font-size: var(--text-caption);
+  max-width: 100%;
+  white-space: normal; /* длинная подпись (на /bankrotstvo) переносится, а не вылезает за экран */
+  line-height: 1.25;
 }
 
 /* ---------- legal page ---------- */

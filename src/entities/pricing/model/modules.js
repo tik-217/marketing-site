@@ -1,4 +1,4 @@
-import { adsMonthly } from './packages'
+import { adsLaunchDays, adsMonthly } from './packages'
 
 export const modules = [
   {
@@ -171,7 +171,7 @@ export const modules = [
   {
     id: 'ads',
     title: '1. Реклама в Яндекс Директе',
-    duration: 'Срок запуска 14 рабочих дней с момента получения доступов и результатов анализа',
+    duration: `Срок запуска ${adsLaunchDays} рабочих дней с момента получения доступов и результатов анализа`,
     description:
       'Рекламный бюджет оплачивается отдельно, напрямую в кабинет Яндекса. Первый месяц уходит на подготовку и запуск, ведение в полном объеме идет со второго.',
     price: `${adsMonthly} в месяц`,

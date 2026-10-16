@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async'
 import { cases } from '../../../entities/case'
-import { adsMonthly, packages } from '../../../entities/pricing'
+import { adsLaunchDays, adsMonthly, packages } from '../../../entities/pricing'
 import { contacts } from '../../../shared/config/contacts'
 import { Seo } from '../../../shared/lib/seo'
 import { ctaName } from '../../../shared/lib/telegramSource'
@@ -109,9 +109,9 @@ function Hero() {
       </Helmet>
       <div className="container hero__inner">
         <div className="hero__text">
-          <h1 className="hero__headline">Свои заявки на банкротство из Яндекса вместо покупных лидов</h1>
+          <h1 className="hero__headline">Помогаю юристам по банкротству получать заявки из Яндекса без зависимости от лидогенераторов</h1>
           <p className="hero__lead">
-            Настраиваю рекламу юристам по банкротству физлиц. Кабинет и сайт регистрируются на вас, заявка приходит только вам. В легализации коммерческих объектов этим методом одна сделка окупила маркетинг минимум в 11 раз за три месяца.
+            Запуск за 20 рабочих дней, кабинет на вашей фирме. В легализации коммерческих объектов одна сделка окупила маркетинг минимум в 11 раз.
           </p>
           <div className="hero__cta">
             <CtaButton {...cta('s-bankrotstvo-hero')} />
@@ -293,7 +293,7 @@ const tariffs = [
     price: adsMonthly,
     note: 'в месяц',
     items: ['Семантика, объявления и баннеры', 'Настройка и ведение кампаний', 'Ежедневные отчеты'],
-    term: 'Запуск примерно через 14 рабочих дней',
+    term: `Запуск примерно через ${adsLaunchDays} рабочих дней`,
   },
   {
     id: 'direkt',
@@ -448,7 +448,6 @@ export function BankrotstvoPage() {
               heading: 'Покажу, где ваша реклама по банкротству теряет заявки',
               lead: 'Пришлите ссылку на сайт или на кабинет Директа. Посмотрю их вместе с объявлениями конкурентов в вашем регионе, проверю на требования статьи 28.1 и вернусь со списком точек роста. Бесплатно и без обязательств.',
             }}
-            cta={cta('s-bankrotstvo-form')}
           />
         </main>
         <Footer

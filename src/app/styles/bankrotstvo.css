@@ -225,3 +225,19 @@
   .tariffs-foot__cta { align-items: stretch; min-width: 340px; }
   .tariffs-foot__cta .btn { width: auto; }
 }
+
+/* Первый экран /bankrotstvo: длинный заголовок. Текстовая колонка шире, портрет уже, заголовок мельче и ровный по строкам. */
+.bankrotstvo-page .hero__headline {
+  font-size: 26px;
+  text-wrap: balance;
+}
+
+@media (min-width: 769px) {
+  .bankrotstvo-page .hero__inner { grid-template-columns: 1.9fr 1fr; }
+  .bankrotstvo-page .hero__headline { font-size: clamp(28px, 2.9vw, 42px); max-width: none; }
+  .bankrotstvo-page .hero__portrait { max-width: 340px; justify-self: end; }
+}
+
+@media (max-width: 768px) {
+  .bankrotstvo-page .hero__headline { font-size: clamp(26px, 6.6vw, 40px); }
+}
