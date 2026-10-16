@@ -1,6 +1,9 @@
+// Цена рекламы в месяц. Одно значение для модуля, пакетов и страницы /bankrotstvo.
+export const adsMonthly = '39 000 ₽'
+
 export const packageModules = [
   { id: 'analysis', label: 'Анализ', price: '50 000 ₽' },
-  { id: 'ads', label: 'Реклама', price: '40 000 ₽/мес' },
+  { id: 'ads', label: 'Реклама', price: `${adsMonthly}/мес` },
   { id: 'site', label: 'Сайт', price: '70 000 ₽' },
   { id: 'telegram', label: 'ТГ-канал', price: '70 000 ₽/мес' },
   { id: 'identity', label: 'Айдентика', price: '40 000 ₽' },
@@ -12,9 +15,9 @@ export const packages = [
     title: 'Директ',
     situation: 'Сайт есть, заявок мало',
     includedModules: ['analysis', 'ads'],
-    modulesTotal: '90 000 ₽',
-    price: '82 800 ₽',
-    monthly: '40 000 ₽',
+    modulesTotal: '89 000 ₽',
+    price: '89 000 ₽',
+    monthly: adsMonthly,
     duration: 'около 28',
   },
   {
@@ -22,9 +25,9 @@ export const packages = [
     title: 'Трафик',
     situation: 'Сайта нет, нужны заявки',
     includedModules: ['analysis', 'ads', 'site'],
-    modulesTotal: '160 000 ₽',
-    price: '147 200 ₽',
-    monthly: '40 000 ₽',
+    modulesTotal: '159 000 ₽',
+    price: '159 000 ₽',
+    monthly: adsMonthly,
     duration: 'около 42',
   },
   {
@@ -32,9 +35,9 @@ export const packages = [
     title: 'Система',
     situation: 'Нужны заявки и место приземления клиентов',
     includedModules: ['analysis', 'ads', 'site', 'telegram'],
-    modulesTotal: '230 000 ₽',
-    price: '211 600 ₽',
-    monthly: '110 000 ₽',
+    modulesTotal: '229 000 ₽',
+    price: '229 000 ₽',
+    monthly: '109 000 ₽',
     duration: 'около 42',
   },
   {
@@ -42,9 +45,9 @@ export const packages = [
     title: 'Запуск с нуля',
     situation: 'Новый бизнес',
     includedModules: ['analysis', 'ads', 'site', 'telegram', 'identity'],
-    modulesTotal: '270 000 ₽',
-    price: '248 400 ₽',
-    monthly: '110 000 ₽',
+    modulesTotal: '269 000 ₽',
+    price: '269 000 ₽',
+    monthly: '109 000 ₽',
     duration: 'около 55',
   },
 ]

@@ -1,2 +1,2 @@
 export { modules } from './model/modules'
-export { packageModules, packages } from './model/packages'
+export { adsMonthly, packageModules, packages } from './model/packages'

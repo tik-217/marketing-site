@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async'
 import { cases } from '../../../entities/case'
-import { packages } from '../../../entities/pricing'
+import { adsMonthly, packages } from '../../../entities/pricing'
 import { contacts } from '../../../shared/config/contacts'
 import { Seo } from '../../../shared/lib/seo'
 import { ctaName } from '../../../shared/lib/telegramSource'
@@ -38,11 +38,18 @@ const situations = [
   },
 ]
 
-const compareRows = [
-  ['Чей сайт и рекламный кабинет', 'Поставщика', 'Ваш, зарегистрирован на вас'],
-  ['Кто еще получает заявку', 'Зависит от условий поставщика', 'Только вы'],
-  ['Что остается, если перестать платить', 'Ничего', 'Сайт, кампании и статистика за все месяцы'],
-  ['Видно ли, какая реклама приносит договоры', 'Нет, видно только заявки', 'Да, цели в Метрике и отчет по каждой кампании'],
+const buyLeads = [
+  'Сайт и кабинет у поставщика',
+  'Кому еще уйдет заявка, решает поставщик',
+  'Перестали платить, и не осталось ничего',
+  'Видно заявки, но не договоры',
+]
+
+const ownChannel = [
+  'Сайт и кабинет ваши',
+  'Заявка приходит только вам',
+  'Остаются сайт, кампании и статистика',
+  'Видно, какая реклама приносит договоры',
 ]
 
 const process = [
@@ -66,7 +73,7 @@ const refusals = [
   'Нужна гарантия цены лида или замена брака',
   'Нужна гарантия по количеству заявок или возврат денег при отсутствии результата',
   'Реклама должна обещать списание долгов',
-  'Бюджет на проект меньше 50 000 ₽. Если маркетинговый анализ у вас уже есть, порог 40 000 ₽',
+  'Бюджет на проект меньше 50 000 ₽. Если маркетинговый анализ у вас уже есть, порог 39 000 ₽',
   'Нужна реклама во ВКонтакте. Я работаю только с Яндекс Директом',
 ]
 
@@ -148,34 +155,58 @@ function Situations() {
   )
 }
 
+function MinusIcon() {
+  return (
+    <svg viewBox="0 0 28 28" width="28" height="28" aria-hidden="true" focusable="false">
+      <circle cx="14" cy="14" r="14" fill="currentColor" opacity="0.14" />
+      <path d="M9 14h10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+    </svg>
+  )
+}
+
+function CheckIcon({ size = 28 }) {
+  return (
+    <svg viewBox="0 0 28 28" width={size} height={size} aria-hidden="true" focusable="false">
+      <circle cx="14" cy="14" r="14" fill="var(--accent)" />
+      <path d="M8.5 14.5l3.8 3.8 7.2-7.6" fill="none" stroke="var(--text-on-accent)" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  )
+}
+
+/** Две карточки: покупные лиды (приглушенная) и свой канал (акцентная). Пункты стоят на одной высоте за счет общей сетки. */
 function Compare() {
   return (
     <Section containerClassName="stack">
       <h2 className="section-heading">Покупные лиды или свой канал</h2>
       <p className="section-lead">
-        Да, у лидогенератора цена заявки предсказуемее, она записана в договоре. Но вы платите за чужой трафик, и когда платежи заканчиваются, заканчивается все.
+        Да, цена лида записана в договоре. Но вы платите за чужой трафик, и с последним платежом заканчивается все.
       </p>
-      <table className="rt rt--compare">
-        <thead>
-          <tr>
-            <th scope="col"><span className="visually-hidden">Что сравниваем</span></th>
-            <th scope="col">Покупные лиды</th>
-            <th scope="col">Свой канал в Яндекс Директе</th>
-          </tr>
-        </thead>
-        <tbody>
-          {compareRows.map(([label, leads, own]) => (
-            <tr key={label}>
-              <th scope="row">{label}</th>
-              <td data-label="Покупные лиды">{leads}</td>
-              <td data-label="Свой канал в Яндекс Директе">{own}</td>
-            </tr>
+      <div className="vs">
+        <article className="vs-card vs-card--muted">
+          <header className="vs-card__head">
+            <h3 className="vs-card__title">Покупные лиды</h3>
+          </header>
+          {buyLeads.map((item) => (
+            <p className="vs-card__item" key={item}>
+              <MinusIcon />
+              <span>{item}</span>
+            </p>
           ))}
-        </tbody>
-      </table>
-      <p className="lead-conclusion">
-        Если нужен поток на месяц, проще купить лиды. Если нужен канал, который будет работать и через год, его строят в своем кабинете.
-      </p>
+        </article>
+        <article className="vs-card vs-card--accent">
+          <header className="vs-card__head">
+            <h3 className="vs-card__title">Свой канал в Яндекс Директе</h3>
+            <span className="vs-card__badge">Так работаю я</span>
+          </header>
+          {ownChannel.map((item) => (
+            <p className="vs-card__item" key={item}>
+              <CheckIcon />
+              <span>{item}</span>
+            </p>
+          ))}
+        </article>
+      </div>
+      <p className="vs-conclusion">Нужен поток на месяц, проще купить лиды. Нужен канал на годы, его строят в своем кабинете.</p>
     </Section>
   )
 }
@@ -237,40 +268,100 @@ function CasesBlock() {
   )
 }
 
+function daysText(duration) {
+  const n = Number(String(duration).replace(/\D/g, ''))
+  const last = n % 10
+  const word = last === 1 && n % 100 !== 11 ? 'рабочий день' : last >= 2 && last <= 4 && (n % 100 < 10 || n % 100 >= 20) ? 'рабочих дня' : 'рабочих дней'
+  return `Запуск примерно через ${n} ${word}`
+}
+
+const directPackage = packages.find((item) => item.id === 'direct')
+const trafficPackage = packages.find((item) => item.id === 'traffic')
+const withAds = (monthly) => `первый месяц рекламы включен, дальше ${monthly} в месяц`
+
+// Цены берутся из общих данных (src/entities/pricing), поэтому совпадают с главной.
+const tariffs = [
+  {
+    id: 'reklama',
+    name: 'Только реклама',
+    price: adsMonthly,
+    note: 'в месяц',
+    items: ['Семантика, объявления и баннеры', 'Настройка и ведение кампаний', 'Ежедневные отчеты'],
+    term: 'Запуск примерно через 14 рабочих дней',
+  },
+  {
+    id: 'direkt',
+    name: 'Директ',
+    price: directPackage.price,
+    note: withAds(directPackage.monthly),
+    items: ['Все из первого варианта', 'Анализ ниши, конкурентов и аудитории'],
+    term: daysText(directPackage.duration),
+    recommended: true,
+  },
+  {
+    id: 'trafik',
+    name: 'Трафик',
+    price: trafficPackage.price,
+    note: withAds(trafficPackage.monthly),
+    items: ['Все из второго варианта', 'Лендинг под банкротство'],
+    term: daysText(trafficPackage.duration),
+  },
+]
+
+const tariffHref = (name) =>
+  `https://t.me/tigran_front?text=${encodeURIComponent(`Здравствуйте, интересует тариф «${name}» для фирмы по банкротству`)}`
+
+function ClockIcon() {
+  return (
+    <svg viewBox="0 0 16 16" width="15" height="15" aria-hidden="true" focusable="false">
+      <circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" strokeWidth="1.4" />
+      <path d="M8 4.6V8l2.3 1.5" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  )
+}
+
 function Price() {
-  const [direct, traffic] = [packages.find((p) => p.id === 'direct'), packages.find((p) => p.id === 'traffic')]
-  const rows = [
-    [direct.title, 'Сайт есть, заявок мало', 'Анализ и реклама в Яндекс Директе', `${direct.price}, дальше ${direct.monthly} в месяц`, `${direct.duration} рабочих дней`],
-    [traffic.title, 'Сайта нет или он не продает', 'Анализ, сайт и реклама', `${traffic.price}, дальше ${traffic.monthly} в месяц`, `${traffic.duration} рабочих дней`],
-  ]
-  const labels = ['Пакет', 'Когда подходит', 'Что входит', 'Цена', 'Срок до запуска']
   return (
     <Section containerClassName="stack">
-      <h2 className="section-heading">Два варианта старта</h2>
-      <p className="section-lead">
-        Любая работа начинается с маркетингового анализа. Если актуальный анализ у вас уже есть, работаю по нему.
-      </p>
-      <table className="rt rt--price">
-        <thead>
-          <tr>
-            {labels.map((label) => (
-              <th scope="col" key={label}>{label}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map((row) => (
-            <tr key={row[0]}>
-              {row.map((cell, index) => (
-                <td data-label={labels[index]} key={labels[index]}>{index === 0 ? <strong>{cell}</strong> : cell}</td>
+      <h2 className="section-heading">Три варианта старта</h2>
+      <p className="section-lead">Анализ ниши входит в оба пакета. Если свой анализ уже есть, хватит первого варианта.</p>
+      <div className="tariffs">
+        {tariffs.map((tariff) => (
+          <article className={tariff.recommended ? 'tariff tariff--recommended' : 'tariff'} key={tariff.id}>
+            <header className="tariff__head">
+              <h3 className="tariff__name">{tariff.name}</h3>
+              {tariff.recommended && <span className="tariff__badge">Рекомендую</span>}
+            </header>
+            <p className="tariff__price">{tariff.price}</p>
+            <p className="tariff__note">{tariff.note}</p>
+            <ul className="tariff__list">
+              {tariff.items.map((item) => (
+                <li key={item}>
+                  <CheckIcon size={18} />
+                  <span>{item}</span>
+                </li>
               ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <p className="lead-conclusion">
-        Рекламный бюджет вы оплачиваете отдельно, на свой кабинет. Разбор сайта и рекламы бесплатный.
-      </p>
+            </ul>
+            <p className="tariff__term">
+              <ClockIcon />
+              <span>{tariff.term}</span>
+            </p>
+            <CtaButton
+              source={`s-bankrotstvo-tariff-${tariff.id}`}
+              href={tariffHref(tariff.name)}
+              label="Выбрать"
+              className={tariff.recommended ? 'tariff__btn' : 'tariff__btn tariff__btn--outline'}
+            />
+          </article>
+        ))}
+      </div>
+      <div className="tariffs-foot">
+        <p className="tariffs-foot__budget">Рекламный бюджет оплачиваете отдельно, на свой кабинет.</p>
+        <div className="tariffs-foot__cta">
+          <CtaButton {...cta('s-bankrotstvo-price')} />
+          <p className="tariffs-foot__caption">Разбор бесплатный, отвечу за 30 минут</p>
+        </div>
+      </div>
     </Section>
   )
 }
