@@ -111,7 +111,7 @@ details[open] > summary .faq-icon {
 
 @media (min-width: 861px) {
   .stack {
-    gap: var(--space-7);
+    gap: var(--space-6);
   }
   .stack--tight {
     gap: var(--space-6);
