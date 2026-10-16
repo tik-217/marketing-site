@@ -5,13 +5,13 @@ import { test } from 'node:test'
 
 const read = (path) => readFileSync(new URL(`../../../${path}`, import.meta.url), 'utf8')
 
-test('sitemap: главная, аудит, кейсы и две страницы кейсов, без отчетов', () => {
+test('sitemap: главная, аудит, страница по банкротству, кейсы и две страницы кейсов, без отчетов', () => {
   const sitemap = read('public/sitemap.xml')
-  for (const path of ['/', '/audit', '/cases', '/cases/legalizaciya-kommercheskih-obektov', '/cases/bankrotstvo-fizicheskih-lic']) {
+  for (const path of ['/', '/audit', '/bankrotstvo', '/cases', '/cases/legalizaciya-kommercheskih-obektov', '/cases/bankrotstvo-fizicheskih-lic']) {
     assert.ok(sitemap.includes(`<loc>https://gabulyan-tigran.ru${path}</loc>`), path)
   }
   assert.equal(sitemap.includes('/audit/report'), false)
-  assert.equal((sitemap.match(/<lastmod>\d{4}-\d{2}-\d{2}<\/lastmod>/g) || []).length, 5)
+  assert.equal((sitemap.match(/<lastmod>\d{4}-\d{2}-\d{2}<\/lastmod>/g) || []).length, 6)
 })
 
 test('meta description сайта', () => {

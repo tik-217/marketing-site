@@ -4,6 +4,7 @@ import { robotsContent } from './robots'
 
 export function Seo({
   title,
+  fullTitleText,
   description = siteConfig.description,
   path = '/',
   image = siteConfig.ogImage,
@@ -11,7 +12,7 @@ export function Seo({
   noArchive = false,
   noReferrer = false,
 }) {
-  const fullTitle = title ? `${title}, ${siteConfig.name}` : siteConfig.title
+  const fullTitle = fullTitleText || (title ? `${title}, ${siteConfig.name}` : siteConfig.title)
   const canonicalUrl = new URL(path, siteConfig.url).toString()
   const imageUrl = new URL(image, siteConfig.url).toString()
 

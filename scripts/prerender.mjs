@@ -13,6 +13,7 @@ const dist = resolve(root, 'dist')
 const pages = [
   { url: '/', file: 'index.html' },
   { url: '/audit', file: '_pages/audit.html' },
+  { url: '/bankrotstvo', file: '_pages/bankrotstvo.html' },
   { url: '/cases', file: '_pages/cases.html' },
   { url: '/cases/legalizaciya-kommercheskih-obektov', file: '_pages/cases-legalizaciya-kommercheskih-obektov.html' },
   { url: '/cases/bankrotstvo-fizicheskih-lic', file: '_pages/cases-bankrotstvo-fizicheskih-lic.html' },

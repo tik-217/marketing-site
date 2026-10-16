@@ -2,6 +2,7 @@ RewriteEngine On
 
 # Страницы, отрендеренные при сборке (scripts/prerender.mjs). Главная это сам index.html.
 RewriteRule ^audit/?$ /_pages/audit.html [L]
+RewriteRule ^bankrotstvo/?$ /_pages/bankrotstvo.html [L]
 RewriteRule ^cases/?$ /_pages/cases.html [L]
 RewriteRule ^cases/(legalizaciya-kommercheskih-obektov|bankrotstvo-fizicheskih-lic)/?$ /_pages/cases-$1.html [L]
 

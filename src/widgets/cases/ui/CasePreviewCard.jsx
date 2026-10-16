@@ -1,13 +1,13 @@
 import { Link } from 'react-router-dom'
 import { CaseCardSlider } from './CaseCardSlider'
 
-function CaseBadgeRow({ orderedService, status }) {
+function CaseBadgeRow({ orderedService, status, statusLabel }) {
   return (
     <div className="case-preview-card__top">
       <span className="case-badge">{orderedService}</span>
       <span className="case-status">
         <span className={status === 'done' ? 'case-status__dot case-status__dot--done' : 'case-status__dot'} />
-        {status === 'done' ? 'Завершен' : 'В работе'}
+        {statusLabel || (status === 'done' ? 'Завершен' : 'В работе')}
       </span>
     </div>
   )
@@ -35,6 +35,7 @@ export function CasePreviewCard({
   gallery,
   orderedService,
   status,
+  statusLabel,
   description,
   TitleTag = 'h3',
 }) {
@@ -48,7 +49,7 @@ export function CasePreviewCard({
       <article className="case-preview-card case-preview-card--gallery">
         <CaseCardSlider slides={gallery} />
         <div className="case-preview-card__body">
-          <CaseBadgeRow orderedService={orderedService} status={status} />
+          <CaseBadgeRow orderedService={orderedService} status={status} statusLabel={statusLabel} />
           <p className="case-preview-card__eyebrow">{eyebrow || title}</p>
           <TitleTag className="case-preview-card__title">
             <Link to={`/cases/${slug}`} className="case-preview-card__stretched-link">
@@ -73,7 +74,7 @@ export function CasePreviewCard({
         />
       )}
       <div className="case-preview-card__body">
-        <CaseBadgeRow orderedService={orderedService} status={status} />
+        <CaseBadgeRow orderedService={orderedService} status={status} statusLabel={statusLabel} />
         <p className="case-preview-card__eyebrow">{eyebrow || title}</p>
         <TitleTag className="case-preview-card__title">{pageTitle || title}</TitleTag>
         <Summary description={description} />

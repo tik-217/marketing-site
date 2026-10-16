@@ -3,9 +3,19 @@ import { Link } from 'react-router-dom'
 import { sendTelegramMessage } from '../../../shared/api/telegram'
 import { contacts } from '../../../shared/config/contacts'
 import { reachGoal } from '../../../shared/lib/analytics/goals'
-import { Button, Eyebrow, Section } from '../../../shared/ui'
+import { Button, CtaButton, Eyebrow, Section } from '../../../shared/ui'
 
-export function Audit({ id }) {
+const defaultCopy = {
+  eyebrow: 'Аудит',
+  heading: 'Покажу, где ваш сайт и реклама теряют заявки',
+  lead: 'Пришлите ссылку на сайт или на кабинет Директа. Посмотрю их вместе с конкурентами и вернусь со списком точек роста. Бесплатно и без обязательств.',
+}
+
+/**
+ * Форма для тех, кто не пользуется Telegram. copy меняет тексты блока, cta добавляет кнопку в Telegram,
+ * pageName попадает в скрытое поле и в сообщение, чтобы заявки со страницы отличались от заявок с главной.
+ */
+export function Audit({ id, copy = defaultCopy, cta, pageName }) {
   const [sent, setSent] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState('')
@@ -19,7 +29,7 @@ export function Audit({ id }) {
     setIsSubmitting(true)
     setError('')
     try {
-      await sendTelegramMessage(`Новая заявка с сайта\nКонтакт: ${contact}`)
+      await sendTelegramMessage(`Новая заявка с сайта${pageName ? `\nСтраница: ${pageName}` : ''}\nКонтакт: ${contact}`)
       setSent(true)
       reachGoal('form_submit')
     } catch {
@@ -32,12 +42,10 @@ export function Audit({ id }) {
   return (
     <Section id={id} inverse containerClassName="audit">
       <div className="audit__copy">
-        <Eyebrow inverse>Аудит</Eyebrow>
-        <h2 className="audit__heading">Покажу, где ваш сайт и реклама теряют заявки</h2>
-        <p className="audit__lead">
-          Пришлите ссылку на сайт или на кабинет Директа. Посмотрю их вместе с конкурентами и
-          вернусь со списком точек роста. Бесплатно и без обязательств.
-        </p>
+        <Eyebrow inverse>{copy.eyebrow}</Eyebrow>
+        <h2 className="audit__heading">{copy.heading}</h2>
+        <p className="audit__lead">{copy.lead}</p>
+        {cta && <CtaButton source={cta.source} href={cta.href} label={cta.label} className="audit__cta" />}
       </div>
 
       <form className="audit-form" method="post" action="#" onSubmit={handleSubmit}>
@@ -53,6 +61,7 @@ export function Audit({ id }) {
           </div>
         ) : (
           <>
+            {pageName && <input type="hidden" name="page" value={pageName} />}
             <label className="audit-form__hint" htmlFor={`${id}-contact`}>
               Если не пользуетесь Telegram, оставьте телефон или почту
             </label>

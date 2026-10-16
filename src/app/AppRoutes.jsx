@@ -1,6 +1,7 @@
 import { Route, Routes } from 'react-router-dom'
 import { HomePage } from '../pages/home'
 import { AuditPage } from '../pages/audit'
+import { BankrotstvoPage } from '../pages/bankrotstvo'
 import { CasesPage } from '../pages/cases'
 import { CasePage } from '../pages/case'
 import { NotFoundPage } from '../pages/not-found'
@@ -16,6 +17,7 @@ export function AppRoutes() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/audit" element={<AuditPage />} />
+        <Route path="/bankrotstvo" element={<BankrotstvoPage />} />
         <Route path="/audit/report/:reportId" element={<ReportPage />} />
         <Route path="/cases" element={<CasesPage />} />
         <Route path="/cases/:slug" element={<CasePage />} />
