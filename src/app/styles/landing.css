@@ -1463,6 +1463,8 @@
 }
 
 .site-footer__phone {
+  display: inline-flex;
+  align-items: center; /* при min-height 44 px текст телефона иначе прижимается к верху и выбивается из ряда */
   font-size: var(--text-sm);
   color: var(--text-secondary);
 }
