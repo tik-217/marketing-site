@@ -196,7 +196,6 @@ function Compare() {
         <article className="vs-card vs-card--accent">
           <header className="vs-card__head">
             <h3 className="vs-card__title">Свой канал в Яндекс Директе</h3>
-            <span className="vs-card__badge">Так работаю я</span>
           </header>
           {ownChannel.map((item) => (
             <p className="vs-card__item" key={item}>
