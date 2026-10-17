@@ -184,7 +184,11 @@
 
 .hero__lead { color: var(--gray-200); max-width: 46ch; font-size: 16px; }
 
-.hero__cta { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-4); margin-top: var(--space-7); }
+.hero__cta { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-4); margin-top: var(--space-2); } /* телефон: вместе с отступом колонки 32 px до кнопки */
+
+@media (min-width: 769px) {
+  .hero__cta { margin-top: var(--space-7); }
+}
 .hero__help { font-size: 13px; color: var(--gray-300); max-width: 46ch; }
 .hero__direct { font-size: 15px; } /* телефон это ссылка для нажатия пальцем, поэтому крупнее подписи */
 
