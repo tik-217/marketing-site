@@ -185,7 +185,7 @@
 .hero__lead { color: var(--gray-200); max-width: 46ch; font-size: 16px; }
 
 .hero__cta { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-4); margin-top: var(--space-7); }
-.hero__help { font-size: 15px; color: var(--gray-300); max-width: 46ch; }
+.hero__help { font-size: 12px; color: var(--gray-300); max-width: 46ch; }
 
 .hero picture { display: contents; } /* картинка остается прямым элементом сетки первого экрана */
 .hero picture source { display: none; } /* общий сброс делает source блочным, и он занимал ячейку сетки */
