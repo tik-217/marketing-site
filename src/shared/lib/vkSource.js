@@ -1,8 +1,12 @@
-// Посетители из рекламы ВКонтакте: utm_source=vk запоминаем на время визита (sessionStorage),
+// Посетители из рекламы ВКонтакте: utm_source, начинающийся с vk (vk, vk_ads и т.п.), запоминаем на время визита (sessionStorage),
 // а в ссылках t.me на /bankrotstvo дописываем в текст сообщения, откуда человек пришел.
 const STORAGE_KEY = 'utm_source_vk'
 const SUFFIX = ', увидел рекламу во ВКонтакте'
 const ORIGINAL = 'data-href-original'
+
+export function isVkSearch(search) {
+  return (new URLSearchParams(search).get('utm_source') ?? '').toLowerCase().startsWith('vk')
+}
 
 function storage() {
   try {
@@ -13,7 +17,7 @@ function storage() {
 }
 
 export function rememberVkSource(search = window.location.search) {
-  if (new URLSearchParams(search).get('utm_source') !== 'vk') return
+  if (!isVkSearch(search)) return
   try {
     storage()?.setItem(STORAGE_KEY, '1')
   } catch {
@@ -22,7 +26,7 @@ export function rememberVkSource(search = window.location.search) {
 }
 
 function isVisitorFromVk(search) {
-  if (new URLSearchParams(search).get('utm_source') === 'vk') return true
+  if (isVkSearch(search)) return true
   try {
     return storage()?.getItem(STORAGE_KEY) === '1'
   } catch {

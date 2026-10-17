@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
-import { withVkSuffix } from '../vkSource.js'
+import { isVkSearch, withVkSuffix } from '../vkSource.js'
 
 test('к тексту сообщения в ссылке t.me дописывается приписка про ВКонтакте один раз', () => {
   const href = 'https://t.me/tigran_front?text=Здравствуйте%2C%20хочу%20разбор%20рекламы%20по%20банкротству'
@@ -15,4 +15,9 @@ test('к тексту сообщения в ссылке t.me дописывае
 test('ссылки без текста и не на t.me не меняются', () => {
   assert.equal(withVkSuffix('https://t.me/tigran_front'), 'https://t.me/tigran_front')
   assert.equal(withVkSuffix('https://example.com/?text=a'), 'https://example.com/?text=a')
+})
+
+test('VK-трафик: utm_source начинается с vk', () => {
+  for (const q of ['?utm_source=vk', '?utm_source=vk_ads', '?a=1&utm_source=VK_ads']) assert.equal(isVkSearch(q), true, q)
+  for (const q of ['', '?utm_source=yandex', '?utm_source=xvk', '?utm_medium=vk']) assert.equal(isVkSearch(q), false, q)
 })
