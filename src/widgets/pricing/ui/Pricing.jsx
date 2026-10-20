@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { modules, packageModules, packages } from '../../../entities/pricing'
 import { CtaButton, Section } from '../../../shared/ui'
 import { moduleSource } from '../../../shared/lib/telegramSource'
@@ -9,6 +9,31 @@ export function Pricing() {
   const [openModuleId, setOpenModuleId] = useState(null)
   const moduleRefs = useRef(new Map())
   const pendingScrollId = useRef(null)
+  const tabsRef = useRef(null)
+  const [directRequests, setDirectRequests] = useState(0)
+
+  // Быстрая ссылка /#direct: вкладка «Модули», открыта только карточка Директа. Хеш читаем после гидрации и при его смене.
+  useEffect(() => {
+    const applyHash = () => {
+      if (window.location.hash !== '#direct') return
+      pendingScrollId.current = null
+      setTab('modules')
+      setOpenModuleId('ads')
+      setDirectRequests((count) => count + 1)
+    }
+    applyHash()
+    window.addEventListener('hashchange', applyHash)
+    return () => window.removeEventListener('hashchange', applyHash)
+  }, [])
+
+  // Под шапкой остаются переключатель вкладок, карточка анализа и раскрытая карточка Директа.
+  useLayoutEffect(() => {
+    if (!directRequests) return undefined
+    const frame = window.requestAnimationFrame(() => {
+      tabsRef.current?.scrollIntoView({ block: 'start' })
+    })
+    return () => window.cancelAnimationFrame(frame)
+  }, [directRequests])
 
   useLayoutEffect(() => {
     if (!pendingScrollId.current) return undefined
@@ -36,7 +61,7 @@ export function Pricing() {
         </p>
       </div>
 
-      <div className="tabs">
+      <div className="tabs" ref={tabsRef}>
         <button
           type="button"
           className={tab === 'modules' ? 'tab is-active' : 'tab'}

@@ -2426,3 +2426,15 @@ img.theme-image--dark {
 /* Темная тема: мелкий текст в ценах и FAQ не ниже 7:1 к фону (цвета фона не менялись). */
 [data-theme='dark'] .pricing-step__meta { color: var(--gray-200); }
 [data-theme='dark'] .faq-item .faq-icon { color: var(--gray-100); }
+
+/* Якоря: шапка закреплена, поэтому заголовок секции и вкладки модулей не должны уходить под нее. */
+:root { --header-height: 69px; }
+@media (max-width: 860px) {
+  :root { --header-height: 48px; }
+}
+.section[id] {
+  scroll-margin-top: var(--header-height);
+}
+.tabs {
+  scroll-margin-top: calc(var(--header-height) + var(--space-3));
+}

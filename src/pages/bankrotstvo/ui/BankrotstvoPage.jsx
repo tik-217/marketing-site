@@ -176,7 +176,7 @@ function CheckIcon({ size = 28 }) {
 /** Две карточки: покупные лиды (приглушенная) и свой канал (акцентная). Пункты стоят на одной высоте за счет общей сетки. */
 function Compare() {
   return (
-    <Section containerClassName="stack">
+    <Section id="leads" containerClassName="stack">
       <h2 className="section-heading">Покупные лиды или свой канал</h2>
       <p className="section-lead">
         Да, цена лида записана в договоре. Но вы платите за чужой трафик, и с последним платежом заканчивается все.
@@ -212,7 +212,7 @@ function Compare() {
 
 function Process() {
   return (
-    <Section containerClassName="stack">
+    <Section id="steps" containerClassName="stack">
       <h2 className="section-heading">Что происходит до первой заявки</h2>
       <ol className="steps-list">
         {process.map(([title, text]) => (
@@ -327,7 +327,7 @@ function ClockIcon() {
 
 function Price() {
   return (
-    <Section containerClassName="stack">
+    <Section id="prices" containerClassName="stack">
       <h2 className="section-heading">Три варианта старта</h2>
       <p className="section-lead">Анализ ниши входит в оба пакета. Если свой анализ уже есть, хватит первого варианта.</p>
       <div className="tariffs">
@@ -402,7 +402,7 @@ function Guarantees() {
 
 function Faq() {
   return (
-    <Section containerClassName="stack stack--tight">
+    <Section id="faq" containerClassName="stack stack--tight">
       <h2 className="section-heading">Цена заявки, сроки и чем это лучше покупки лидов</h2>
       <div className="faq-list">
         {faq.map(([question, answer], index) => (

@@ -3,7 +3,7 @@ import { questions } from '../model/questions'
 
 export function Faq() {
   return (
-    <Section containerClassName="stack stack--tight">
+    <Section id="faq" containerClassName="stack stack--tight">
       <h2 className="section-heading">Сколько стоит, когда пойдут заявки и что, если реклама уже не сработала</h2>
       <div className="faq-list">
         {questions.map((item) => (
