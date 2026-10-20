@@ -251,7 +251,7 @@ const legalCase = cases.find((item) => item.id === 'legal')
 
 function CasesBlock() {
   return (
-    <Section containerClassName="stack">
+    <Section id="cases" containerClassName="stack">
       <h2 className="section-heading">Кейсы в юридической нише</h2>
       <div className="case-preview-grid">
         <CasePreviewCard
@@ -373,7 +373,7 @@ function Price() {
 
 function Guarantees() {
   return (
-    <Section containerClassName="stack">
+    <Section id="contract" containerClassName="stack">
       <h2 className="section-heading">Не гарантирую цену лида. Фиксирую срок каждого этапа в договоре</h2>
       <p className="section-lead">
         Лидогенератор может гарантировать цену заявки, потому что продает свой трафик и меняет брак из своего запаса. Я строю канал в вашем кабинете. Цена заявки в нем зависит от рынка вашего региона, от сайта и от того, как быстро ваш менеджер перезванивает. Этим я не управляю, поэтому в договоре фиксирую то, за что отвечаю сам.
@@ -429,7 +429,7 @@ export function BankrotstvoPage() {
         <main>
           <Hero />
           <CasesBlock />
-          <Reviews />
+          <Reviews id="reviews" />
           <Situations />
           <Compare />
           <Price />

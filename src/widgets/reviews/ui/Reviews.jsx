@@ -35,11 +35,11 @@ function Stars({ rating }) {
   )
 }
 
-export function Reviews({ config = reviewsConfig }) {
+export function Reviews({ id, config = reviewsConfig }) {
   if (!isReviewsVisible(config)) return null
 
   return (
-    <Section containerClassName="stack">
+    <Section id={id} containerClassName="stack">
       <h2 className="section-heading">Эти отзывы клиенты оставили на Профи.ру</h2>
       <div className="reviews-grid">
         {reviews.map((item) => (
