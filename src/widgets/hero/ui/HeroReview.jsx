@@ -6,7 +6,8 @@ export function HeroReview() {
     <p className="hero__help hero__review">
       <a href={reviewsConfig.profileUrl} target="_blank" rel="noopener noreferrer">
         <span className="hero__review-stars" aria-label="Оценка 5 из 5">★★★★★</span>{' '}
-        «Владеет инструментами Я.Директ на профессиональном уровне». Андрей, Барс Консалт
+        «Владеет инструментами Я.Директ и нейросетями на профессиональном уровне».{' '}
+        <span className="hero__review-author">Андрей, Барс Консалт</span>
       </a>
     </p>
   )
