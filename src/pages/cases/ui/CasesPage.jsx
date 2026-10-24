@@ -11,7 +11,7 @@ export function CasesPage() {
     <>
       <Seo
         title="Кейсы"
-        description="Проекты для юридических ниш, от брифа до первых обращений."
+        description="Кейсы маркетинга для юридических фирм. Одна сделка окупила маркетинг минимум в 11 раз в нише, где услугу почти не ищут"
         path="/cases"
       />
       <Header />
@@ -21,8 +21,8 @@ export function CasesPage() {
             <Link to="/" className="case-detail-header__back">
               <span aria-hidden="true">←</span> На главную
             </Link>
-            <h1 className="cases-page-header__title">Первая заявка в первый же месяц работы в нише, где услугу почти не ищут</h1>
-            <p className="cases-page-header__lead">Проекты для юридических ниш, от брифа до первых обращений</p>
+            <h1 className="cases-page-header__title">Кейсы в юридической нише</h1>
+            <p className="cases-page-header__lead">Одна сделка окупила маркетинг минимум в 11 раз в нише, где услугу почти не ищут</p>
           </div>
 
           <div className="case-preview-grid">

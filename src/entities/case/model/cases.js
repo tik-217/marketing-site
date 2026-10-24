@@ -33,9 +33,8 @@ export const cases = [
     niche: 'Юридические услуги',
     orderedService: 'Анализ и Директ',
     eyebrow: 'Легализация коммерческих объектов',
-    cover: { src: caseLegalBriefLight, srcDark: caseLegalBriefDark, alt: 'Бриф перед запуском Яндекс Директа', mobileCrop: DOC_MOBILE_CROP },
+    cover: { src: caseLegalAudienceLight, srcDark: caseLegalAudienceDark, alt: 'Описание целевой аудитории', mobileCrop: DOC_MOBILE_CROP },
     gallery: [
-      { light: caseLegalBriefLight, dark: caseLegalBriefDark, alt: 'Бриф перед запуском Яндекс Директа', mobileCrop: DOC_MOBILE_CROP },
       { light: caseLegalAudienceLight, dark: caseLegalAudienceDark, alt: 'Описание целевой аудитории', mobileCrop: DOC_MOBILE_CROP },
       { light: caseLegalCompetitorsLight, dark: caseLegalCompetitorsDark, alt: 'Анализ конкурентов', mobileCrop: DOC_MOBILE_CROP },
       { light: caseLegalUspLight, dark: caseLegalUspDark, alt: 'Уникальное торговое предложение', mobileCrop: DOC_MOBILE_CROP },
@@ -85,7 +84,6 @@ export const cases = [
     cover: { src: caseBankruptcyAudienceLight, srcDark: caseBankruptcyAudienceDark, alt: 'Анализ целевой аудитории для услуги банкротства физических лиц', mobileCrop: DOC_MOBILE_CROP },
     gallery: [
       { light: caseBankruptcyAudienceLight, dark: caseBankruptcyAudienceDark, alt: 'Анализ целевой аудитории для услуги банкротства физических лиц', mobileCrop: DOC_MOBILE_CROP },
-      { light: caseBankruptcyBriefLight, dark: caseBankruptcyBriefDark, alt: 'Обезличенный бриф по рекламе для банкротства физических лиц', mobileCrop: DOC_MOBILE_CROP },
       { light: caseBankruptcyCompetitorsLight, dark: caseBankruptcyCompetitorsDark, alt: 'Анализ конкурентов в нише банкротства физических лиц', mobileCrop: DOC_MOBILE_CROP },
       { light: caseBankruptcyUspLight, dark: caseBankruptcyUspDark, alt: 'Уникальное торговое предложение для услуги банкротства физических лиц', mobileCrop: DOC_MOBILE_CROP },
     ],

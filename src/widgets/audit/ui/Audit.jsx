@@ -11,13 +11,18 @@ const defaultCopy = {
   lead: 'Напишите город и услугу. За 24 часа пришлю план с тремя цифрами. Сколько человек в месяц ищут вашу услугу в вашем городе, примерная цена заявки и бюджет на первый месяц. Бесплатно и без обязательств.',
 }
 
+const defaultReviewLink = {
+  href: contacts.reviewChatUrl,
+  label: 'Сайт и реклама уже есть? Пришлите ссылку, покажу, где они теряют заявки →',
+}
+
 const defaultHelp = 'Отвечу в течение 30 минут. План пришлю в течение 24 часов.'
 
 /**
  * Форма для тех, кто не пользуется Telegram. copy меняет тексты блока, cta добавляет кнопку в Telegram,
  * pageName попадает в скрытое поле и в сообщение, чтобы заявки со страницы отличались от заявок с главной.
  */
-export function Audit({ id, copy = defaultCopy, help = defaultHelp, cta, pageName, telegramHref = contacts.telegramUrl, showAuditLink = true }) {
+export function Audit({ id, copy = defaultCopy, help = defaultHelp, reviewLink = defaultReviewLink, cta, pageName, telegramHref = contacts.telegramUrl, showAuditLink = true }) {
   const [sent, setSent] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState('')
@@ -99,17 +104,17 @@ export function Audit({ id, copy = defaultCopy, help = defaultHelp, cta, pageNam
             ) : (
               <p className="audit-form__help">{help}</p>
             )}
+            {reviewLink && (
+              <p className="audit-form__help">
+                <a href={reviewLink.href} data-cta="audit-review" target="_blank" rel="noopener noreferrer">
+                  {reviewLink.label}
+                </a>
+              </p>
+            )}
             {showAuditLink && (
-              <>
-                <p className="audit-form__help">
-                  <a href={contacts.reviewChatUrl} data-cta="audit-review" target="_blank" rel="noopener noreferrer">
-                    Сайт и реклама уже есть? Пришлите ссылку, покажу, где они теряют заявки →
-                  </a>
-                </p>
-                <p className="audit-form__help">
-                  <Link to="/audit">Автоматический разбор сайта за 30 секунд →</Link>
-                </p>
-              </>
+              <p className="audit-form__help">
+                <Link to="/audit">Автоматический разбор сайта за 30 секунд →</Link>
+              </p>
             )}
           </>
         )}

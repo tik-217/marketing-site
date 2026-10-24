@@ -2,7 +2,7 @@
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import { test } from 'node:test'
-import { adsLaunchDays, adsMonthly, packageModules, packages } from '../model/packages.js'
+import { adsLaunchDays, adsMonthly, homeTariffs, packageModules, packages } from '../model/packages.js'
 
 const read = (path) => readFileSync(new URL(`../../../../${path}`, import.meta.url), 'utf8')
 
@@ -25,9 +25,23 @@ test('пакеты: цена равна сумме модулей, дальше 
   }
 })
 
-test('порог бюджета с готовым анализом 39 000 ₽ на /bankrotstvo, порог без анализа 50 000 ₽', () => {
-  const source = read('src/pages/bankrotstvo/ui/BankrotstvoPage.jsx')
-  assert.ok(source.includes('меньше 50 000 ₽. Если маркетинговый анализ у вас уже есть, порог 39 000 ₽'))
+test('тарифы главной: цены, сроки и строка про первый месяц рекламы', () => {
+  const byId = Object.fromEntries(homeTariffs.map((item) => [item.id, item]))
+  assert.deepEqual(
+    homeTariffs.map((item) => [item.name, item.price]),
+    [['Реклама в Яндекс Директе', '89 000 ₽'], ['Сайт', '120 000 ₽'], ['Сайт и реклама', '159 000 ₽']],
+  )
+  assert.equal(byId.ads.note, 'первый месяц рекламы включен, дальше 39 000 ₽ в месяц')
+  assert.equal(byId['site-ads'].note, byId.ads.note)
+  assert.equal(byId.ads.term, 'Запуск примерно через 20 рабочих дней')
+  assert.equal(byId.site.term, 'Готовность примерно через 38 рабочих дней')
+  assert.equal(byId['site-ads'].term, 'Запуск примерно через 38 рабочих дней')
+})
+
+test('порог бюджета больше нигде не выводится', () => {
+  for (const file of ['src/widgets/terms/ui/Terms.jsx', 'src/pages/bankrotstvo/ui/BankrotstvoPage.jsx']) {
+    assert.equal(read(file).includes('порог'), false, file)
+  }
 })
 
 test('старых цен и слова про скидку нет в данных и страницах', () => {
