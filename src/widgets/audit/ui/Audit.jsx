@@ -22,7 +22,7 @@ const defaultHelp = 'Отвечу в течение 30 минут. План пр
  * Форма для тех, кто не пользуется Telegram. copy меняет тексты блока, cta добавляет кнопку в Telegram,
  * pageName попадает в скрытое поле и в сообщение, чтобы заявки со страницы отличались от заявок с главной.
  */
-export function Audit({ id, copy = defaultCopy, help = defaultHelp, reviewLink = defaultReviewLink, cta, pageName, telegramHref = contacts.telegramUrl, showAuditLink = true }) {
+export function Audit({ id, copy = defaultCopy, help = defaultHelp, reviewLink = defaultReviewLink, cta, pageName, telegramHref = contacts.telegramUrl }) {
   const [sent, setSent] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState('')
@@ -109,11 +109,6 @@ export function Audit({ id, copy = defaultCopy, help = defaultHelp, reviewLink =
                 <a href={reviewLink.href} data-cta="audit-review" target="_blank" rel="noopener noreferrer">
                   {reviewLink.label}
                 </a>
-              </p>
-            )}
-            {showAuditLink && (
-              <p className="audit-form__help">
-                <Link to="/audit">Автоматический разбор сайта за 30 секунд →</Link>
               </p>
             )}
           </>

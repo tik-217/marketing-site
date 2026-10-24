@@ -2503,6 +2503,7 @@ img.theme-image--dark {
 
 /* Строка с отзывом под подписью к кнопке: мелко, на узком экране переносится. */
 .hero__review { overflow-wrap: anywhere; margin-top: calc(-1 * var(--space-2)); }
+.hero__review--extra { margin-top: calc(-1 * var(--space-3)); }
 .hero__review a { color: inherit; text-decoration: none; }
 .hero__review-author { text-decoration: underline; text-underline-offset: 3px; }
 .hero__review a:hover { color: var(--gray-200); }

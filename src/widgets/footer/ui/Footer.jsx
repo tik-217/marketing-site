@@ -1,39 +1,33 @@
 import { Link, useLocation } from 'react-router-dom'
 import { contacts } from '../../../shared/config/contacts'
 import { ctaName } from '../../../shared/lib/telegramSource'
-import { InstagramIcon, TelegramIcon } from '../../../shared/ui'
-import { CtaButton } from '../../../features/contact-cta'
+import { CtaButton, InstagramIcon, TelegramIcon } from '../../../shared/ui'
 
 /**
  * chat: для страницы /bankrotstvo свой адрес чата, подпись и название блока для кнопки и ссылки Telegram.
- * hideAuditLink убирает ссылку на /audit из подвала, hideCta убирает кнопку (на главной ее нет).
- * homeHref: куда ведет логотип, как в шапке.
  */
-export function Footer({ chat, hideAuditLink = false, hideCta = false, homeHref = '/' }) {
+export function Footer({ chat }) {
   const { pathname } = useLocation()
 
   return (
     <footer className="site-footer">
       <div className="container site-footer__inner">
         <div className="site-footer__top">
-          <Link to={homeHref} className="site-footer__brand" onClick={() => pathname === homeHref && window.scrollTo(0, 0)}>
+          <Link to="/" className="site-footer__brand">
             <span className="site-header__name">Габулян Тигран</span>
             <span className="site-header__divider">|</span>
             <span className="site-header__role">Маркетолог</span>
           </Link>
-          {!hideCta && (
-            <CtaButton
-              source={chat?.source ?? (pathname.startsWith('/audit') ? 's-audit-footer' : 's-footer')}
-              href={chat?.href}
-              label={chat?.label}
-              className="site-footer__cta"
-            />
-          )}
+          <CtaButton
+            source={chat?.source ?? (pathname.startsWith('/audit') ? 's-audit-footer' : 's-footer')}
+            href={chat?.href}
+            label={chat?.label}
+            className="site-footer__cta"
+          />
         </div>
 
         <div className="site-footer__row">
           <nav className="site-footer__nav">
-            {pathname !== '/audit' && !hideAuditLink && <Link to="/audit">Аудит сайта</Link>}
             <Link to="/privacy">Политика данных</Link>
           </nav>
           <div className="site-footer__contacts">

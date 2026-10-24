@@ -364,7 +364,6 @@ export function BankrotstvoPage() {
             id="audit"
             pageName="/bankrotstvo"
             telegramHref={contacts.bankruptcyChatUrl}
-            showAuditLink={false}
             help="План пришлю в течение 24 часов."
             reviewLink={{
               href: contacts.bankruptcyReviewChatUrl,
@@ -378,7 +377,6 @@ export function BankrotstvoPage() {
           />
         </main>
         <Footer
-          hideAuditLink
           chat={{ href: contacts.bankruptcyChatUrl, label: contacts.bankruptcyCtaLabel, source: 's-bankrotstvo-footer' }}
         />
       </div>
