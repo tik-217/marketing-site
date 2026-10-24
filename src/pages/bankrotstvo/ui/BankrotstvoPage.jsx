@@ -11,6 +11,7 @@ import { Audit } from '../../../widgets/audit'
 import { CasePreviewCard } from '../../../widgets/cases'
 import { Footer } from '../../../widgets/footer'
 import { Header } from '../../../widgets/header'
+import { HeroReview } from '../../../widgets/hero'
 import { CheckIcon, TariffCards } from '../../../widgets/pricing'
 import { Reviews } from '../../../widgets/reviews'
 
@@ -112,9 +113,7 @@ function Hero() {
           <div className="hero__cta">
             <CtaButton {...cta('s-bankrotstvo-hero')} />
             <p className="hero__help">Бесплатно. Напишите свой город, остальное посчитаю сам. Отвечу в течение 30 минут</p>
-            <p className="hero__help hero__direct">
-              Или позвоните <a href="tel:+79180220901">{contacts.phone}</a>
-            </p>
+            <HeroReview />
           </div>
         </div>
         <picture>

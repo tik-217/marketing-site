@@ -190,7 +190,6 @@
   .hero__cta { margin-top: var(--space-7); }
 }
 .hero__help { font-size: 13px; color: var(--gray-300); max-width: 46ch; }
-.hero__direct { font-size: 15px; } /* телефон это ссылка для нажатия пальцем, поэтому крупнее подписи */
 
 .hero picture { display: contents; } /* картинка остается прямым элементом сетки первого экрана */
 .hero picture source { display: none; } /* общий сброс делает source блочным, и он занимал ячейку сетки */
@@ -2291,8 +2290,6 @@ img.theme-image--dark {
   .hero__inner { grid-template-columns: 1.3fr 1fr; }
 }
 
-.hero__direct a { color: var(--white); text-decoration: underline; text-underline-offset: 3px; }
-.hero__direct a:hover { color: var(--gray-200); }
 
 .audit-form__hint { font-size: var(--text-sm); color: var(--text-secondary); }
 
@@ -2503,3 +2500,9 @@ img.theme-image--dark {
 
 /* Длинные подписи кнопок переносятся на узких экранах, а не выходят за край. */
 .btn { max-width: 100%; white-space: normal; text-align: center; }
+
+/* Строка с отзывом под подписью к кнопке: мелко, на узком экране переносится. */
+.hero__review { overflow-wrap: anywhere; margin-top: calc(-1 * var(--space-2)); }
+.hero__review a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+.hero__review a:hover { color: var(--gray-200); }
+.hero__review-stars { color: oklch(82% 0.15 85); letter-spacing: 1px; }

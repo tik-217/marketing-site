@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async'
-import { contacts } from '../../../shared/config/contacts'
 import { CtaButton } from '../../../shared/ui'
+import { HeroReview } from './HeroReview'
 import portrait from '../../../shared/assets/images/tigran-portrait.avif'
 import portraitSmall from '../../../shared/assets/images/tigran-portrait-480.avif'
 
@@ -21,9 +21,7 @@ export function Hero() {
           <div className="hero__cta">
             <CtaButton source="s-hero" />
             <p className="hero__help">Бесплатно. Напишите город и услугу, остальное посчитаю сам. Отвечу в течение 30 минут</p>
-            <p className="hero__help hero__direct">
-              Или позвоните: <a href="tel:+79180220901">{contacts.phone}</a>
-            </p>
+            <HeroReview />
           </div>
         </div>
         <picture>
