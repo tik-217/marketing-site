@@ -241,7 +241,7 @@ export function BankrotstvoPage() {
     <>
       <Seo fullTitleText={TITLE} description={DESCRIPTION} path="/bankrotstvo" />
       <div className="bankrotstvo-page">
-        <Header telegram={{ href: contacts.bankruptcyChatUrl, block: ctaName('s-bankrotstvo-header') }} />
+        <Header homeHref="/bankrotstvo" telegram={{ href: contacts.bankruptcyChatUrl, block: ctaName('s-bankrotstvo-header') }} />
         <main>
           <Hero />
           <Cases
@@ -273,6 +273,7 @@ export function BankrotstvoPage() {
           />
         </main>
         <Footer
+          homeHref="/bankrotstvo"
           hideAuditLink
           hideCta
           chat={{ href: contacts.bankruptcyChatUrl, label: contacts.bankruptcyCtaLabel, source: 's-bankrotstvo-footer' }}

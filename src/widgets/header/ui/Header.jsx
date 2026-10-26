@@ -3,12 +3,15 @@ import { Link, useLocation } from 'react-router-dom'
 import { contacts } from '../../../shared/config/contacts'
 import { InstagramIcon, PhoneIcon, TelegramIcon } from '../../../shared/ui'
 
-/** telegram: свой адрес и название блока для иконки Telegram (на странице /bankrotstvo), по умолчанию общий чат. */
-export function Header({ telegram }) {
+/**
+ * telegram: свой адрес и название блока для иконки Telegram (на странице /bankrotstvo), по умолчанию общий чат.
+ * homeHref: куда ведет логотип. У /bankrotstvo своя главная, это она сама.
+ */
+export function Header({ telegram, homeHref = '/' }) {
   const headerRef = useRef(null)
   const heightRef = useRef(0)
   const { pathname } = useLocation()
-  const logoHref = pathname.startsWith('/cases') ? '/#cases' : '/'
+  const logoHref = homeHref === '/' && pathname.startsWith('/cases') ? '/#cases' : homeHref
 
   // Шапка всегда на виду, ее высота нужна первому экрану (--header-height).
   useEffect(() => {
@@ -29,7 +32,7 @@ export function Header({ telegram }) {
   return (
     <header ref={headerRef} className="site-header">
       <div className="container site-header__inner">
-        <Link to={logoHref} className="site-header__brand">
+        <Link to={logoHref} className="site-header__brand" onClick={() => pathname === logoHref && window.scrollTo(0, 0)}>
           <span className="site-header__name">Габулян Тигран</span>
           <span className="site-header__divider">|</span>
           <span className="site-header__role">Маркетолог</span>

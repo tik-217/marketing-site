@@ -115,3 +115,10 @@ test('/bankrotstvo: разбор конкурентов вместо плана 
   assert.ok(page.includes('Лендинг и реклама 109 000 ₽ первый месяц рекламы включен, дальше 39 000 ₽ в месяц'))
   assert.ok(page.includes('Как строится ваш канал заявок по банкротству'))
 })
+
+test('логотип в шапке и подвале ведет на главную своей страницы', () => {
+  const brands = (url) => render(url).match(/<a[^>]*site-(header|footer)__brand[^>]*>/g).map((a) => a.match(/href="([^"]*)"/)[1])
+  assert.deepEqual(brands('/'), ['/', '/'])
+  assert.deepEqual(brands('/bankrotstvo'), ['/bankrotstvo', '/bankrotstvo'])
+  assert.deepEqual(brands('/cases'), ['/#cases', '/'])
+})

@@ -6,15 +6,16 @@ import { CtaButton, InstagramIcon, TelegramIcon } from '../../../shared/ui'
 /**
  * chat: для страницы /bankrotstvo свой адрес чата, подпись и название блока для кнопки и ссылки Telegram.
  * hideAuditLink убирает ссылку на /audit из подвала, hideCta убирает кнопку (на главной ее нет).
+ * homeHref: куда ведет логотип, как в шапке.
  */
-export function Footer({ chat, hideAuditLink = false, hideCta = false }) {
+export function Footer({ chat, hideAuditLink = false, hideCta = false, homeHref = '/' }) {
   const { pathname } = useLocation()
 
   return (
     <footer className="site-footer">
       <div className="container site-footer__inner">
         <div className="site-footer__top">
-          <Link to="/" className="site-footer__brand">
+          <Link to={homeHref} className="site-footer__brand" onClick={() => pathname === homeHref && window.scrollTo(0, 0)}>
             <span className="site-header__name">Габулян Тигран</span>
             <span className="site-header__divider">|</span>
             <span className="site-header__role">Маркетолог</span>
