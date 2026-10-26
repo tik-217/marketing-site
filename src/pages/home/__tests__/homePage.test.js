@@ -122,3 +122,7 @@ test('логотип в шапке и подвале ведет на главн�
   assert.deepEqual(brands('/bankrotstvo'), ['/bankrotstvo', '/bankrotstvo'])
   assert.deepEqual(brands('/cases'), ['/#cases', '/'])
 })
+
+test('в нижнем блоке нет предложения про 5 разборов в неделю', () => {
+  for (const url of ['/', '/bankrotstvo']) assert.equal(text(url).includes('5 разборов'), false, url)
+})
