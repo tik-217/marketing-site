@@ -1,5 +1,4 @@
-import { Link } from 'react-router-dom'
-import { CtaButton, Section } from '../../../shared/ui'
+import { Section } from '../../../shared/ui'
 import { situations } from '../model/situations'
 
 export function Situations() {
@@ -11,15 +10,9 @@ export function Situations() {
           <div className="situation-card" key={item.id}>
             <h3 className="situation-card__title">{item.title}</h3>
             <p className="situation-card__description">{item.description}</p>
-            {item.auditLink && (
-              <Link to="/audit" className="situation-card__link">
-                Проверить свой сайт за 30 секунд <span aria-hidden="true">→</span>
-              </Link>
-            )}
           </div>
         ))}
       </div>
-      <CtaButton source="s-situations" style={{ alignSelf: 'flex-start' }} />
     </Section>
   )
 }

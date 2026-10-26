@@ -1,10 +1,11 @@
-import { CtaButton, Section } from '../../../shared/ui'
-import { questions } from '../model/questions'
+import { Section } from '../../../shared/ui'
+import { questions as defaultQuestions } from '../model/questions'
 
-export function Faq() {
+/** heading и questions меняют заголовок и вопросы (на /bankrotstvo свои). Раскрыты вопросы с defaultOpen. */
+export function Faq({ heading = 'Когда пойдут заявки и что, если реклама уже не сработала', questions = defaultQuestions }) {
   return (
     <Section id="faq" containerClassName="stack stack--tight">
-      <h2 className="section-heading">Сколько стоит, когда пойдут заявки и что, если реклама уже не сработала</h2>
+      <h2 className="section-heading">{heading}</h2>
       <div className="faq-list">
         {questions.map((item) => (
           <details className="faq-item" key={item.id} open={item.defaultOpen}>
@@ -16,7 +17,6 @@ export function Faq() {
           </details>
         ))}
       </div>
-      <CtaButton source="s-faq" style={{ alignSelf: 'flex-start' }} />
     </Section>
   )
 }

@@ -3,9 +3,9 @@ import { CtaButton } from '../../../shared/ui'
 
 /**
  * Нижняя панель с кнопкой, только на телефоне (до 768 px). Появляется, когда первый экран прокручен,
- * и прячется, пока в зоне видимости форма в конце страницы или подвал.
+ * и прячется, пока в зоне видимости форма в конце страницы (endId) или подвал.
  */
-export function StickyCta() {
+export function StickyCta({ endId = 'audit' }) {
   const [pastHero, setPastHero] = useState(false)
   const [endVisible, setEndVisible] = useState(false)
 
@@ -13,7 +13,7 @@ export function StickyCta() {
     if (typeof IntersectionObserver === 'undefined') return undefined
 
     const hero = document.querySelector('.hero')
-    const ends = [document.getElementById('audit'), document.querySelector('.site-footer')].filter(Boolean)
+    const ends = [document.getElementById(endId), document.querySelector('.site-footer')].filter(Boolean)
     const visibleEnds = new Set()
 
     const heroObserver = hero
@@ -34,7 +34,7 @@ export function StickyCta() {
       heroObserver?.disconnect()
       endObserver.disconnect()
     }
-  }, [])
+  }, [endId])
 
   const visible = pastHero && !endVisible
 

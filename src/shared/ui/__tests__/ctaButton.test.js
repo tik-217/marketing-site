@@ -1,4 +1,4 @@
-// Кнопки "Получить разбор": прямой чат в Telegram, data-cta с названием блока, на сайте нет ссылок на бота.
+// Кнопки "Получить разбор конкурентов": прямой чат в Telegram, data-cta с названием блока, на сайте нет ссылок на бота.
 import assert from 'node:assert/strict'
 import { readdirSync, readFileSync, statSync } from 'node:fs'
 import { join } from 'node:path'
@@ -24,7 +24,7 @@ after(async () => {
   await server.close()
 })
 
-const CHAT = 'https://t.me/tigran_front?text=Здравствуйте%2C%20хочу%20разбор%20сайта%20и%20рекламы'
+const CHAT = 'https://t.me/tigran_front?text=Здравствуйте%2C%20хочу%20разбор%20конкурентов'
 
 test('кнопка: прямая ссылка на чат, подпись, новая вкладка и data-cta', () => {
   const html = renderToStaticMarkup(createElement(CtaButton, { source: 's-hero' }))
@@ -32,7 +32,7 @@ test('кнопка: прямая ссылка на чат, подпись, но�
   assert.ok(html.includes('data-cta="hero"'))
   assert.ok(html.includes('target="_blank"'))
   assert.match(html, /rel="noopener noreferrer"/)
-  assert.ok(html.includes('Получить разбор сайта и рекламы'))
+  assert.ok(html.includes('Получить разбор конкурентов'))
   assert.equal(html.includes('start='), false)
 })
 

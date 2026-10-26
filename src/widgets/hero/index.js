@@ -1,1 +1,1 @@
-export { Hero } from './ui/Hero'
+export { Hero, HeroPortrait, TrustRow } from './ui/Hero'

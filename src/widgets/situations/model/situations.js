@@ -14,7 +14,6 @@ export const situations = [
   },
   {
     id: 'no-leads',
-    auditLink: true,
     title: 'Реклама идет, заявок мало',
     description: 'Бюджет откручивается, телефон молчит. Обычно причина в том, что человек видит на сайте.',
   },

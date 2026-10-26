@@ -7,14 +7,12 @@ const reviews = [
     name: 'Андрей Барс Консалт',
     date: '12 октября 2026',
     rating: 5,
-    tag: 'Настройка Яндекс.Директ',
     text: 'Начали работать с Тиграном по 2 проектам компании - специалист внимательный, вежливый, владеет инструментами Я.Директ и нейросетями на профессиональном уровне, есть опыт в разработке, широкий кругозор.',
   },
   {
     name: 'Артем',
     date: '9 октября 2026',
     rating: 5,
-    tag: 'Настройка Яндекс.Директ',
     text: 'Все прошло отлично! Будем сотрудничать!',
   },
 ]
@@ -49,7 +47,6 @@ export function Reviews({ id, config = reviewsConfig }) {
               <span className="review-card__date">{item.date}</span>
             </div>
             <figcaption className="review-card__name">{item.name}</figcaption>
-            <span className="review-card__tag">{item.tag}</span>
             <blockquote className="review-card__text">{item.text}</blockquote>
           </figure>
         ))}

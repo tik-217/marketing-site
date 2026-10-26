@@ -1,1 +1,1 @@
-export { Pricing } from './ui/Pricing'
+export { Pricing, TariffCards } from './ui/Pricing'

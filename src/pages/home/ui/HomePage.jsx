@@ -1,13 +1,12 @@
 import { Seo } from '../../../shared/lib/seo'
+import { CtaButton } from '../../../shared/ui'
 import { Header } from '../../../widgets/header'
 import { Hero } from '../../../widgets/hero'
 import { Cases } from '../../../widgets/cases'
 import { Reviews } from '../../../widgets/reviews'
-import { CaseWalkthrough } from '../../../widgets/case-steps'
 import { Situations } from '../../../widgets/situations'
 import { Pricing } from '../../../widgets/pricing'
 import { About } from '../../../widgets/about'
-import { Terms } from '../../../widgets/terms'
 import { Faq } from '../../../widgets/faq'
 import { Audit } from '../../../widgets/audit'
 import { Footer } from '../../../widgets/footer'
@@ -22,17 +21,21 @@ export function HomePage() {
         <main>
           <Hero />
           <Cases />
-          <CaseWalkthrough />
-          <Reviews />
+          {/* Кнопка между кейсами и отзывами, без своей рамки: продолжает блок кейсов. */}
+          <section className="section-cta">
+            <div className="container">
+              <CtaButton source="s-home-cases" className="btn--wrap" />
+            </div>
+          </section>
+          <Reviews id="reviews" />
           <Situations />
           <Pricing />
           <About />
-          <Terms />
           <Faq />
-          <Audit id="audit" />
+          <Audit id="razbor" />
         </main>
-        <Footer />
-        <StickyCta />
+        <Footer hideCta hideAuditLink />
+        <StickyCta endId="razbor" />
       </div>
     </>
   )

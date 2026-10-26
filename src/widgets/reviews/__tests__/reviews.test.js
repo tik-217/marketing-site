@@ -49,7 +49,7 @@ test('ссылка и переключатель: заголовок, две к�
   assert.equal(html.includes('<img'), false)
   assert.equal((html.match(/class="review-card"/g) || []).length, 2)
   assert.ok(html.indexOf('Андрей Барс Консалт') < html.indexOf('Артем'))
-  assert.equal((html.match(/Настройка Яндекс\.Директ/g) || []).length, 2)
+  assert.equal(html.includes('Настройка Яндекс.Директ'), false)
   assert.equal(html.includes('Стоимость работ'), false)
   assert.equal(html.includes('30000'), false)
   assert.equal(html.includes('review-slider') || html.includes('reviews-slider'), false)
