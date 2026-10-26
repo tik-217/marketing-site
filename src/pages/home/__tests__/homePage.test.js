@@ -98,14 +98,20 @@ test('на главной и /bankrotstvo нет старых текстов и 
   }
 })
 
-test('/bankrotstvo: кнопки "Получить план рекламы по банкротству" и два тарифа', () => {
+test('/bankrotstvo: разбор конкурентов вместо плана рекламы, два тарифа', () => {
   const html = render('/bankrotstvo')
   const page = text('/bankrotstvo')
-  // первый экран, ситуации, тарифы, шаги, подвал
-  assert.equal(count(page, 'Получить план рекламы по банкротству'), 5)
+  // первый экран, ситуации, тарифы, шаги, кнопка формы
+  assert.equal(count(page, 'Получить разбор конкурентов'), 5)
+  assert.equal(count(html, 'class="btn site-footer__cta'), 0)
+  assert.ok(html.includes('href="https://t.me/tigran_front?text=Здравствуйте%2C%20хочу%20разбор%20конкурентов%20по%20банкротству.%20Мой%20город%20"'))
+  assert.ok(page.includes('Бесплатно. Напишите свой город, разбор пришлю в Telegram в тот же день'))
+  assert.ok(page.includes('Покажу, что обещают ваши конкуренты по банкротству в Яндексе'))
+  for (const old of ['План рекламы', 'план рекламы', 'посчитаю сам', 'План пришлю', 'План бесплатный', 'Или позвоните']) {
+    assert.equal(page.includes(old), false, old)
+  }
   assert.equal(count(html, 'class="tariff__name"'), 2)
   assert.ok(page.includes('Реклама Рекомендую 39 000 ₽ в месяц'))
   assert.ok(page.includes('Лендинг и реклама 109 000 ₽ первый месяц рекламы включен, дальше 39 000 ₽ в месяц'))
   assert.ok(page.includes('Как строится ваш канал заявок по банкротству'))
-  assert.ok(page.includes('Отвечу в течение 30 минут. План пришлю в течение 24 часов.'))
 })

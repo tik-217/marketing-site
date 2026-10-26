@@ -20,7 +20,7 @@ const defaultCopy = {
 
 /**
  * Форма для тех, кто не пользуется Telegram. copy меняет тексты блока и состав формы: без practicePlaceholder
- * поля "Практика и город" нет. pageName попадает в скрытое поле и в сообщение, чтобы заявки со страницы
+ * поля "Практика и город" нет, а его подсказка подписывает строку в сообщении. pageName попадает в скрытое поле и в сообщение, чтобы заявки со страницы
  * отличались от заявок с главной.
  */
 export function Audit({ id, copy = defaultCopy, pageName, telegramHref = contacts.telegramUrl }) {
@@ -39,7 +39,7 @@ export function Audit({ id, copy = defaultCopy, pageName, telegramHref = contact
     setError('')
     try {
       await sendTelegramMessage(
-        `Новая заявка с сайта${pageName ? `\nСтраница: ${pageName}` : ''}${practice ? `\nПрактика и город: ${practice}` : ''}\nКонтакт: ${contact}`,
+        `Новая заявка с сайта${pageName ? `\nСтраница: ${pageName}` : ''}${practice ? `\n${copy.practicePlaceholder.replace(/\u00a0/g, ' ')}: ${practice}` : ''}\nКонтакт: ${contact}`,
       )
       setSent(true)
       reachGoal('form_submit')
