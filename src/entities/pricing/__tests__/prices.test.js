@@ -8,8 +8,8 @@ const read = (path) => readFileSync(new URL(`../../../../${path}`, import.meta.u
 const plain = (text) => String(text).replace(/ /g, ' ')
 const byId = (list) => Object.fromEntries(list.map((item) => [item.id, item]))
 
-test('реклама 39 000 ₽ в месяц одним значением на главной и на /bankrotstvo', () => {
-  assert.equal(plain(adsMonthly), '39 000 ₽')
+test('реклама 30 000 ₽ в месяц одним значением на главной и на /bankrotstvo', () => {
+  assert.equal(plain(adsMonthly), '30 000 ₽')
   assert.equal(homeTariffs[0].price, adsMonthly)
   assert.equal(bankruptcyTariffs[0].price, adsMonthly)
   assert.equal(plain(homeTariffs[0].note), 'в месяц')
@@ -22,13 +22,13 @@ test('главная: три тарифа, цены и сроки', () => {
   assert.deepEqual(
     homeTariffs.map((t) => [plain(t.name), plain(t.price), plain(t.term)]),
     [
-      ['Реклама в Яндекс Директе', '39 000 ₽', `Запуск примерно через ${adsLaunchDays} рабочих дней`],
+      ['Реклама в Яндекс Директе', '30 000 ₽', `Запуск примерно через ${adsLaunchDays} рабочих дней`],
       ['Сайт', '70 000 ₽', 'Готовность примерно через 38 рабочих дней'],
       ['Сайт и реклама', '109 000 ₽', 'Запуск примерно через 38 рабочих дней'],
     ],
   )
   assert.equal(home.site.note, undefined)
-  assert.equal(plain(home['site-ads'].note), 'первый месяц рекламы включен, дальше 39 000 ₽ в месяц')
+  assert.equal(plain(home['site-ads'].note), 'первый месяц рекламы включен, дальше 30 000 ₽ в месяц')
   assert.equal(homeTariffs.some((t) => t.recommended), false)
 })
 
@@ -36,7 +36,7 @@ test('/bankrotstvo: два тарифа, рекомендуемый первый
   assert.deepEqual(
     bankruptcyTariffs.map((t) => [plain(t.name), plain(t.price), plain(t.term), Boolean(t.recommended)]),
     [
-      ['Реклама', '39 000 ₽', 'Запуск примерно через 20 рабочих дней', true],
+      ['Реклама', '30 000 ₽', 'Запуск примерно через 20 рабочих дней', true],
       ['Лендинг и реклама', '109 000 ₽', 'Запуск примерно через 35 рабочих дней', false],
     ],
   )

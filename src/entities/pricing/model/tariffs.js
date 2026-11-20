@@ -1,5 +1,5 @@
 // Тарифы на главной и на /bankrotstvo. Реклама стоит одинаково на обеих страницах.
-export const adsMonthly = '39 000 ₽'
+export const adsMonthly = '30 000 ₽'
 export const adsLaunchDays = 20
 
 const withAds = `первый месяц рекламы включен, дальше ${adsMonthly} в месяц`

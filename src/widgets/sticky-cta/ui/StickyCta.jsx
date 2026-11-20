@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { CtaButton } from '../../../shared/ui'
+import { CtaButton } from '../../../features/contact-cta'
 
 /**
  * Нижняя панель с кнопкой, только на телефоне (до 768 px). Появляется, когда первый экран прокручен,

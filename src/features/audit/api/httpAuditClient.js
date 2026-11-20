@@ -21,52 +21,36 @@ export function buildAuditBody(input) {
  * @param {{ baseUrl: string, fetchImpl?: typeof fetch }} options
  * @returns {import('../model/types.js').AuditClient}
  */
-export function createHttpAuditClient({ baseUrl, fetchImpl }) {
-  async function post(path, body, timeoutMs) {
-    const doFetch = fetchImpl ?? globalThis.fetch
+export function createHttpAuditClient({ baseUrl, fetchImpl, timeoutOverride }) {
+  async function request(path, { method, body, timeoutMs }) {
     const controller = new AbortController()
-    const timer = setTimeout(() => controller.abort(), timeoutMs)
+    const timer = setTimeout(() => controller.abort(), timeoutOverride ?? timeoutMs)
     try {
-      return await doFetch(`${baseUrl}${path}`, {
-        method: 'POST',
-        // Content-Type только вместе с телом: пустой POST с этим заголовком бэкенд считает некорректным.
+      const response = await (fetchImpl ?? globalThis.fetch)(`${baseUrl}${path}`, {
+        method,
         ...(body === undefined ? {} : { headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }),
         signal: controller.signal,
       })
+      let data
+      try {
+        data = await response.json()
+      } catch (error) {
+        if (controller.signal.aborted) throw error
+      }
+      return { response, data }
     } finally {
       clearTimeout(timer)
-    }
-  }
-
-  async function get(path, timeoutMs) {
-    const doFetch = fetchImpl ?? globalThis.fetch
-    const controller = new AbortController()
-    const timer = setTimeout(() => controller.abort(), timeoutMs)
-    try {
-      // Только чтение: никакого тела и заголовков, это запрос без preflight.
-      return await doFetch(`${baseUrl}${path}`, { method: 'GET', signal: controller.signal })
-    } finally {
-      clearTimeout(timer)
-    }
-  }
-
-  async function readJson(response) {
-    try {
-      return await response.json()
-    } catch {
-      return undefined
     }
   }
 
   return {
     async runAudit(input) {
-      let response
+      let response, body
       try {
-        response = await post('/api/audit', buildAuditBody(input), TIMEOUT_MS)
+        ({ response, data: body } = await request('/api/audit', { method: 'POST', body: buildAuditBody(input), timeoutMs: TIMEOUT_MS }))
       } catch {
         throw new AuditError('NETWORK_ERROR')
       }
-      const body = await readJson(response)
       if (!response.ok) throw errorFromResponse(response.status, body)
       return parseAuditResponse(body)
     },
@@ -74,37 +58,36 @@ export function createHttpAuditClient({ baseUrl, fetchImpl }) {
     /** Сохраненный отчет по постоянной ссылке. Не запускает аудит ни при каких ответах. */
     async getReport(reportId) {
       if (!isReportId(reportId)) throw new AuditError('REPORT_NOT_FOUND')
-      let response
+      let response, body
       try {
-        response = await get(`/api/reports/${encodeURIComponent(reportId)}`, REPORT_TIMEOUT_MS)
+        ({ response, data: body } = await request(`/api/reports/${encodeURIComponent(reportId)}`, { method: 'GET', timeoutMs: REPORT_TIMEOUT_MS }))
       } catch {
         throw new AuditError('NETWORK_ERROR')
       }
-      const body = await readJson(response)
       if (!response.ok) throw errorFromReportResponse(response.status, body)
       return parseReportResponse(body)
     },
 
     async getReportPdfLink(reportId) {
-      let response
+      let response, body
       try {
-        response = await post(`/api/reports/${encodeURIComponent(reportId)}/pdf-token`, undefined, PDF_TIMEOUT_MS)
+        ({ response, data: body } = await request(`/api/reports/${encodeURIComponent(reportId)}/pdf-token`, { method: 'POST', timeoutMs: PDF_TIMEOUT_MS }))
       } catch {
         throw new AuditError('PDF_FAILED')
       }
       if (!response.ok) throw new AuditError('PDF_FAILED')
-      return parsePdfLink(await readJson(response))
+      return parsePdfLink(body)
     },
 
     async getPdfLink(auditId) {
-      let response
+      let response, body
       try {
-        response = await post(`/api/audits/${encodeURIComponent(auditId)}/pdf-token`, undefined, PDF_TIMEOUT_MS)
+        ({ response, data: body } = await request(`/api/audits/${encodeURIComponent(auditId)}/pdf-token`, { method: 'POST', timeoutMs: PDF_TIMEOUT_MS }))
       } catch {
         throw new AuditError('PDF_FAILED')
       }
       if (!response.ok) throw new AuditError('PDF_FAILED')
-      return parsePdfLink(await readJson(response))
+      return parsePdfLink(body)
     },
   }
 }

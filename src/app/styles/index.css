@@ -2,5 +2,5 @@
 @import './tokens.css';
 @import './base.css';
 @import './landing.css';
-@import './audit.css';
-@import './bankrotstvo.css';
+@import '../../features/audit/audit.css';
+@import '../../pages/bankrotstvo/bankrotstvo.css';

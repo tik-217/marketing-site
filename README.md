@@ -1,16 +1,17 @@
-# React + Vite
+# Сайт маркетолога
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+React, Vite и пререндер публичных страниц. Маршруты описаны в `src/app/AppRoutes.jsx`; страницы, виджеты, фичи, сущности и общие компоненты размещены в соответствующих слоях `src`.
 
-Currently, two official plugins are available:
+## Разработка и проверка
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Нужен Node.js 20.19+ или 22.12+. Выполните `npm ci`, затем `npm run dev`. Команды проверки: `npm test`, `npm run lint`, `npm run build`. Сборка создаёт статический сайт в `dist` и серверный модуль пререндера в `dist-ssr`. Настройка Apache для маршрутов находится в `public/.htaccess`.
 
-## React Compiler
+Аудит по умолчанию работает с тестовыми данными. Для подключения реального API задайте `VITE_AUDIT_MODE=live`; адрес API при необходимости меняется через `VITE_AUDIT_API_URL`. Эти параметры публичные и включаются в клиентскую сборку.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Форма заявки и деплой
 
-## Expanding the Oxlint configuration
+Форма отправляет заявку на `/api/contact.php`. На сервере нужны PHP 8.1+ и расширение cURL. Токен Telegram и ID чата хранятся в серверном `dist/api/contact-config.php`, а не в браузерном коде. Не коммитьте и не публикуйте этот конфиг как статический текст: сервер должен выполнять PHP.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+GitHub Actions при деплое собирает сайт в live-режиме и создаёт конфиг из GitHub Secrets `VITE_TELEGRAM_BOT_TOKEN` и `VITE_TELEGRAM_CHAT_ID`. Для ручной подготовки после сборки запустите `node scripts/contact-config.mjs`, задав серверные переменные окружения `TELEGRAM_BOT_TOKEN` и `TELEGRAM_CHAT_ID`. Обычный Vite dev/preview не исполняет PHP; для проверки формы используйте PHP-сервер с конфигом и тестовым ботом.
+
+Старый токен, который ранее встраивался в клиентскую сборку, необходимо отозвать через BotFather и заменить в GitHub Secrets до следующего деплоя. После развёртывания проверьте доставку тестовой заявки и убедитесь, что конфиг при обращении по HTTP не раскрывает содержимое.

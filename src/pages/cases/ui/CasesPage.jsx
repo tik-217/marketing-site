@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { cases } from '../../../entities/case'
 import { Seo } from '../../../shared/lib/seo'
-import { CtaButton } from '../../../shared/ui'
+import { CtaButton } from '../../../features/contact-cta'
 import { Header } from '../../../widgets/header'
 import { Footer } from '../../../widgets/footer'
 import { CasePreviewCard } from '../../../widgets/cases'

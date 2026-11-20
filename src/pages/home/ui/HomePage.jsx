@@ -1,5 +1,5 @@
 import { Seo } from '../../../shared/lib/seo'
-import { CtaButton } from '../../../shared/ui'
+import { CtaButton } from '../../../features/contact-cta'
 import { Header } from '../../../widgets/header'
 import { Hero } from '../../../widgets/hero'
 import { Cases } from '../../../widgets/cases'

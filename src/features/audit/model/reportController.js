@@ -18,7 +18,8 @@ const initialState = {
  */
 export function createReportController({ client, track }) {
   let state = { ...initialState }
-  let started = false
+  let activeId = null
+  let request = 0
   const listeners = new Set()
   const set = (patch) => {
     state = { ...state, ...patch }
@@ -33,14 +34,17 @@ export function createReportController({ client, track }) {
     },
     /** Загружает отчет один раз на открытие страницы (повторный вызов с тем же id игнорируется). */
     async load(reportId) {
-      if (started) return
-      started = true
+      if (activeId === reportId) return
+      activeId = reportId
+      const current = ++request
       set({ phase: 'loading', report: null, errorCode: '' })
       try {
         const report = await client.getReport(reportId)
+        if (current !== request) return
         track('audit_report_view', { hostname: report.hostname, status: report.status })
         set({ phase: 'result', report })
       } catch (error) {
+        if (current !== request) return
         const code = error instanceof AuditError ? error.code : 'NETWORK_ERROR'
         if (code === 'REPORT_NOT_FOUND') set({ phase: 'notfound', errorCode: code })
         else set({ phase: 'error', errorCode: code })
@@ -49,7 +53,7 @@ export function createReportController({ client, track }) {
     /** Повторная загрузка после сетевой ошибки: тоже только чтение. */
     async retry(reportId) {
       if (state.phase !== 'error') return
-      started = false
+      activeId = null
       return this.load(reportId)
     },
   }

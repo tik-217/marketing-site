@@ -1,5 +1,6 @@
 import { homeTariffs } from '../../../entities/pricing'
-import { CtaButton, Section } from '../../../shared/ui'
+import { Section } from '../../../shared/ui'
+import { CtaButton } from '../../../features/contact-cta'
 
 function CheckIcon() {
   return (

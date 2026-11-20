@@ -334,8 +334,24 @@ test('живой результат: кнопка "Скопировать ссы
 })
 
 test('mobile 390 px: действия отчета складываются в колонку, кнопки на всю ширину', () => {
-  const css = read('src/app/styles/audit.css')
+  const css = read('src/features/audit/audit.css')
   assert.match(css, /@media \(max-width: 480px\)[\s\S]*\.ad-result__actions \{ flex-direction: column/)
   assert.match(css, /\.ad-skeleton__line/)
   assert.match(css, /prefers-reduced-motion: reduce\) \{ \.ad-skeleton__line \{ animation: none/)
+})
+
+
+test('смена отчета: запоздавший ответ предыдущего запроса не заменяет новый', async () => {
+  const pending = new Map()
+  const controller = createReportController({
+    client: { getReport: (id) => new Promise((resolve) => pending.set(id, resolve)) },
+    track: () => {},
+  })
+  const first = controller.load('first')
+  const second = controller.load('second')
+  pending.get('second')({ hostname: 'second.example', status: 'completed' })
+  await second
+  pending.get('first')({ hostname: 'first.example', status: 'completed' })
+  await first
+  assert.equal(controller.getState().report.hostname, 'second.example')
 })
