@@ -1,6 +1,6 @@
-import { contacts } from '../config/contacts'
-import { ctaName } from '../lib/telegramSource'
-import { Button } from './Button'
+import { contacts } from '../../../shared/config/contacts'
+import { ctaName } from '../../../shared/lib/telegramSource'
+import { Button } from '../../../shared/ui'
 
 /**
  * Кнопка "Получить разбор конкурентов": прямой чат в Telegram. source называет блок, из которого ведет кнопка,

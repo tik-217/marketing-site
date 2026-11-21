@@ -158,3 +158,15 @@ test('http-клиент POST /api/audits/{id}/pdf-token: успех и ошиб�
   await assert.rejects(failing(async () => ({ ok: true, status: 200, json: async () => ({ downloadUrl: 'javascript:alert(1)' }) })), { code: 'PDF_FAILED' })
   await assert.rejects(failing(async () => ({ ok: true, status: 200, json: async () => ({ downloadUrl: 'http://insecure.test/a.pdf' }) })), { code: 'PDF_FAILED' })
 })
+
+
+test('тайм-аут действует при ожидании тела ответа', async () => {
+  const client = createHttpAuditClient({
+    baseUrl: 'https://api.test', timeoutOverride: 10,
+    fetchImpl: async (_url, { signal }) => ({
+      ok: true, status: 200,
+      json: () => new Promise((_resolve, reject) => signal.addEventListener('abort', () => reject(new Error('aborted')))),
+    }),
+  })
+  await assert.rejects(client.runAudit({ url }), { code: 'NETWORK_ERROR' })
+})

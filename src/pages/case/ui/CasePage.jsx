@@ -1,17 +1,17 @@
 import { Link, useParams } from 'react-router-dom'
 import { bankruptcyWalkthrough, findCaseBySlug, legalWalkthrough } from '../../../entities/case'
 import { Seo } from '../../../shared/lib/seo'
-import { CtaButton } from '../../../shared/ui'
+import { CtaButton } from '../../../features/contact-cta'
 import { Header } from '../../../widgets/header'
 import { Footer } from '../../../widgets/footer'
 import { CaseWalkthroughPage } from '../../../widgets/case-steps'
-import { NotFoundPage } from '../../not-found'
+import { NotFoundContent } from '../../../shared/ui'
 
 export function CasePage() {
   const { slug } = useParams()
   const item = findCaseBySlug(slug)
 
-  if (!item) return <NotFoundPage />
+  if (!item) return <><Seo title="Страница не найдена" path="/404" noIndex /><NotFoundContent /></>
 
   const inProgress = item.status !== 'done'
   const hasMetrics = item.metrics && item.metrics.length > 0
@@ -79,7 +79,7 @@ export function CasePage() {
           <div className="case-cta">
             <h2 className="case-cta__title">Что в вашем сайте и рекламе можно исправить</h2>
             <p className="case-cta__text">
-              Бесплатно пришлю документ с правками по сайту и рекламе. Для этого задам пять вопросов в Telegram-боте.
+              Напишите мне в Telegram: обсудим ваш сайт и рекламу и выберем, что стоит улучшить.
             </p>
             <CtaButton source={`s-case-${item.slug}`} style={{ marginTop: 'var(--space-2)' }} />
           </div>

@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet-async'
-import { CtaButton } from '../../../shared/ui'
+import { CtaButton } from '../../../features/contact-cta'
 import portrait from '../../../shared/assets/images/tigran-portrait.avif'
 import portraitSmall from '../../../shared/assets/images/tigran-portrait-480.avif'
 

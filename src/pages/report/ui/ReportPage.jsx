@@ -1,6 +1,5 @@
+import { useReport, ReportView } from '../../../features/audit'
 import { useParams } from 'react-router-dom'
-import { useReport } from '../../../features/audit/model/useReport'
-import { ReportView } from '../../../features/audit/ui/ReportView'
 import { Seo } from '../../../shared/lib/seo'
 import { Footer } from '../../../widgets/footer'
 import { Header } from '../../../widgets/header'

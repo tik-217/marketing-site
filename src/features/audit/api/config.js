@@ -4,11 +4,11 @@ import { createMockAuditClient } from './mockAuditClient.js'
 export const DEFAULT_API_URL = 'https://api.gabulyan-tigran.ru'
 
 /** По умолчанию mock. Боевой режим включается только явным VITE_AUDIT_MODE=live. */
-export function getAuditMode(env = import.meta.env) {
+export function getAuditMode(env = { VITE_AUDIT_MODE: import.meta.env?.VITE_AUDIT_MODE }) {
   return env?.VITE_AUDIT_MODE === 'live' ? 'live' : 'mock'
 }
 
-export function getApiUrl(env = import.meta.env) {
+export function getApiUrl(env = { VITE_AUDIT_API_URL: import.meta.env?.VITE_AUDIT_API_URL }) {
   const value = env?.VITE_AUDIT_API_URL
   return typeof value === 'string' && /^https:\/\//.test(value) ? value.replace(/\/$/, '') : DEFAULT_API_URL
 }

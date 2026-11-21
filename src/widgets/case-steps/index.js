@@ -1,1 +1,1 @@
-export { CaseWalkthrough, CaseWalkthroughPage } from './ui/CaseWalkthrough'
+export { CaseWalkthroughPage } from './ui/CaseWalkthrough'

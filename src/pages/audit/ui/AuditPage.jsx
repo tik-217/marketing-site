@@ -1,22 +1,12 @@
+import { getAuditMode, useAudit, useCopyLink, useReportUrl, reportPath, ResultActions, AuditErrorPanel, AuditForm, AuditLoading, AuditResult, SavedNotice } from '../../../features/audit'
 import { useEffect, useRef } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { getAuditMode } from '../../../features/audit/api/config'
-import { useAudit } from '../../../features/audit/model/useAudit'
-import { useCopyLink } from '../../../features/audit/model/useCopyLink'
-import { useReportUrl } from '../../../features/audit/model/useReportUrl'
-import { reportPath } from '../../../features/audit/lib/reportLink'
-import { ResultActions } from '../../../features/audit/ui/ResultActions'
-import { AuditErrorPanel } from '../../../features/audit/ui/AuditErrorPanel'
-import { AuditForm } from '../../../features/audit/ui/AuditForm'
-import { AuditLoading } from '../../../features/audit/ui/AuditLoading'
-import { AuditResult } from '../../../features/audit/ui/AuditResult'
-import { SavedNotice } from '../../../features/audit/ui/SavedNotice'
 import {
   AuthorSection,
   ChecksSection,
   ExampleSection,
   FaqSection,
-} from '../../../features/audit/ui/AuditSections'
+} from './AuditSections'
 import { Seo } from '../../../shared/lib/seo'
 import { Footer } from '../../../widgets/footer'
 import { Header } from '../../../widgets/header'

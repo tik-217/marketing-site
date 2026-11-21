@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { cases } from '../../../entities/case'
-import { CropPicture, CtaButton } from '../../../shared/ui'
+import { CropPicture } from '../../../shared/ui'
+import { CtaButton } from '../../../features/contact-cta'
 import portrait from '../../../shared/assets/images/tigran-portrait.avif'
 
 // Реальный разбор главной gabulyan-tigran.ru, выполненный 9 октября 2026. Тексты ответа сервиса без правок.

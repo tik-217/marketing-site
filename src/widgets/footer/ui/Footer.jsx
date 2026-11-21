@@ -1,7 +1,8 @@
 import { Link, useLocation } from 'react-router-dom'
 import { contacts } from '../../../shared/config/contacts'
 import { ctaName } from '../../../shared/lib/telegramSource'
-import { CtaButton, InstagramIcon, TelegramIcon } from '../../../shared/ui'
+import { InstagramIcon, TelegramIcon } from '../../../shared/ui'
+import { CtaButton } from '../../../features/contact-cta'
 
 /**
  * chat: для страницы /bankrotstvo свой адрес чата, подпись и название блока для кнопки и ссылки Telegram.

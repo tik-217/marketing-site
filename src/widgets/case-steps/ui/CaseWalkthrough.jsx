@@ -1,6 +1,5 @@
-import { Link } from 'react-router-dom'
 import { legalWalkthrough } from '../../../entities/case'
-import { CropPicture, CtaButton, Section } from '../../../shared/ui'
+import { CropPicture } from '../../../shared/ui'
 
 function StepImage({ src, srcDark, alt, crop, mobileCrop }) {
   if (crop || mobileCrop) {
@@ -40,29 +39,6 @@ function Screens({ large, walkthrough = legalWalkthrough }) {
       </ol>
     </div>
   ))
-}
-
-/** Блок на главной: короткий нумерованный список шагов без картинок. Картинки остаются на странице кейса. */
-export function CaseWalkthrough() {
-  const steps = legalWalkthrough.screens.flatMap((screen) => screen.steps)
-  return (
-    <Section containerClassName="stack">
-      <h2 className="section-heading">{legalWalkthrough.title}</h2>
-      <ol className="steps-list">
-        {steps.map((step) => (
-          <li className="steps-list__item" key={step.title}>
-            <span className="steps-list__title">{step.title}</span>
-            <span className="steps-list__text">{step.text}</span>
-          </li>
-        ))}
-      </ol>
-      <Link to="/cases/legalizaciya-kommercheskih-obektov" className="walk-link">
-        Подробно в кейсе <span aria-hidden="true">→</span>
-      </Link>
-      <p className="walk-footnote">{legalWalkthrough.footnote}</p>
-      <CtaButton source="s-case-steps" style={{ alignSelf: 'flex-start' }} />
-    </Section>
-  )
 }
 
 /** Те же шаги на странице кейса, картинки крупнее. */

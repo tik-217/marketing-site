@@ -111,8 +111,8 @@ test('/bankrotstvo: разбор конкурентов вместо плана 
     assert.equal(page.includes(old), false, old)
   }
   assert.equal(count(html, 'class="tariff__name"'), 2)
-  assert.ok(page.includes('Реклама Рекомендую 39 000 ₽ в месяц'))
-  assert.ok(page.includes('Лендинг и реклама 109 000 ₽ первый месяц рекламы включен, дальше 39 000 ₽ в месяц'))
+  assert.ok(page.includes('Реклама Рекомендую 30 000 ₽ в месяц'))
+  assert.ok(page.includes('Лендинг и реклама 109 000 ₽ первый месяц рекламы включен, дальше 30 000 ₽ в месяц'))
   assert.ok(page.includes('Как строится ваш канал заявок по банкротству'))
 })
 

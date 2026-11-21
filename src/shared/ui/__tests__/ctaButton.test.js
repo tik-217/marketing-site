@@ -16,7 +16,7 @@ let moduleSource
 
 before(async () => {
   server = await createServer({ server: { middlewareMode: true }, appType: 'custom', logLevel: 'silent' })
-  ;({ CtaButton } = await server.ssrLoadModule('/src/shared/ui/CtaButton.jsx'))
+  ;({ CtaButton } = await server.ssrLoadModule('/src/features/contact-cta/ui/CtaButton.jsx'))
   ;({ ctaName, packageSource, moduleSource } = await server.ssrLoadModule('/src/shared/lib/telegramSource.js'))
 })
 
