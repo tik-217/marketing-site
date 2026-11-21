@@ -14,8 +14,11 @@ $input = json_decode(file_get_contents('php://input'), true);
 $text = is_array($input) ? ($input['text'] ?? null) : null;
 if (!is_string($text) || trim($text) === '' || strlen($text) > 4000) fail(400);
 $configFile = __DIR__ . '/contact-config.php';
-if (!is_file($configFile)) fail(503);
-$config = require $configFile;
+// На Timeweb Cloud секреты передаются только при запуске контейнера.
+$config = is_file($configFile) ? require $configFile : [
+    'token' => getenv('TELEGRAM_BOT_TOKEN'),
+    'chat_id' => getenv('TELEGRAM_CHAT_ID'),
+];
 if (!is_array($config) || empty($config['token']) || empty($config['chat_id'])) fail(503);
 // Ограничиваем частоту отправки с одного IP. Данные заявки здесь не сохраняются.
 $rateFile = sys_get_temp_dir() . '/site-contact-' . hash('sha256', $_SERVER['REMOTE_ADDR'] ?? 'unknown');
