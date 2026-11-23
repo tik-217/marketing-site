@@ -1,42 +1,77 @@
-name: Deploy to Beget
+name: Deploy to Timeweb
 
 on:
   push:
     branches: [main]
   workflow_dispatch:
 
+permissions:
+  contents: read
+
+concurrency:
+  group: timeweb-production
+  cancel-in-progress: false
+
 jobs:
   deploy:
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
+    timeout-minutes: 12
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Set up Node
-        uses: actions/setup-node@v4
+      - name: Check out source
+        uses: actions/checkout@v6
         with:
-          node-version: 20
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
           cache: npm
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Build
-        run: npm run build
+      - name: Test and build
         env:
           VITE_AUDIT_MODE: live
+        run: |
+          npm test
+          npm run build
+          test ! -e dist/api/contact-config.php
 
-      - name: Prepare server-side contact configuration
-        run: node scripts/contact-config.mjs
+      - name: Publish website files
         env:
-          TELEGRAM_BOT_TOKEN: ${{ secrets.VITE_TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHAT_ID: ${{ secrets.VITE_TELEGRAM_CHAT_ID }}
+          TIMEWEB_DEPLOY: ${{ secrets.TIMEWEB_DEPLOY }}
+        run: |
+          : "${TIMEWEB_DEPLOY:?Set the TIMEWEB_DEPLOY repository secret}"
+          umask 077
+          identity_dir=$(mktemp -d)
+          trap 'rm -f "$identity_dir/key" "$identity_dir/known_hosts"; rmdir "$identity_dir"' EXIT
+          jq -er '.private_key | strings | select(length > 0)' <<< "$TIMEWEB_DEPLOY" > "$identity_dir/key"
+          jq -er '.known_hosts | strings | select(length > 0)' <<< "$TIMEWEB_DEPLOY" > "$identity_dir/known_hosts"
+          host=$(jq -er '.host | strings | select(test("^[a-zA-Z0-9][a-zA-Z0-9.-]+$"))' <<< "$TIMEWEB_DEPLOY")
+          user=$(jq -er '.user | strings | select(test("^[a-zA-Z0-9_][a-zA-Z0-9_-]+$"))' <<< "$TIMEWEB_DEPLOY")
+          unset TIMEWEB_DEPLOY
 
-      - name: Deploy over FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./dist/
-          server-dir: ${{ vars.FTP_SERVER_DIR || '/' }}
+          remote_shell="ssh -i $identity_dir/key -o UserKnownHostsFile=$identity_dir/known_hosts -o StrictHostKeyChecking=yes -o IdentitiesOnly=yes -o BatchMode=yes -o ConnectTimeout=15"
+          target="$user@$host::site/"
+          options=(--rsh="$remote_shell" --recursive --checksum --delay-updates --itemize-changes
+            --exclude=/api/contact-config.php --exclude=/api/.htaccess)
+
+          # Upload new assets before updating any HTML that references them.
+          rsync "${options[@]}" --exclude='*.html' dist/ "$target"
+          rsync "${options[@]}" dist/ "$target"
+
+      - name: Verify production
+        run: |
+          origin=https://gabulyan-tigran.ru
+          asset=$(grep -om1 -E '/assets/index-[A-Za-z0-9_-]+\.js' dist/index.html)
+          response_dir=$(mktemp -d)
+          trap 'rm -f "$response_dir/index.html" "$response_dir/site.js"; rmdir "$response_dir"' EXIT
+          curl --fail --silent --show-error --retry 3 --max-time 20 "$origin/" -o "$response_dir/index.html"
+          grep -Fq -- "$asset" "$response_dir/index.html"
+          curl --fail --silent --show-error --retry 3 --max-time 20 "$origin$asset" -o "$response_dir/site.js"
+          cmp "dist$asset" "$response_dir/site.js"
+          test "$(curl --silent --show-error --max-time 15 -o /dev/null -w '%{http_code}' "$origin/api/contact.php")" = 405
+          test "$(curl --silent --show-error --max-time 15 -o /dev/null -w '%{http_code}' "$origin/api/contact-config.php")" = 403
