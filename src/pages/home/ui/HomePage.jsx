@@ -1,3 +1,4 @@
+import { siteConfig } from '../../../shared/config/site'
 import { Seo } from '../../../shared/lib/seo'
 import { CtaButton } from '../../../features/contact-cta'
 import { Header } from '../../../widgets/header'
@@ -15,7 +16,7 @@ import { StickyCta } from '../../../widgets/sticky-cta'
 export function HomePage() {
   return (
     <>
-      <Seo path="/" />
+      <Seo path="/" description={siteConfig.homeDescription} />
       <div>
         <Header />
         <main>

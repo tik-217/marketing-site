@@ -34,9 +34,9 @@ export function CasesPage() {
 
         <div className="container" style={{ paddingTop: 'var(--space-7)' }}>
           <div className="case-cta">
-            <h2 className="case-cta__title">Что в вашем сайте и рекламе можно исправить</h2>
+            <h2 className="case-cta__title">Посчитаю, сколько клиентов вашей фирме может дать Яндекс</h2>
             <p className="case-cta__text">
-              Бесплатно пришлю документ с правками по сайту и рекламе. Для этого задам пять вопросов в Telegram-боте.
+              Напишите город и услугу, остальное посчитаю сам. За 24 часа пришлю план рекламы для вашей фирмы.
             </p>
             <CtaButton source="s-cases" style={{ marginTop: 'var(--space-2)' }} />
           </div>

@@ -1,22 +1,22 @@
 import { Link, useParams } from 'react-router-dom'
 import { bankruptcyWalkthrough, findCaseBySlug, legalWalkthrough } from '../../../entities/case'
 import { Seo } from '../../../shared/lib/seo'
-import { CtaButton } from '../../../features/contact-cta'
+import { CtaButton } from '../../../shared/ui'
 import { Header } from '../../../widgets/header'
 import { Footer } from '../../../widgets/footer'
 import { CaseWalkthroughPage } from '../../../widgets/case-steps'
-import { NotFoundContent } from '../../../shared/ui'
+import { NotFoundPage } from '../../not-found'
 
 export function CasePage() {
   const { slug } = useParams()
   const item = findCaseBySlug(slug)
 
-  if (!item) return <><Seo title="Страница не найдена" path="/404" noIndex /><NotFoundContent /></>
+  if (!item) return <NotFoundPage />
 
   const inProgress = item.status !== 'done'
   const hasMetrics = item.metrics && item.metrics.length > 0
   const isLegal = item.slug === 'legalizaciya-kommercheskih-obektov'
-  const description = Array.isArray(item.description) ? item.description.join('. ') : item.description
+  const description = item.seoDescription || (Array.isArray(item.description) ? item.description.join('. ') : item.description)
 
   return (
     <>
@@ -30,7 +30,7 @@ export function CasePage() {
             </Link>
             <p className="case-detail-header__eyebrow">{item.eyebrow}</p>
             <h1 className="case-detail-header__title">{item.pageTitle}</h1>
-            <p className="case-detail-header__first-lead">{item.firstLeadLine}</p>
+            {item.firstLeadLine && <p className="case-detail-header__first-lead">{item.firstLeadLine}</p>}
           </div>
 
           <article className="case-article" style={{ paddingTop: 'clamp(var(--space-7), 6vw, var(--space-8))' }}>
@@ -46,11 +46,6 @@ export function CasePage() {
             <section className="case-result">
               <div className="case-result__header">
                 <h2 className="case-result__title">{inProgress ? 'Промежуточный результат' : 'Результат'}</h2>
-                {inProgress && (
-                  <span className="case-result__badge">
-                    <span className="case-result__badge-dot" />В работе
-                  </span>
-                )}
               </div>
               {hasMetrics && (
                 <div className="case-result__metrics">
@@ -64,7 +59,7 @@ export function CasePage() {
                 </div>
               )}
               <p className="case-result__text">{item.resultText}</p>
-              {Array.isArray(item.description) && (
+              {Array.isArray(item.description) && item.description.length > 0 && (
                 <ul className="case-result__list">
                   {item.description.map((line) => (
                     <li key={line}>{line}</li>
@@ -77,9 +72,9 @@ export function CasePage() {
 
         <div className="container" style={{ paddingTop: 'var(--space-7)' }}>
           <div className="case-cta">
-            <h2 className="case-cta__title">Что в вашем сайте и рекламе можно исправить</h2>
+            <h2 className="case-cta__title">Посчитаю, сколько клиентов вашей фирме может дать Яндекс</h2>
             <p className="case-cta__text">
-              Напишите мне в Telegram: обсудим ваш сайт и рекламу и выберем, что стоит улучшить.
+              Напишите город и услугу, остальное посчитаю сам. За 24 часа пришлю план рекламы для вашей фирмы.
             </p>
             <CtaButton source={`s-case-${item.slug}`} style={{ marginTop: 'var(--space-2)' }} />
           </div>

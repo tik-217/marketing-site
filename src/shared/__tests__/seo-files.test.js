@@ -14,12 +14,16 @@ test('sitemap: главная, аудит, страница по банкрот�
   assert.equal((sitemap.match(/<lastmod>\d{4}-\d{2}-\d{2}<\/lastmod>/g) || []).length, 6)
 })
 
-test('meta description сайта', () => {
+test('meta description главной и страниц кейсов', () => {
   assert.ok(
     read('src/shared/config/site.js').includes(
-      'Маркетинг для юридических фирм: анализ ниши, сайт и Яндекс Директ одним исполнителем. Первые заявки за месяц, кабинет и сайт остаются у вас',
+      'Маркетинг для юридических фирм. Приведу клиентов, которые уже ищут юриста в Яндексе. Разбор ниши, сайт и Яндекс Директ одним исполнителем',
     ),
   )
+  assert.ok(read('src/pages/home/ui/HomePage.jsx').includes('description={siteConfig.homeDescription}'))
+  const cases = read('src/entities/case/model/cases.js')
+  assert.ok(cases.includes("seoDescription: 'Как реклама новой услуги юридической фирмы окупилась минимум в 11 раз за три месяца'"))
+  assert.ok(cases.includes("seoDescription: '5 поводов, с которыми к юристу по банкротству приходят клиенты'"))
 })
 
 test('JSON-LD ProfessionalService на главной', () => {

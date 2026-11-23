@@ -3,27 +3,21 @@ import { Link } from 'react-router-dom'
 import { sendTelegramMessage } from '../../../shared/api/telegram'
 import { contacts } from '../../../shared/config/contacts'
 import { reachGoal } from '../../../shared/lib/analytics/goals'
-import { Button, Eyebrow, Section } from '../../../shared/ui'
+import { Button, CtaButton, Eyebrow, Section } from '../../../shared/ui'
 
-// Главная: основной путь в Telegram через кнопки страницы, форма запасная для тех, у кого его нет.
 const defaultCopy = {
-  eyebrow: 'Разбор конкурентов',
-  heading: 'Покажу, что обещают ваши конкуренты в Яндексе',
-  lead: 'Выберите практику и город. В тот же день пришлю в Telegram объявления конкурентов, слабые места каждого и чем можно отстроиться.',
-  hint: 'Нет Telegram? Оставьте телефон или почту, разбор пришлю туда',
-  practicePlaceholder: 'Практика и город',
-  contactPlaceholder: 'Телефон или почта',
-  submitLabel: 'Получить разбор конкурентов',
-  submitOutline: true,
-  help: 'Отвечу в течение 30 минут.',
+  eyebrow: 'План рекламы',
+  heading: 'Посчитаю, сколько клиентов вашей фирме может дать Яндекс',
+  lead: 'Напишите город и услугу. За 24 часа пришлю план с тремя цифрами. Сколько человек в месяц ищут вашу услугу в вашем городе, примерная цена заявки и бюджет на первый месяц. Бесплатно и без обязательств.',
 }
 
+const defaultHelp = 'Отвечу в течение 30 минут. План пришлю в течение 24 часов.'
+
 /**
- * Форма для тех, кто не пользуется Telegram. copy меняет тексты блока и состав формы: без practicePlaceholder
- * поля "Практика и город" нет, а его подсказка подписывает строку в сообщении. pageName попадает в скрытое поле и в сообщение, чтобы заявки со страницы
- * отличались от заявок с главной.
+ * Форма для тех, кто не пользуется Telegram. copy меняет тексты блока, cta добавляет кнопку в Telegram,
+ * pageName попадает в скрытое поле и в сообщение, чтобы заявки со страницы отличались от заявок с главной.
  */
-export function Audit({ id, copy = defaultCopy, pageName, telegramHref = contacts.telegramUrl }) {
+export function Audit({ id, copy = defaultCopy, help = defaultHelp, cta, pageName, telegramHref = contacts.telegramUrl, showAuditLink = true }) {
   const [sent, setSent] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState('')
@@ -32,19 +26,16 @@ export function Audit({ id, copy = defaultCopy, pageName, telegramHref = contact
     event.preventDefault()
     const formData = new FormData(event.target)
     const contact = formData.get('contact')?.toString().trim()
-    const practice = formData.get('practice')?.toString().trim()
     if (!contact) return
 
     setIsSubmitting(true)
     setError('')
     try {
-      await sendTelegramMessage(
-        `Новая заявка с сайта${pageName ? `\nСтраница: ${pageName}` : ''}${practice ? `\n${copy.practicePlaceholder.replace(/\u00a0/g, ' ')}: ${practice}` : ''}\nКонтакт: ${contact}`,
-      )
+      await sendTelegramMessage(`Новая заявка с сайта${pageName ? `\nСтраница: ${pageName}` : ''}\nКонтакт: ${contact}`)
       setSent(true)
       reachGoal('form_submit')
     } catch {
-      setError('Не удалось отправить. Напишите напрямую в Telegram.')
+      setError('Не удалось отправить. Напишите напрямую в Telegram.')
     } finally {
       setIsSubmitting(false)
     }
@@ -56,12 +47,13 @@ export function Audit({ id, copy = defaultCopy, pageName, telegramHref = contact
         <Eyebrow inverse>{copy.eyebrow}</Eyebrow>
         <h2 className="audit__heading">{copy.heading}</h2>
         <p className="audit__lead">{copy.lead}</p>
+        {cta && <CtaButton source={cta.source} href={cta.href} label={cta.label} className="audit__cta" />}
       </div>
 
       <form className="audit-form" method="post" action="#" onSubmit={handleSubmit}>
         {sent ? (
           <div className="stack" style={{ gap: 'var(--space-3)', padding: '24px 0' }}>
-            <h3 className="audit-form__success-title">Получил. Отвечу в течение 30 минут в рабочее время</h3>
+            <h3 className="audit-form__success-title">Получил. Отвечу в течение 30 минут в рабочее время</h3>
             <p style={{ color: 'var(--text-secondary)' }}>
               Если срочно, напишите в{' '}
               <a href={telegramHref} target="_blank" rel="noopener noreferrer">
@@ -72,51 +64,30 @@ export function Audit({ id, copy = defaultCopy, pageName, telegramHref = contact
         ) : (
           <>
             {pageName && <input type="hidden" name="page" value={pageName} />}
-            {copy.practicePlaceholder ? (
-              <p className="audit-form__hint">{copy.hint}</p>
-            ) : (
-              <label className="audit-form__hint" htmlFor={`${id}-contact`}>
-                {copy.hint}
-              </label>
-            )}
-            {copy.practicePlaceholder && (
-              <input
-                id={`${id}-practice`}
-                type="text"
-                name="practice"
-                aria-label={copy.practicePlaceholder}
-                placeholder={copy.practicePlaceholder}
-                className="audit-form__input"
-              />
-            )}
+            <label className="audit-form__hint" htmlFor={`${id}-contact`}>
+              Если не пользуетесь Telegram, оставьте телефон или почту
+            </label>
             <input
               id={`${id}-contact`}
               type="text"
               name="contact"
               inputMode="tel"
               autoComplete="tel"
-              aria-label={copy.contactPlaceholder}
-              placeholder={copy.contactPlaceholder}
+              placeholder="Телефон, Telegram или почта"
               className="audit-form__input"
               required
             />
             <label className="audit-form__consent">
               <input type="checkbox" name="consent" required />
               <span>
-                Согласен на обработку персональных данных и принимаю{' '}
+                Согласен на обработку персональных данных и принимаю{' '}
                 <Link to="/privacy" target="_blank" rel="noopener noreferrer">
                   политику
                 </Link>
               </span>
             </label>
-            <Button
-              as="button"
-              type="submit"
-              block
-              className={copy.submitOutline ? 'audit-form__submit audit-form__submit--outline' : 'audit-form__submit'}
-              disabled={isSubmitting}
-            >
-              {isSubmitting ? 'Отправляю…' : copy.submitLabel}
+            <Button as="button" type="submit" block className="audit-form__submit" disabled={isSubmitting}>
+              {isSubmitting ? 'Отправляю…' : 'Оставить контакт, свяжусь сам'}
             </Button>
             {error ? (
               <p className="audit-form__help" style={{ color: 'var(--accent-700, var(--accent))' }}>
@@ -126,7 +97,19 @@ export function Audit({ id, copy = defaultCopy, pageName, telegramHref = contact
                 </a>
               </p>
             ) : (
-              <p className="audit-form__help">{copy.help}</p>
+              <p className="audit-form__help">{help}</p>
+            )}
+            {showAuditLink && (
+              <>
+                <p className="audit-form__help">
+                  <a href={contacts.reviewChatUrl} data-cta="audit-review" target="_blank" rel="noopener noreferrer">
+                    Сайт и реклама уже есть? Пришлите ссылку, покажу, где они теряют заявки →
+                  </a>
+                </p>
+                <p className="audit-form__help">
+                  <Link to="/audit">Автоматический разбор сайта за 30 секунд →</Link>
+                </p>
+              </>
             )}
           </>
         )}
