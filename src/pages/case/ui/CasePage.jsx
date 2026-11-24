@@ -1,14 +1,26 @@
-import { Link, useParams } from 'react-router-dom'
+import { useSyncExternalStore } from 'react'
+import { Link, useLocation, useParams } from 'react-router-dom'
 import { bankruptcyWalkthrough, findCaseBySlug, legalWalkthrough } from '../../../entities/case'
 import { Seo } from '../../../shared/lib/seo'
-import { CtaButton } from '../../../shared/ui'
+import { CtaButton } from '../../../features/contact-cta'
 import { Header } from '../../../widgets/header'
 import { Footer } from '../../../widgets/footer'
 import { CaseWalkthroughPage } from '../../../widgets/case-steps'
 import { NotFoundPage } from '../../not-found'
 
+const subscribeToOrigin = () => () => {}
+const serverOrigin = () => false
+
 export function CasePage() {
   const { slug } = useParams()
+  const { search } = useLocation()
+  // Пререндер использует обычный URL кейса; после загрузки учитываем источник перехода.
+  const fromBankruptcy = useSyncExternalStore(
+    subscribeToOrigin,
+    () => new URLSearchParams(search).get('from') === 'bankrotstvo',
+    serverOrigin,
+  )
+  const backLink = fromBankruptcy ? '/bankrotstvo#cases' : '/cases'
   const item = findCaseBySlug(slug)
 
   if (!item) return <NotFoundPage />
@@ -21,12 +33,12 @@ export function CasePage() {
   return (
     <>
       <Seo title={item.title} description={description} path={`/cases/${item.slug}`} />
-      <Header />
-      <main className="section">
+      <Header homeHref={fromBankruptcy ? '/bankrotstvo#cases' : '/'} />
+      <main className="section case-detail-page">
         <div className="container">
           <div className="case-detail-header">
-            <Link to="/cases" className="case-detail-header__back">
-              <span aria-hidden="true">←</span> Все кейсы
+            <Link to={backLink} className="case-detail-header__back">
+              <span aria-hidden="true">←</span> {fromBankruptcy ? 'Назад к кейсам' : 'Все кейсы'}
             </Link>
             <p className="case-detail-header__eyebrow">{item.eyebrow}</p>
             <h1 className="case-detail-header__title">{item.pageTitle}</h1>
@@ -45,7 +57,7 @@ export function CasePage() {
 
             <section className="case-result">
               <div className="case-result__header">
-                <h2 className="case-result__title">{inProgress ? 'Промежуточный результат' : 'Результат'}</h2>
+                <h2 className="case-result__title">{item.resultTitle || (inProgress ? 'Промежуточный результат' : 'Результат')}</h2>
               </div>
               {hasMetrics && (
                 <div className="case-result__metrics">
@@ -74,13 +86,13 @@ export function CasePage() {
           <div className="case-cta">
             <h2 className="case-cta__title">Посчитаю, сколько клиентов вашей фирме может дать Яндекс</h2>
             <p className="case-cta__text">
-              Напишите город и услугу, остальное посчитаю сам. За 24 часа пришлю план рекламы для вашей фирмы.
+              Оставьте номер телефона, я уточню город и услугу. За 24 часа пришлю план рекламы для вашей фирмы.
             </p>
-            <CtaButton source={`s-case-${item.slug}`} style={{ marginTop: 'var(--space-2)' }} />
+            <CtaButton source={`s-case-${item.slug}`} href={fromBankruptcy ? '/bankrotstvo#audit' : undefined} style={{ marginTop: 'var(--space-2)' }} />
           </div>
         </div>
       </main>
-      <Footer />
+      <Footer homeHref={fromBankruptcy ? '/bankrotstvo#cases' : '/'} chat={fromBankruptcy ? { href: '/bankrotstvo#audit', source: `s-case-${item.slug}-footer` } : undefined} />
     </>
   )
 }

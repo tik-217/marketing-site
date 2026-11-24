@@ -22,7 +22,7 @@ test('meta description главной и страниц кейсов', () => {
   )
   assert.ok(read('src/pages/home/ui/HomePage.jsx').includes('description={siteConfig.homeDescription}'))
   const cases = read('src/entities/case/model/cases.js')
-  assert.ok(cases.includes("seoDescription: 'Как реклама новой услуги юридической фирмы окупилась минимум в 11 раз за три месяца'"))
+  assert.ok(cases.includes("seoDescription: 'Как маркетинг юридической услуги привел 3 клиентов с общей выручкой более 3 млн ₽'"))
   assert.ok(cases.includes("seoDescription: '5 поводов, с которыми к юристу по банкротству приходят клиенты'"))
 })
 
@@ -34,7 +34,7 @@ test('JSON-LD ProfessionalService на главной', () => {
   assert.ok(home.includes("addressLocality: 'Анапа', addressCountry: 'RU'"))
   assert.ok(home.includes("areaServed: 'RU'"))
   assert.ok(home.includes("description: 'Маркетинг для юридических фирм: анализ ниши, сайт и Яндекс Директ'"))
-  assert.ok(home.includes("sameAs: ['https://t.me/tigran_front', 'https://www.instagram.com/tigran_pro_marketing/']"))
+  assert.equal(home.includes('sameAs:'), false)
 })
 
 test('сборка запускает серверную сборку и пререндер', () => {

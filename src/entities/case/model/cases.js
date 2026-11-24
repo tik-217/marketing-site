@@ -26,13 +26,18 @@ export const cases = [
     id: 'legal',
     slug: 'legalizaciya-kommercheskih-obektov',
     title: 'Легализация коммерческих объектов',
-    pageTitle: 'Одна сделка окупила маркетинг минимум в 11 раз за три месяца',
+    pageTitle: '3 клиента с общей выручкой более 3 млн ₽',
     keyFacts: [],
     firstLeadLine: '',
-    seoDescription: 'Как реклама новой услуги юридической фирмы окупилась минимум в 11 раз за три месяца',
+    seoDescription: 'Как маркетинг юридической услуги привел 3 клиентов с общей выручкой более 3 млн ₽',
     niche: 'Юридические услуги',
     orderedService: 'Анализ и Директ',
     eyebrow: 'Легализация коммерческих объектов',
+    previewSummary: {
+      result: '3 клиента с общей выручкой более 3 млн ₽',
+      challenge: 'Проверить спрос на новую услугу и получить первые обращения',
+      solution: 'Маркетинговый анализ, запуск рекламы и настройка аналитики',
+    },
     cover: { src: caseLegalAudienceLight, srcDark: caseLegalAudienceDark, alt: 'Описание целевой аудитории', mobileCrop: DOC_MOBILE_CROP },
     gallery: [
       { light: caseLegalAudienceLight, dark: caseLegalAudienceDark, alt: 'Описание целевой аудитории', mobileCrop: DOC_MOBILE_CROP },
@@ -47,7 +52,8 @@ export const cases = [
     clientStory: [
       'Фирма открыла новое направление, легализацию коммерческих объектов. Никто не знал, ищут ли такую услугу в Яндексе. Нужно было проверить спрос и получить первые обращения.',
     ],
-    resultText: '3-й месяц работы. Одна сделка окупила маркетинг минимум в 11 раз за три месяца.',
+    resultTitle: 'Результат',
+    resultText: 'Привел 3 клиентов с общей выручкой более 3 млн ₽.',
     solutionSteps: [
       {
         title: 'Маркетинговый анализ',
@@ -81,6 +87,12 @@ export const cases = [
     niche: 'Списание долгов',
     orderedService: 'Маркетинговый анализ',
     eyebrow: 'Банкротство физических лиц',
+    previewSummary: {
+      result: '5 типов клиентских запросов для будущей рекламы',
+      challengeLabel: 'Задача',
+      challenge: 'Подготовить фирму к запуску продвижения по банкротству',
+      solution: 'Анализ аудитории, конкурентов и торгового предложения за 14 рабочих дней',
+    },
     cover: { src: caseBankruptcyAudienceLight, srcDark: caseBankruptcyAudienceDark, alt: 'Анализ целевой аудитории для услуги банкротства физических лиц', mobileCrop: DOC_MOBILE_CROP },
     gallery: [
       { light: caseBankruptcyAudienceLight, dark: caseBankruptcyAudienceDark, alt: 'Анализ целевой аудитории для услуги банкротства физических лиц', mobileCrop: DOC_MOBILE_CROP },

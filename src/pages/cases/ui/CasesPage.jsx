@@ -36,7 +36,7 @@ export function CasesPage() {
           <div className="case-cta">
             <h2 className="case-cta__title">Посчитаю, сколько клиентов вашей фирме может дать Яндекс</h2>
             <p className="case-cta__text">
-              Напишите город и услугу, остальное посчитаю сам. За 24 часа пришлю план рекламы для вашей фирмы.
+              Оставьте номер телефона, я уточню город и услугу. За 24 часа пришлю план рекламы для вашей фирмы.
             </p>
             <CtaButton source="s-cases" style={{ marginTop: 'var(--space-2)' }} />
           </div>

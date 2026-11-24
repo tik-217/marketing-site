@@ -7,6 +7,7 @@ import { CasePage } from '../pages/case'
 import { NotFoundPage } from '../pages/not-found'
 import { PrivacyPage } from '../pages/privacy'
 import { ReportPage } from '../pages/report'
+import { ContactDialog } from '../widgets/audit/ui/ContactDialog'
 import { ScrollToTop } from './ScrollToTop'
 
 /** Маршруты сайта. Общие для браузера и для пререндера при сборке. */
@@ -24,6 +25,7 @@ export function AppRoutes() {
         <Route path="/privacy" element={<PrivacyPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
+      <ContactDialog />
     </>
   )
 }

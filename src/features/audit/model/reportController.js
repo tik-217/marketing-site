@@ -68,7 +68,7 @@ export function createReportController({ client, track }) {
 export function createReportTrack(baseTrack, context) {
   const base = () => ({ hostname: context.hostname, status: context.status })
   return (name) => {
-    if (name === 'audit_telegram_click') baseTrack('audit_report_telegram_click', base())
+    if (name === 'audit_form_open_click') baseTrack('audit_report_form_open_click', base())
     else if (name === 'audit_pdf_click') baseTrack('audit_report_pdf_click', base())
     else if (name === 'audit_report_link_copy') baseTrack('audit_report_link_copy', base())
     // audit_result_view, audit_copy_message и прочие события живого результата здесь не нужны

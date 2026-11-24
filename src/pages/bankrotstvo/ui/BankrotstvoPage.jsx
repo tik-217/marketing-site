@@ -1,18 +1,18 @@
 import { Helmet } from 'react-helmet-async'
 import { cases } from '../../../entities/case'
-import { adsLaunchDays, adsMonthly, packages } from '../../../entities/pricing'
+import { homeTariffs } from '../../../entities/pricing'
 import { contacts } from '../../../shared/config/contacts'
 import { Seo } from '../../../shared/lib/seo'
-import { ctaName } from '../../../shared/lib/telegramSource'
-import { CtaButton, LoopVideo, Section } from '../../../shared/ui'
+import { LoopVideo, Section } from '../../../shared/ui'
+import { CtaButton } from '../../../features/contact-cta'
 import portrait from '../../../shared/assets/images/tigran-portrait.avif'
 import portraitSmall from '../../../shared/assets/images/tigran-portrait-480.avif'
 import { Audit } from '../../../widgets/audit'
 import { CasePreviewCard } from '../../../widgets/cases'
 import { Footer } from '../../../widgets/footer'
 import { Header } from '../../../widgets/header'
-import { HeroReview } from '../../../widgets/hero'
-import { CheckIcon, TariffCards } from '../../../widgets/pricing'
+import { TrustRow } from '../../../widgets/hero'
+import { TariffCards } from '../../../widgets/pricing'
 import { Reviews } from '../../../widgets/reviews'
 
 const TITLE = 'Реклама для юристов по банкротству в Яндекс Директе, Габулян Тигран'
@@ -40,20 +40,6 @@ const situations = [
   },
 ]
 
-const buyLeads = [
-  'Сайт и кабинет у поставщика',
-  'Кому еще уйдет заявка, решает поставщик',
-  'Перестали платить, и не осталось ничего',
-  'Видно заявки, но не договоры',
-]
-
-const ownChannel = [
-  'Сайт и кабинет ваши',
-  'Заявка приходит только вам',
-  'Остаются сайт, кампании и статистика',
-  'Видно, какая реклама приносит договоры',
-]
-
 const process = [
   ['Каждый должник видит объявление про свою ситуацию', 'В последнем анализе по банкротству вышло пять поводов обратиться к юристу, и под каждый пишутся свои объявления'],
   ['Беру из рекламы конкурентов в вашем регионе то, что работает', 'И добавляю то, чего у них нет. Человек сравнивает объявления на одной странице поиска, и у него появляется причина выбрать вас'],
@@ -66,12 +52,6 @@ const whoItems = [
   'Работаю один, без менеджера между нами, веду 2-3 проекта одновременно и каждый лично',
   'Четыре года юридического образования, поэтому понимаю, как устроена практика и как юристы говорят с клиентами',
   'Сайт собираю и правлю сам, правка текста занимает день, а не две недели через подрядчика',
-]
-
-const contractItems = [
-  'Состав работ и срок каждого этапа',
-  'Отчеты о результатах рекламы каждую неделю',
-  'Сайт, кампании и статистика остаются в вашем кабинете',
 ]
 
 const faq = [
@@ -111,9 +91,9 @@ function Hero() {
             Запуск за 20 рабочих дней, кабинет на вашей фирме. В&nbsp;легализации коммерческих объектов одна сделка окупила маркетинг минимум в&nbsp;11&nbsp;раз.
           </p>
           <div className="hero__cta">
-            <CtaButton {...cta('s-bankrotstvo-hero')} />
-            <p className="hero__help">Бесплатно. Напишите свой город, остальное посчитаю сам. Отвечу в течение 30 минут</p>
-            <HeroReview />
+            <CtaButton {...cta('s-bankrotstvo-hero')} label="Получить разбор конкурентов" className="btn--wrap" />
+            <p className="hero__help">Бесплатно. Оставьте номер телефона, я уточню ваш город. Отвечу в течение 30 минут</p>
+            <TrustRow />
           </div>
         </div>
         <picture>
@@ -146,52 +126,6 @@ function Situations() {
         ))}
       </div>
       <CtaButton {...cta('s-bankrotstvo-situations')} style={{ alignSelf: 'flex-start' }} />
-    </Section>
-  )
-}
-
-function MinusIcon() {
-  return (
-    <svg viewBox="0 0 28 28" width="28" height="28" aria-hidden="true" focusable="false">
-      <circle cx="14" cy="14" r="14" fill="currentColor" opacity="0.14" />
-      <path d="M9 14h10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-    </svg>
-  )
-}
-
-/** Две карточки: покупные лиды (приглушенная) и свой канал (акцентная). Пункты стоят на одной высоте за счет общей сетки. */
-function Compare() {
-  return (
-    <Section id="leads" containerClassName="stack">
-      <h2 className="section-heading">Покупные лиды или свой канал</h2>
-      <p className="section-lead">
-        Да, цена лида записана в договоре. Но вы платите за чужой трафик, и с последним платежом заканчивается все.
-      </p>
-      <div className="vs">
-        <article className="vs-card vs-card--muted">
-          <header className="vs-card__head">
-            <h3 className="vs-card__title">Покупные лиды</h3>
-          </header>
-          {buyLeads.map((item) => (
-            <p className="vs-card__item" key={item}>
-              <MinusIcon />
-              <span>{item}</span>
-            </p>
-          ))}
-        </article>
-        <article className="vs-card vs-card--accent">
-          <header className="vs-card__head">
-            <h3 className="vs-card__title">Свой канал в Яндекс Директе</h3>
-          </header>
-          {ownChannel.map((item) => (
-            <p className="vs-card__item" key={item}>
-              <CheckIcon />
-              <span>{item}</span>
-            </p>
-          ))}
-        </article>
-      </div>
-      <p className="vs-conclusion">Нужен поток на месяц, проще купить лиды. Нужен канал на годы, его строят в своем кабинете.</p>
     </Section>
   )
 }
@@ -240,85 +174,23 @@ function CasesBlock() {
     <Section id="cases" containerClassName="stack">
       <h2 className="section-heading">Кейсы в юридической нише</h2>
       <div className="case-preview-grid">
-        <CasePreviewCard
-          {...legalCase}
-          pageTitle="Другая ниша, тот же метод. Одна сделка окупила маркетинг минимум в 11 раз за три месяца"
-        />
+        <CasePreviewCard {...legalCase} />
         <CasePreviewCard {...bankruptcyCase} />
       </div>
     </Section>
   )
 }
 
-function daysText(duration) {
-  const n = Number(String(duration).replace(/\D/g, ''))
-  const last = n % 10
-  const word = last === 1 && n % 100 !== 11 ? 'рабочий день' : last >= 2 && last <= 4 && (n % 100 < 10 || n % 100 >= 20) ? 'рабочих дня' : 'рабочих дней'
-  return `Запуск примерно через ${n} ${word}`
-}
-
-const directPackage = packages.find((item) => item.id === 'direct')
-const trafficPackage = packages.find((item) => item.id === 'traffic')
-const withAds = (monthly) => `первый месяц рекламы включен, дальше ${monthly} в месяц`
-
-// Цены берутся из общих данных (src/entities/pricing), поэтому совпадают с главной.
-const tariffs = [
-  {
-    id: 'reklama',
-    name: 'Только реклама',
-    price: adsMonthly,
-    note: 'в месяц',
-    items: ['Семантика, объявления и баннеры', 'Настройка и ведение кампаний', 'Отчеты каждую неделю'],
-    term: `Запуск примерно через ${adsLaunchDays} рабочих дней`,
-  },
-  {
-    id: 'direkt',
-    name: 'Директ',
-    price: directPackage.price,
-    note: withAds(directPackage.monthly),
-    items: ['Все из первого варианта', 'Анализ ниши, конкурентов и аудитории'],
-    term: daysText(directPackage.duration),
-    recommended: true,
-  },
-  {
-    id: 'trafik',
-    name: 'Трафик',
-    price: trafficPackage.price,
-    note: withAds(trafficPackage.monthly),
-    items: ['Все из второго варианта', 'Лендинг под банкротство'],
-    term: daysText(trafficPackage.duration),
-  },
-]
-
-const tariffHref = (name) =>
-  `https://t.me/tigran_front?text=${encodeURIComponent(`Здравствуйте, интересует тариф «${name}» для фирмы по банкротству`)}`
+const tariffHref = () => '/bankrotstvo#audit'
 
 function Price() {
   return (
     <Section id="prices" containerClassName="stack">
-      <h2 className="section-heading">Три варианта старта</h2>
-      <p className="section-lead">Анализ ниши входит в оба пакета. Если свой анализ уже есть, хватит первого варианта.</p>
-      <TariffCards tariffs={tariffs} getHref={(tariff) => tariffHref(tariff.name)} sourcePrefix="s-bankrotstvo-tariff" />
+      <h2 className="section-heading">Сколько стоит</h2>
+      <TariffCards tariffs={homeTariffs} getHref={tariffHref} sourcePrefix="s-bankrotstvo-tariff" />
       <div className="tariffs-foot">
         <p className="tariffs-foot__budget">Рекламный бюджет оплачиваете отдельно, на свой кабинет.</p>
-        <div className="tariffs-foot__cta">
-          <CtaButton {...cta('s-bankrotstvo-price')} />
-          <p className="tariffs-foot__caption">План бесплатный, отвечу за 30 минут</p>
-        </div>
       </div>
-    </Section>
-  )
-}
-
-function Guarantees() {
-  return (
-    <Section id="contract" containerClassName="stack">
-      <h2 className="section-heading">Что вы получаете по договору</h2>
-      <ul className="terms-list">
-        {contractItems.map((item) => (
-          <li key={item}>{item}</li>
-        ))}
-      </ul>
     </Section>
   )
 }
@@ -342,37 +214,29 @@ function Faq() {
   )
 }
 
-/** Отдельная страница под рекламу по банкротству. Главная остается как есть, кампания ведет сюда. */
 export function BankrotstvoPage() {
   return (
     <>
       <Seo fullTitleText={TITLE} description={DESCRIPTION} path="/bankrotstvo" />
       <div className="bankrotstvo-page">
-        <Header telegram={{ href: contacts.bankruptcyChatUrl, block: ctaName('s-bankrotstvo-header') }} />
+        <Header />
         <main>
           <Hero />
           <CasesBlock />
           <Reviews id="reviews" />
           <Situations />
-          <Compare />
           <Price />
           <Process />
           <Who />
-          <Guarantees />
           <Faq />
           <Audit
             id="audit"
             pageName="/bankrotstvo"
-            telegramHref={contacts.bankruptcyChatUrl}
             help="План пришлю в течение 24 часов."
-            reviewLink={{
-              href: contacts.bankruptcyReviewChatUrl,
-              label: 'Реклама уже идет? Пришлите ссылку, покажу, где она теряет заявки, и проверю на требования статьи 28.1 →',
-            }}
             copy={{
               eyebrow: 'План рекламы',
               heading: 'Посчитаю, сколько клиентов по банкротству вам может дать Яндекс',
-              lead: 'Напишите свой город. За 24 часа пришлю план с тремя цифрами. Сколько человек в месяц ищут юриста по банкротству в вашем городе, примерная цена заявки и бюджет на первый месяц. Цену заявки сравните с ценой покупного лида до того, как что-то платить. Бесплатно и без обязательств.',
+              lead: 'Оставьте номер телефона, и я уточню ваш город. За 24 часа пришлю план с тремя цифрами. Сколько человек в месяц ищут юриста по банкротству в вашем городе, примерная цена заявки и бюджет на первый месяц. Цену заявки сравните с ценой покупного лида до того, как что-то платить. Бесплатно и без обязательств.',
             }}
           />
         </main>

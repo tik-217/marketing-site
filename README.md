@@ -2,6 +2,17 @@
 
 React, Vite и пререндер публичных страниц. Маршруты описаны в `src/app/AppRoutes.jsx`; страницы, виджеты, фичи, сущности и общие компоненты размещены в соответствующих слоях `src`.
 
+## Где что менять
+
+- Тарифы на обеих страницах: `src/entities/pricing/model/tariffs.js` — названия, цены, состав и сроки.
+- Первый экран главной: `src/widgets/hero/ui/Hero.jsx`; первый экран и другие тексты страницы банкротства: `src/pages/bankrotstvo/ui/BankrotstvoPage.jsx`.
+- Порядок блоков главной: `src/pages/home/ui/HomePage.jsx`.
+- Кейсы: тексты и изображения в `src/entities/case/model/cases.js`, подробные шаги — в файлах `legalWalkthrough.js` и `bankruptcyWalkthrough.js` рядом.
+- Отзывы: `src/shared/config/reviews.js`; вопросы главной: `src/widgets/faq/model/questions.js`.
+- Телефон и подписи кнопок: `src/shared/config/contacts.js`; сама форма: `src/widgets/audit/ui/ContactForm.jsx`.
+- Фотография первого экрана: `src/shared/assets/images/tigran-portrait.avif` и уменьшенная версия `tigran-portrait-480.avif`.
+- Цвета, размеры и отступы: `src/app/styles/tokens.css`. Остальные стили страницы лежат рядом в файлах `landing*.css`; их порядок подключения указан в `src/app/styles/index.css`.
+
 ## Разработка и проверка
 
 Нужен Node.js 20.19+ или 22.12+. Выполните `npm ci`, затем `npm run dev`. Команды проверки: `npm test`, `npm run lint`, `npm run build`. Сборка создаёт статический сайт в `dist` и серверный модуль пререндера в `dist-ssr`. Настройка Apache для маршрутов находится в `public/.htaccess`.
@@ -15,3 +26,7 @@ React, Vite и пререндер публичных страниц. Маршр�
 GitHub Actions при деплое собирает сайт в live-режиме и создаёт конфиг из GitHub Secrets `VITE_TELEGRAM_BOT_TOKEN` и `VITE_TELEGRAM_CHAT_ID`. Для ручной подготовки после сборки запустите `node scripts/contact-config.mjs`, задав серверные переменные окружения `TELEGRAM_BOT_TOKEN` и `TELEGRAM_CHAT_ID`. Обычный Vite dev/preview не исполняет PHP; для проверки формы используйте PHP-сервер с конфигом и тестовым ботом.
 
 Старый токен, который ранее встраивался в клиентскую сборку, необходимо отозвать через BotFather и заменить в GitHub Secrets до следующего деплоя. После развёртывания проверьте доставку тестовой заявки и убедитесь, что конфиг при обращении по HTTP не раскрывает содержимое.
+
+## Цели аналитики
+
+При открытии окна заявки сайт отправляет в Яндекс Метрику цель `form_open` с параметром `block` (если он задан у кнопки). Успешная отправка заявки — `form_submit`, нажатие на номер телефона — `phone_click`. Перед публикацией настройте цель с идентификатором `form_open` в счетчике 112916010 и обновите использующие старую цель `tg_click` отчеты и рекламные кампании. Старые данные останутся в истории прежней цели.

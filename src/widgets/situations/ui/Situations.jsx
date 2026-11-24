@@ -1,4 +1,5 @@
-import { CtaButton, Section } from '../../../shared/ui'
+import { Section } from '../../../shared/ui'
+import { CtaButton } from '../../../features/contact-cta'
 import { situations } from '../model/situations'
 
 export function Situations() {

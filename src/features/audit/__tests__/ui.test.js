@@ -48,7 +48,7 @@ test('PDF в ряду кнопок наверху, Telegram остается г�
   assert.match(top.match(/<button[^>]*>Скачать отчет в PDF<\/button>/)[0], /ad-btn--outline/)
   // внизу результата PDF больше нет
   assert.equal(result.includes('PDF'), false)
-  assert.match(result, /https:\/\/t\.me\/tigran_front\?text=/)
+  assert.match(result, /href="\/#razbor"/)
   const telegramButton = result.match(/<a[^>]*ad-final__btn[^>]*>/)[0]
   assert.doesNotMatch(telegramButton, /ad-btn--outline/)
 })
@@ -80,7 +80,7 @@ test('без auditId кнопки PDF нет, разбор и Telegram на ме
   const html = render(response) + pdfRow(undefined)
   assert.equal(html.includes('PDF'), false)
   assert.match(html, /Краткий итог/)
-  assert.match(html, /Написать в Telegram/)
+  assert.match(html, /Оставить заявку/)
 })
 
 test('partial с auditId: заметка и полный разбор, PDF доступен', async () => {
@@ -103,7 +103,7 @@ test('ошибка PDF показывает сообщение, а разбор 
   assert.ok(pdfRow({ status: 'error', onClick: noop }).includes(PDF_ERROR))
   assert.match(result, /Краткий итог/)
   assert.match(result, /Основные проблемы/)
-  assert.match(result, /Написать в Telegram/)
+  assert.match(result, /Оставить заявку/)
 })
 
 test('структура результата: пустые блоки не показываются', async () => {
@@ -130,7 +130,7 @@ test('ошибки: тексты, повтор и Telegram', () => {
   const limit = renderError('RATE_LIMITED')
   assert.match(limit, /На сегодня лимит бесплатных аудитов исчерпан\./)
   assert.equal(limit.includes('Попробовать еще раз'), false)
-  assert.match(limit, /t\.me\/tigran_front/)
+  assert.match(limit, /href="\/#razbor"/)
 
   const reached = renderError('AUDIT_LIMIT_REACHED')
   assert.match(reached, /На сегодня лимит бесплатных аудитов исчерпан\./)

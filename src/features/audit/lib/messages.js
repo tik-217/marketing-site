@@ -16,15 +16,11 @@ const retryable = new Set([
   'INVALID_RESPONSE',
 ])
 
-// Ошибки, после которых человека стоит не бросать, а вести в Telegram.
-const telegramFallback = new Set(['RATE_LIMITED', 'AUDIT_LIMIT_REACHED', 'AUDIT_BUSY', 'AUDIT_NOT_AVAILABLE'])
-
 export function messageForError(code) {
   return errorMessages[code] ?? errorMessages.AUDIT_TEMPORARILY_UNAVAILABLE
 }
 
 export const canRetry = (code) => retryable.has(code)
-export const hasTelegramFallback = (code) => telegramFallback.has(code)
 
 export const validationMessages = {
   empty: 'Вставьте ссылку на сайт.',

@@ -1,68 +1,18 @@
-// Цены на сайте: одни данные для главной и страницы /bankrotstvo, без скидок.
 import assert from 'node:assert/strict'
-import { readFileSync } from 'node:fs'
 import { test } from 'node:test'
-import { adsLaunchDays, adsMonthly, homeTariffs, packageModules, packages } from '../model/packages.js'
+import { homeTariffs } from '../model/tariffs.js'
 
-const read = (path) => readFileSync(new URL(`../../../../${path}`, import.meta.url), 'utf8')
-
-test('реклама 39 000 ₽ в месяц одним значением для модуля и пакетов', () => {
-  assert.equal(adsMonthly, '39 000 ₽')
-  assert.equal(packageModules.find((m) => m.id === 'ads').price, '39 000 ₽/мес')
-  assert.ok(read('src/entities/pricing/model/modules.js').includes('price: `${adsMonthly} в месяц`'))
+test('тарифы: названия, цены и сроки для обеих страниц', () => {
+  assert.deepEqual(homeTariffs.map(({ id, name, price, term }) => ({ id, name, price, term })), [
+    { id: 'ads', name: 'Реклама в Яндекс Директе', price: '30 000 ₽/мес', term: 'Запуск примерно через 20 рабочих дней' },
+    { id: 'site', name: 'Сайт', price: '70 000 ₽', term: 'Готовность примерно через 38 рабочих дней' },
+    { id: 'site-ads', name: 'Сайт и реклама', price: '100 000 ₽', term: 'Запуск примерно через 38 рабочих дней' },
+  ])
 })
 
-test('пакеты: цена равна сумме модулей, дальше в месяц по новому списку', () => {
-  const expected = {
-    direct: ['89 000 ₽', '39 000 ₽'],
-    traffic: ['159 000 ₽', '39 000 ₽'],
-    system: ['229 000 ₽', '109 000 ₽'],
-    launch: ['269 000 ₽', '109 000 ₽'],
+test('у каждого тарифа есть состав без пустых пунктов', () => {
+  for (const tariff of homeTariffs) {
+    assert.ok(tariff.items.length > 0, tariff.name)
+    assert.ok(tariff.items.every((item) => item.trim().length > 0), tariff.name)
   }
-  for (const pkg of packages) {
-    assert.deepEqual([pkg.price, pkg.monthly], expected[pkg.id], pkg.id)
-    assert.equal(pkg.modulesTotal, pkg.price, `${pkg.id}: без скидки`)
-  }
-})
-
-test('тарифы главной: цены, сроки и строка про первый месяц рекламы', () => {
-  const byId = Object.fromEntries(homeTariffs.map((item) => [item.id, item]))
-  assert.deepEqual(
-    homeTariffs.map((item) => [item.name, item.price]),
-    [['Реклама в Яндекс Директе', '89 000 ₽'], ['Сайт', '120 000 ₽'], ['Сайт и реклама', '159 000 ₽']],
-  )
-  assert.equal(byId.ads.note, 'первый месяц рекламы включен, дальше 39 000 ₽ в месяц')
-  assert.equal(byId['site-ads'].note, byId.ads.note)
-  assert.equal(byId.ads.term, 'Запуск примерно через 20 рабочих дней')
-  assert.equal(byId.site.term, 'Готовность примерно через 38 рабочих дней')
-  assert.equal(byId['site-ads'].term, 'Запуск примерно через 38 рабочих дней')
-})
-
-test('порог бюджета больше нигде не выводится', () => {
-  for (const file of ['src/widgets/terms/ui/Terms.jsx', 'src/pages/bankrotstvo/ui/BankrotstvoPage.jsx']) {
-    assert.equal(read(file).includes('порог'), false, file)
-  }
-})
-
-test('старых цен и слова про скидку нет в данных и страницах', () => {
-  const files = [
-    'src/entities/pricing/model/packages.js',
-    'src/entities/pricing/model/modules.js',
-    'src/pages/bankrotstvo/ui/BankrotstvoPage.jsx',
-    'src/widgets/pricing/ui/Pricing.jsx',
-  ]
-  for (const file of files) {
-    const source = read(file)
-    for (const old of ['82 800', '147 200', '211 600', '248 400', '110 000', '8%']) {
-      assert.equal(source.includes(old), false, `${file}: ${old}`)
-    }
-    assert.equal(/скидк/i.test(source), false, `${file}: скидка`)
-  }
-})
-
-test('сроки пакетов: Директ 20, Трафик 35, Система и Запуск с нуля не менялись, реклама 14', () => {
-  const days = Object.fromEntries(packages.map((pkg) => [pkg.id, pkg.duration]))
-  assert.deepEqual(days, { direct: 'около 20', traffic: 'около 35', system: 'около 42', launch: 'около 55' })
-  assert.equal(adsLaunchDays, 14)
-  assert.ok(read('src/entities/pricing/model/modules.js').includes('Срок запуска ${adsLaunchDays} рабочих дней'))
 })

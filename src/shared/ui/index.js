@@ -1,8 +1,6 @@
 export { Button } from './Button'
 export { Section } from './Section'
 export { Eyebrow } from './Eyebrow'
-export { InstagramIcon } from './InstagramIcon'
-export { TelegramIcon } from './TelegramIcon'
 export { ExternalLinkIcon } from './ExternalLinkIcon'
 export { LoopVideo } from './LoopVideo'
 export { PhoneIcon } from './PhoneIcon'

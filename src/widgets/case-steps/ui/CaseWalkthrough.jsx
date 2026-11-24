@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { legalWalkthrough } from '../../../entities/case'
-import { CropPicture, CtaButton, Section } from '../../../shared/ui'
+import { CropPicture, Section } from '../../../shared/ui'
+import { CtaButton } from '../../../features/contact-cta'
 
 function StepImage({ src, srcDark, alt, crop, mobileCrop }) {
   if (crop || mobileCrop) {
@@ -76,7 +77,7 @@ function Screens({ large, walkthrough = legalWalkthrough }) {
   let counter = 0
   return walkthrough.screens.map((screen) => (
     <div className="walk-screen" key={screen.id}>
-      <h3 className="walk-screen__label">{screen.label}</h3>
+      {screen.label && <h3 className="walk-screen__label">{screen.label}</h3>}
       {screen.gallery && <Gallery items={screen.gallery} />}
       <ol className={large ? 'walk-steps walk-steps--large' : 'walk-steps'}>
         {screen.steps.map((step) => {

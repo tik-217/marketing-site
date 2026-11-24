@@ -2,8 +2,7 @@ import { homeTariffs } from '../../../entities/pricing'
 import { Section } from '../../../shared/ui'
 import { TariffCards } from './TariffCards'
 
-const tariffHref = (tariff) =>
-  `https://t.me/tigran_front?text=${encodeURIComponent(`Здравствуйте, интересует тариф «${tariff.name}»`)}`
+const tariffHref = () => '/#razbor'
 
 /** Три тарифа на главной. Те же карточки, что на /bankrotstvo. Якорь #direct ведет сюда. */
 export function Pricing() {

@@ -2,5 +2,8 @@
 @import './tokens.css';
 @import './base.css';
 @import './landing.css';
+@import './landing-contact.css';
+@import './landing-cases.css';
+@import './landing-tariffs.css';
 @import '../../features/audit/audit.css';
 @import '../../pages/bankrotstvo/bankrotstvo.css';

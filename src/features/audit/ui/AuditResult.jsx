@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { PARTIAL_NOTICE } from '../lib/messages'
 import { ProblemCard } from './ProblemCard'
-import { FinalCta, MidCta } from './TelegramCta'
+import { FinalCta, MidCta } from './ContactCta'
 
 const VIEW_AFTER_MS = 5000
 

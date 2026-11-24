@@ -1,13 +1,13 @@
 import { useEffect, useRef } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { contacts } from '../../../shared/config/contacts'
-import { InstagramIcon, PhoneIcon, TelegramIcon } from '../../../shared/ui'
+import { PhoneIcon } from '../../../shared/ui'
 
 /**
  * telegram: свой адрес и название блока для иконки Telegram (на странице /bankrotstvo), по умолчанию общий чат.
  * homeHref: куда ведет логотип. У /bankrotstvo своя главная, это она сама.
  */
-export function Header({ telegram, homeHref = '/' }) {
+export function Header({ homeHref = '/' }) {
   const headerRef = useRef(null)
   const heightRef = useRef(0)
   const { pathname } = useLocation()
@@ -42,25 +42,6 @@ export function Header({ telegram, homeHref = '/' }) {
           <a href="tel:+79180220901" className="social-link site-header__phone" aria-label={`Позвонить ${contacts.phone}`}>
             <PhoneIcon />
             <span>{contacts.phone}</span>
-          </a>
-          <a
-            href={telegram?.href ?? contacts.telegramUrl}
-            data-cta={telegram?.block}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="social-link social-link--icon"
-            aria-label="Telegram Тиграна Габуляна"
-          >
-            <TelegramIcon />
-          </a>
-          <a
-            href={contacts.instagramUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="social-link social-link--icon"
-            aria-label="Instagram Тиграна Габуляна"
-          >
-            <InstagramIcon />
           </a>
         </div>
       </div>

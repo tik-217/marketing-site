@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async'
-import { CtaButton } from '../../../shared/ui'
-import { HeroReview } from './HeroReview'
+import { CtaButton } from '../../../features/contact-cta'
+import { TrustRow } from './TrustRow'
 import portrait from '../../../shared/assets/images/tigran-portrait.avif'
 import portraitSmall from '../../../shared/assets/images/tigran-portrait-480.avif'
 
@@ -19,9 +19,9 @@ export function Hero() {
             Сначала разбираю спрос и конкурентов в&nbsp;вашей нише, потом собираю сайт и рекламу по итогам анализа. В&nbsp;последнем проекте одна сделка окупила маркетинг в&nbsp;11&nbsp;раз.
           </p>
           <div className="hero__cta">
-            <CtaButton source="s-hero" />
-            <p className="hero__help">Бесплатно. Напишите город и услугу, остальное посчитаю сам. Отвечу в течение 30 минут</p>
-            <HeroReview />
+            <CtaButton source="s-hero" label="Получить разбор конкурентов" className="btn--wrap" />
+            <p className="hero__help">Бесплатно. Оставьте номер телефона, я уточню город и услугу. Отвечу в течение 30 минут</p>
+            <TrustRow />
           </div>
         </div>
         <picture>

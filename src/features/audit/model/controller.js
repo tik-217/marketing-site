@@ -1,7 +1,7 @@
 import { parseAuditResponse } from '../api/parseResponse.js'
 import { DAILY_LIMIT } from '../lib/dailyLimit.js'
 import { normalizeUrl } from '../lib/normalizeUrl.js'
-import { makeResultCode } from '../lib/telegramLink.js'
+import { makeResultCode } from '../lib/resultCode.js'
 import { AuditError } from './types.js'
 
 const UNLIMITED = { enabled: false, limit: DAILY_LIMIT, used: 0, remaining: DAILY_LIMIT, exhausted: false }

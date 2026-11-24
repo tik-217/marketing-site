@@ -179,13 +179,13 @@ test('контроллер: 404 остается 404 и НЕ запускает 
 test('события страницы отчета: переименованы, очищены, без id отчета и аудита', () => {
   const sent = []
   const track = createReportTrack((name, params) => sent.push([name, sanitizeParams(params)]), { hostname: 'example.ru', status: 'partial' })
-  track('audit_telegram_click', { auditId: '11111111-1111-4111-8111-111111111111', intent: 'deeper' })
+  track('audit_form_open_click', { auditId: '11111111-1111-4111-8111-111111111111', intent: 'deeper' })
   track('audit_pdf_click', { auditId: REPORT_ID })
   track('audit_report_link_copy')
   track('audit_result_view', { hostname: 'x' })
   track('audit_copy_message')
   assert.deepEqual(sent, [
-    ['audit_report_telegram_click', { hostname: 'example.ru', status: 'partial' }],
+    ['audit_report_form_open_click', { hostname: 'example.ru', status: 'partial' }],
     ['audit_report_pdf_click', { hostname: 'example.ru', status: 'partial' }],
     ['audit_report_link_copy', { hostname: 'example.ru', status: 'partial' }],
   ])
@@ -220,7 +220,7 @@ test('completed: шапка, дата, тот же результат, Telegram 
   assert.match(html, /Что исправить в первую очередь/)
   assert.match(html, /Скопировать ссылку</)
   assert.match(html, /Скачать отчет в PDF/)
-  assert.match(html, /Написать в Telegram/)
+  assert.match(html, /Оставить заявку/)
   // PDF и копирование ссылки стоят в ряду кнопок под заголовком, выше результата; Telegram остается главным действием итога
   assert.ok(html.indexOf('Скачать отчет в PDF') < html.indexOf('Краткий итог'))
   assert.ok(html.indexOf('Скопировать ссылку<') < html.indexOf('Краткий итог'))
@@ -228,12 +228,11 @@ test('completed: шапка, дата, тот же результат, Telegram 
   assert.equal(html.includes(PARTIAL_NOTICE), false)
 })
 
-test('Telegram: ссылка на t.me/tigran_front без referrer (rel noreferrer)', () => {
+test('кнопка результата ведет к форме заявки', () => {
   const html = view(resultState())
   const link = html.match(/<a[^>]*ad-final__btn[^>]*>/)[0]
-  assert.match(link, /href="https:\/\/t\.me\/tigran_front\?text=/)
-  assert.match(link, /rel="noopener noreferrer"/)
-  for (const tag of html.match(/<a [^>]*t\.me[^>]*>/g) ?? []) assert.match(tag, /noreferrer/)
+  assert.match(link, /href="\/#razbor"/)
+  assert.doesNotMatch(html, /href="https?:\/\/(?:www\.)?(?:t\.me|instagram\.com)/)
 })
 
 test('partial: отчет показан с компактным сообщением, без предложения перезапустить аудит', () => {

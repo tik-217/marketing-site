@@ -9,5 +9,4 @@ export const professionalService = {
   telephone: '+79180220901',
   address: { '@type': 'PostalAddress', addressLocality: 'Анапа', addressCountry: 'RU' },
   areaServed: 'RU',
-  sameAs: ['https://t.me/tigran_front', 'https://www.instagram.com/tigran_pro_marketing/'],
 }

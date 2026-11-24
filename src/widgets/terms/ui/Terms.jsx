@@ -1,4 +1,5 @@
-import { CtaButton, Section } from '../../../shared/ui'
+import { Section } from '../../../shared/ui'
+import { CtaButton } from '../../../features/contact-cta'
 
 const contractItems = [
   'Состав работ и срок каждого этапа',

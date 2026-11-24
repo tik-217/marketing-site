@@ -1,7 +1,8 @@
-// Главная и /bankrotstvo после перехода на разбор конкурентов: кнопки, строка доверия, карточки кейсов, старые тексты.
+// Проверки основных страниц, ссылок и актуальных предложений.
 import assert from 'node:assert/strict'
 import { after, before, test } from 'node:test'
 import { createServer } from 'vite'
+import { homeTariffs } from '../../../entities/pricing/model/tariffs.js'
 
 let server
 let render
@@ -11,118 +12,101 @@ before(async () => {
   ;({ render } = await server.ssrLoadModule('/src/entry-server.jsx'))
 })
 
-after(async () => {
-  await server.close()
-})
+after(async () => { await server.close() })
 
-// Текст без тегов, неразрывные пробелы как обычные.
-const text = (url) =>
-  render(url)
-    .replace(/<(script|style)[\s\S]*?<\/\1>/g, ' ')
-    .replace(/<[^>]+>/g, ' ')
-    .replace(/&nbsp;| /g, ' ')
-    .replace(/\s+/g, ' ')
+const text = (url) => render(url)
+  .replace(/<(script|style)[\s\S]*?<\/\1>/g, ' ')
+  .replace(/<[^>]+>/g, ' ')
+  .replace(/&nbsp;| /g, ' ')
+  .replace(/\s+/g, ' ')
 
 const count = (haystack, needle) => haystack.split(needle).length - 1
 
-test('главная: кнопка "Получить разбор конкурентов" на первом экране и после кейсов, плюс панель на телефоне', () => {
+test('главная: предложение и кнопка плана рекламы на первом экране', () => {
   const html = render('/')
   const page = text('/')
   assert.ok(page.includes('Приведу вашей юридической фирме клиентов, которые уже ищут юриста в Яндексе'))
-  assert.ok(page.includes('Бесплатно. Выберите практику и город, разбор пришлю в Telegram в тот же день'))
-  // первый экран, после кейсов, нижняя панель, кнопка формы
-  assert.equal(count(page, 'Получить разбор конкурентов'), 4)
-  assert.equal(count(html, 'class="btn site-footer__cta'), 0)
-  assert.ok(html.includes('id="razbor"'))
-  assert.ok(html.includes('href="https://t.me/tigran_front?text=Здравствуйте%2C%20хочу%20разбор%20конкурентов"'))
+  assert.ok(page.includes('Получить разбор конкурентов'))
+  assert.ok(page.includes('Бесплатно. Оставьте номер телефона'))
+  assert.ok(html.includes('data-cta="hero"'))
+  assert.ok(html.includes('href="/#razbor"'))
 })
 
-test('строка доверия: оценка ведет на отзывы на этой же странице', () => {
+test('строка доверия соответствует странице', () => {
   for (const url of ['/', '/bankrotstvo']) {
-    const html = render(url)
-    assert.match(html, /<a href="#reviews" class="hero-trust__caption hero-trust__link">/, url)
-    assert.ok(html.includes('id="reviews"'), url)
-    const page = text(url)
-    for (const part of ['5,0', 'оценка на Профи.ру', 'Юрист', 'по образованию', 'Сбер', 'в прошлом разработчик']) {
+    const page = render(url)
+    for (const part of ['hero-trust', '5,0', 'Юрист', 'Сбер', 'href="#reviews"']) {
       assert.ok(page.includes(part), `${url}: ${part}`)
     }
   }
+  assert.ok(text('/bankrotstvo').includes('Получить разбор конкурентов'))
 })
 
-test('карточки кейсов: превью, ниша, заголовок и "Читать подробнее", без статусов и тегов', () => {
+test('карточки кейсов показывают результаты и ведут на страницы', () => {
+  const html = render('/')
   const page = text('/')
-  assert.ok(page.includes('Реклама новой услуги окупилась минимум в 11 раз и продолжает приносить заявки'))
-  assert.ok(page.includes('5 поводов, с которыми к юристу по банкротству приходят клиенты'))
+  assert.ok(page.includes('3 клиента с общей выручкой более 3 млн ₽'))
+  assert.ok(page.includes('5 типов клиентских запросов для будущей рекламы'))
   assert.equal(count(page, 'Читать подробнее'), 2)
-  for (const old of ['В работе', 'Завершен', 'Анализ и Директ', 'Маркетинговый анализ']) {
-    assert.equal(page.includes(old), false, old)
+  for (const slug of ['legalizaciya-kommercheskih-obektov', 'bankrotstvo-fizicheskih-lic']) {
+    assert.ok(html.includes(`href="/cases/${slug}"`), slug)
   }
-  assert.ok(text('/bankrotstvo').includes('Другая ниша, тот же метод. Реклама окупилась минимум в 11 раз и продолжает приносить заявки'))
+  assert.ok(page.includes('Анализ аудитории, конкурентов и торгового предложения за 14 рабочих дней'))
+  assert.ok(text('/bankrotstvo').includes('5 типов клиентских запросов для будущей рекламы'))
 })
 
-test('на главной и /bankrotstvo нет старых текстов и ссылок на автоматический аудит', () => {
-  const forbidden = [
-    'первые заявки',
-    'Первая заявка',
-    'первая заявка',
-    'первой заявки',
-    'Не обещаю',
-    'Не гарантирую',
-    'Не возьмусь',
-    'Получить разбор сайта',
-    'Telegram-боте',
-    'Разбор точек роста',
-    'Ежедневные отчеты',
-    'после доступов',
-    'Полгода практики',
-    'Четыре года юридического',
-    'из пяти',
-    'Аудит сайта',
-    'за 30 секунд',
-    'Автоматический разбор',
-    'Настройка Яндекс.Директ',
-    'две недели через подрядчика',
-    '89 000',
-    '120 000',
-    '159 000',
-    '50 000',
-  ]
+test('на главной и /bankrotstvo нет ссылок на автоматический аудит', () => {
   for (const url of ['/', '/bankrotstvo']) {
-    const page = text(url)
-    for (const old of forbidden) assert.equal(page.includes(old), false, `${url}: ${old}`)
-    assert.equal(render(url).includes('href="/audit"'), false, `${url}: ссылка на /audit`)
-  }
-  const home = text('/')
-  for (const old of ['План рекламы', 'план рекламы', 'посчитаю сам', 'План пришлю', 'Сколько это стоит']) {
-    assert.equal(home.includes(old), false, `/: ${old}`)
+    assert.equal(render(url).includes('href="/audit"'), false, url)
+    assert.equal(text(url).includes('Автоматический разбор'), false, url)
   }
 })
 
-test('/bankrotstvo: разбор конкурентов вместо плана рекламы, два тарифа', () => {
+test('тарифы на главной и /bankrotstvo соответствуют общим данным', () => {
+  const home = text('/')
+  for (const tariff of homeTariffs) {
+    assert.ok(home.includes(tariff.name), tariff.name)
+    assert.ok(home.includes(tariff.price), tariff.price)
+  }
   const html = render('/bankrotstvo')
   const page = text('/bankrotstvo')
-  // первый экран, ситуации, тарифы, шаги, кнопка формы
-  assert.equal(count(page, 'Получить разбор конкурентов'), 5)
-  assert.equal(count(html, 'class="btn site-footer__cta'), 0)
-  assert.ok(html.includes('href="https://t.me/tigran_front?text=Здравствуйте%2C%20хочу%20разбор%20конкурентов%20по%20банкротству.%20Мой%20город%20"'))
-  assert.ok(page.includes('Бесплатно. Напишите свой город, разбор пришлю в Telegram в тот же день'))
-  assert.ok(page.includes('Покажу, что обещают ваши конкуренты по банкротству в Яндексе'))
-  for (const old of ['План рекламы', 'план рекламы', 'посчитаю сам', 'План пришлю', 'План бесплатный', 'Или позвоните']) {
-    assert.equal(page.includes(old), false, old)
+  assert.equal(count(html, 'class="tariff__name"'), 3)
+  for (const tariff of homeTariffs) {
+    for (const value of [tariff.name, tariff.price, tariff.term, ...tariff.items]) {
+      assert.ok(page.includes(value), value)
+    }
   }
-  assert.equal(count(html, 'class="tariff__name"'), 2)
-  assert.ok(page.includes('Реклама Рекомендую 30 000 ₽ в месяц'))
-  assert.ok(page.includes('Лендинг и реклама 109 000 ₽ первый месяц рекламы включен, дальше 30 000 ₽ в месяц'))
-  assert.ok(page.includes('Как строится ваш канал заявок по банкротству'))
+  assert.ok(page.includes('Получить план рекламы по банкротству'))
 })
 
-test('логотип в шапке и подвале ведет на главную своей страницы', () => {
+test('логотипы ведут на главную, а из каталога шапка ведет к кейсам', () => {
   const brands = (url) => render(url).match(/<a[^>]*site-(header|footer)__brand[^>]*>/g).map((a) => a.match(/href="([^"]*)"/)[1])
   assert.deepEqual(brands('/'), ['/', '/'])
-  assert.deepEqual(brands('/bankrotstvo'), ['/bankrotstvo', '/bankrotstvo'])
+  assert.deepEqual(brands('/bankrotstvo'), ['/', '/'])
   assert.deepEqual(brands('/cases'), ['/#cases', '/'])
 })
 
 test('в нижнем блоке нет предложения про 5 разборов в неделю', () => {
   for (const url of ['/', '/bankrotstvo']) assert.equal(text(url).includes('5 разборов'), false, url)
+})
+
+test('на публичных страницах нет ссылок на Telegram и Instagram', () => {
+  for (const url of ['/', '/bankrotstvo', '/cases', '/privacy', '/audit']) {
+    assert.doesNotMatch(render(url), /href="https?:\/\/(?:www\.)?(?:t\.me|telegram\.me|instagram\.com)/i, url)
+  }
+})
+
+test('в кейсе о легализации нет изображений, а в кейсе о банкротстве они сохранены', () => {
+  const legal = render('/cases/legalizaciya-kommercheskih-obektov')
+  const bankruptcy = render('/cases/bankrotstvo-fizicheskih-lic')
+  assert.doesNotMatch(legal, /<img\b/)
+  assert.match(legal, /Реклама видна только тем, кто ищет услугу/)
+  assert.match(bankruptcy, /<img\b/)
+})
+
+test('возврат из кейса учитывает страницу банкротства', () => {
+  const bank = render('/bankrotstvo')
+  const slug = 'legalizaciya-kommercheskih-obektov'
+  assert.ok(bank.includes(`href="/cases/${slug}?from=bankrotstvo"`))
+  assert.match(render(`/cases/${slug}`), /href="\/cases"[^>]*>.*?Все кейсы/)
 })

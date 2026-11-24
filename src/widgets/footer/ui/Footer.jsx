@@ -1,19 +1,18 @@
 import { Link, useLocation } from 'react-router-dom'
 import { contacts } from '../../../shared/config/contacts'
-import { ctaName } from '../../../shared/lib/telegramSource'
-import { CtaButton, InstagramIcon, TelegramIcon } from '../../../shared/ui'
+import { CtaButton } from '../../../features/contact-cta'
 
 /**
  * chat: для страницы /bankrotstvo свой адрес чата, подпись и название блока для кнопки и ссылки Telegram.
  */
-export function Footer({ chat }) {
+export function Footer({ chat, homeHref = '/' }) {
   const { pathname } = useLocation()
 
   return (
     <footer className="site-footer">
       <div className="container site-footer__inner">
         <div className="site-footer__top">
-          <Link to="/" className="site-footer__brand">
+          <Link to={homeHref} className="site-footer__brand">
             <span className="site-header__name">Габулян Тигран</span>
             <span className="site-header__divider">|</span>
             <span className="site-header__role">Маркетолог</span>
@@ -33,20 +32,6 @@ export function Footer({ chat }) {
           <div className="site-footer__contacts">
             <a href="tel:+79180220901" className="site-footer__phone">
               {contacts.phone}
-            </a>
-            <a
-              href={chat?.href ?? contacts.telegramUrl}
-              data-cta={chat ? ctaName(chat.source) : undefined}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="social-link"
-            >
-              <TelegramIcon />
-              <span>Telegram</span>
-            </a>
-            <a href={contacts.instagramUrl} target="_blank" rel="noopener noreferrer" className="social-link">
-              <InstagramIcon />
-              <span>Instagram</span>
             </a>
           </div>
         </div>

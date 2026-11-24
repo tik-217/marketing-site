@@ -2,8 +2,8 @@ import assert from 'node:assert/strict'
 import { test } from 'node:test'
 import { cleanReferrer, cleanTag, internalPath, resolveAttribution } from '../lib/context.js'
 import { loadSavedAudit, saveAudit, savedKey } from '../lib/savedAudit.js'
-import { canRetry, hasTelegramFallback, messageForError, PDF_ERROR, PDF_LOADING } from '../lib/messages.js'
-import { buildLimitMessage, buildTelegramMessage, buildTelegramUrl, intents, makeResultCode } from '../lib/telegramLink.js'
+import { canRetry, messageForError, PDF_ERROR, PDF_LOADING } from '../lib/messages.js'
+import { makeResultCode } from '../lib/resultCode.js'
 import { createTracker, sanitizeParams } from '../../../shared/lib/analytics/track.js'
 import { createAuditTracker } from '../lib/track.js'
 
@@ -11,17 +11,6 @@ const memoryStorage = () => {
   const store = new Map()
   return { getItem: (k) => store.get(k) ?? null, setItem: (k, v) => store.set(k, v) }
 }
-
-test('сообщение в Telegram содержит сайт, намерение и код', () => {
-  const text = buildTelegramMessage({ intent: 'ads', hostname: 'example.ru', code: 'A7K3' })
-  assert.match(text, /example\.ru/)
-  assert.match(text, new RegExp(intents.ads.text))
-  assert.match(text, /Код: A7K3/)
-  const url = buildTelegramUrl('https://t.me/tigran_front', text)
-  assert.ok(url.startsWith('https://t.me/tigran_front?text='))
-  assert.equal(new URL(url).searchParams.get('text'), text)
-  assert.match(buildLimitMessage({ hostname: 'example.ru' }), /example\.ru/)
-})
 
 test('код результата: 4 символа без похожих знаков', () => {
   for (let i = 0; i < 50; i += 1) assert.match(makeResultCode(), /^[A-HJ-NP-Z2-9]{4}$/)
@@ -36,8 +25,6 @@ test('тексты ошибок и доступные действия', () => {
   assert.equal(canRetry('AUDIT_TEMPORARILY_UNAVAILABLE'), true)
   assert.equal(canRetry('RATE_LIMITED'), false)
   assert.equal(canRetry('AUDIT_LIMIT_REACHED'), false)
-  assert.equal(hasTelegramFallback('AUDIT_LIMIT_REACHED'), true)
-  assert.equal(hasTelegramFallback('AUDIT_TEMPORARILY_UNAVAILABLE'), false)
   for (const code of ['RATE_LIMITED', 'AUDIT_BUSY', 'AUDIT_LIMIT_REACHED', 'NETWORK_ERROR']) {
     assert.doesNotMatch(messageForError(code), /429|503|Yandex|Alice|Flash|provider|budget|token/i)
   }
@@ -96,7 +83,7 @@ test('события воронки уходят в Метрику через re
   const calls = []
   globalThis.ym = (...args) => calls.push(args)
   try {
-    createAuditTracker('live')('audit_telegram_click', {
+    createAuditTracker('live')('audit_form_open_click', {
       hostname: 'example.ru',
       auditId: '2f5c8d0e-1111-4222-8333-444455556666',
       text: 'secret summary',
@@ -105,7 +92,7 @@ test('события воронки уходят в Метрику через re
     delete globalThis.ym
   }
   assert.equal(calls.length, 1)
-  assert.deepEqual(calls[0].slice(1, 3), ['reachGoal', 'audit_telegram_click'])
+  assert.deepEqual(calls[0].slice(1, 3), ['reachGoal', 'audit_form_open_click'])
   assert.deepEqual(calls[0][3], { hostname: 'example.ru', auditId: '2f5c8d0e-1111-4222-8333-444455556666', mode: 'live' })
 })
 

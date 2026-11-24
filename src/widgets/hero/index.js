@@ -1,2 +1,2 @@
 export { Hero } from './ui/Hero'
-export { HeroReview } from './ui/HeroReview'
+export { TrustRow } from './ui/TrustRow'

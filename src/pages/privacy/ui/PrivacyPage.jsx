@@ -20,13 +20,13 @@ export function PrivacyPage() {
 
           <h2>1. Кто обрабатывает данные</h2>
           <p>Оператор данных: Габулян Тигран Давидович, самозанятый (плательщик налога на профессиональный доход), ИНН 010401519537.</p>
-          <p>Контакты для вопросов и запросов: <a href="mailto:tigran.gabulyan.2001@mail.ru">tigran.gabulyan.2001@mail.ru</a>, Telegram <a href="https://t.me/tigran_front" target="_blank" rel="noopener noreferrer">@tigran_front</a>.</p>
+          <p>Контакты для вопросов и запросов: <a href="mailto:tigran.gabulyan.2001@mail.ru">tigran.gabulyan.2001@mail.ru</a>.</p>
           <p>Политика действует для сайта gabulyan-tigran.ru.</p>
 
           <h2>2. Какие данные мы собираем</h2>
           <p>Когда вы отправляете форму на сайте, мы получаем</p>
           <ul>
-            <li>контакт, который вы указали в поле формы: ваш Telegram или номер телефона.</li>
+            <li>контакт, который вы указали в поле формы: номер телефона.</li>
           </ul>
           <p>Больше через форму ничего не собирается.</p>
           <p>
@@ -57,7 +57,7 @@ export function PrivacyPage() {
 
           <h2>7. Ваши права</h2>
           <ul>
-            <li>Отозвать согласие, узнать, какие данные о вас хранятся, потребовать их исправить или удалить: напишите на <a href="mailto:tigran.gabulyan.2001@mail.ru">tigran.gabulyan.2001@mail.ru</a> или в Telegram <a href="https://t.me/tigran_front" target="_blank" rel="noopener noreferrer">@tigran_front</a>. Ответим в течение 10 рабочих дней.</li>
+            <li>Отозвать согласие, узнать, какие данные о вас хранятся, потребовать их исправить или удалить: напишите на <a href="mailto:tigran.gabulyan.2001@mail.ru">tigran.gabulyan.2001@mail.ru</a>. Ответим в течение 10 рабочих дней.</li>
             <li>Отключить cookie Яндекс Метрики и Топ Mail.Ru: в настройках браузера или расширением для блокировки счетчиков. Форма при этом продолжит работать.</li>
             <li>Обратиться в Роскомнадзор, если считаете, что ваши права нарушены.</li>
           </ul>

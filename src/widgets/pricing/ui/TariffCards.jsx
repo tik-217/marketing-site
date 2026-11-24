@@ -1,4 +1,4 @@
-import { CtaButton } from '../../../shared/ui'
+import { CtaButton } from '../../../features/contact-cta'
 
 export function CheckIcon({ size = 28 }) {
   return (
@@ -20,12 +20,12 @@ function ClockIcon() {
 
 /**
  * Карточки тарифов: один компонент для главной и /bankrotstvo.
- * tariffs: [{ id, name, price, note, items, term, recommended }], getHref(tariff) отдает ссылку кнопки "Выбрать",
+ * tariffs: [{ id, name, price, items, term, recommended }], getHref(tariff) отдает ссылку кнопки "Выбрать",
  * sourcePrefix дает data-cta вида "<prefix>-<id>".
  */
 export function TariffCards({ tariffs, getHref, sourcePrefix }) {
   return (
-    <div className="tariffs">
+    <div className={tariffs.length === 2 ? 'tariffs tariffs--two' : 'tariffs'}>
       {tariffs.map((tariff) => (
         <article className={tariff.recommended ? 'tariff tariff--recommended' : 'tariff'} key={tariff.id}>
           <header className="tariff__head">
@@ -33,7 +33,6 @@ export function TariffCards({ tariffs, getHref, sourcePrefix }) {
             {tariff.recommended && <span className="tariff__badge">Рекомендую</span>}
           </header>
           <p className="tariff__price">{tariff.price}</p>
-          <p className="tariff__note">{tariff.note}</p>
           <ul className="tariff__list">
             {tariff.items.map((item) => (
               <li key={item}>
