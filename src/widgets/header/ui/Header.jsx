@@ -11,7 +11,7 @@ export function Header({ homeHref = '/' }) {
   const headerRef = useRef(null)
   const heightRef = useRef(0)
   const { pathname } = useLocation()
-  const logoHref = homeHref === '/' && pathname.startsWith('/cases') ? '/#cases' : homeHref
+  const logoHref = homeHref === '/' && pathname.startsWith('/bankrotstvo') ? '/bankrotstvo' : homeHref
 
   // Шапка всегда на виду, ее высота нужна первому экрану (--header-height).
   useEffect(() => {
