@@ -79,11 +79,10 @@ test('тарифы на главной и /bankrotstvo соответствую�
   assert.ok(page.includes('Получить план рекламы по банкротству'))
 })
 
-test('логотипы ведут на главную, а из каталога шапка ведет к кейсам', () => {
+test('логотипы ведут на главную, а из каталога шапка ведет к банкротствам', () => {
   const brands = (url) => render(url).match(/<a[^>]*site-(header|footer)__brand[^>]*>/g).map((a) => a.match(/href="([^"]*)"/)[1])
   assert.deepEqual(brands('/'), ['/', '/'])
-  assert.deepEqual(brands('/bankrotstvo'), ['/', '/'])
-  assert.deepEqual(brands('/cases'), ['/#cases', '/'])
+  assert.deepEqual(brands('/bankrotstvo'), ['/bankrotstvo', '/'])
 })
 
 test('в нижнем блоке нет предложения про 5 разборов в неделю', () => {
