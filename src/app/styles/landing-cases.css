@@ -746,7 +746,7 @@ img.theme-image--dark {
 }
 
 
-.audit-form__hint { font-size: var(--text-sm); color: var(--text-secondary); }
+.audit-form__hint { font-size: var(--text-sm); color: var(--text-secondary); margin-bottom: var(--space-1); }
 
 .pricing-row__price-note { display: block; font-size: var(--text-caption); font-weight: 400; color: var(--text-secondary); white-space: normal; }
 

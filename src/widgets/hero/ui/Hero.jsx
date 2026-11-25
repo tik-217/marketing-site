@@ -19,7 +19,7 @@ export function Hero() {
             Сначала разбираю спрос и конкурентов в&nbsp;вашей нише, потом собираю сайт и рекламу по итогам анализа. В&nbsp;последнем проекте одна сделка окупила маркетинг в&nbsp;11&nbsp;раз.
           </p>
           <div className="hero__cta">
-            <CtaButton source="s-hero" label="Получить разбор конкурентов" className="btn--wrap" />
+            <CtaButton source="s-hero" label="Получить бесплатный разбор" className="btn--wrap" />
             <p className="hero__help">Бесплатно. Оставьте номер телефона, я уточню город и услугу. Отвечу в течение 30 минут</p>
             <TrustRow />
           </div>

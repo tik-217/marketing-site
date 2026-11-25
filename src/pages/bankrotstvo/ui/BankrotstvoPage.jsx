@@ -86,12 +86,12 @@ function Hero() {
       </Helmet>
       <div className="container hero__inner">
         <div className="hero__text">
-          <h1 className="hero__headline">Помогаю юристам по банкротству получать заявки из Яндекса без зависимости от лидогенераторов</h1>
+          <h1 className="hero__headline">Помогаю юристам по банкротству настроить поток заявок из Яндекса</h1>
           <p className="hero__lead">
-            Запуск за 20 рабочих дней, кабинет на вашей фирме. В&nbsp;легализации коммерческих объектов одна сделка окупила маркетинг минимум в&nbsp;11&nbsp;раз.
+              Получайте клиентов из Яндекса уже через 8 рабочих дней. Рекламный кабинет будет вашим и вы видите, сколько стоит каждая заявка.
           </p>
           <div className="hero__cta">
-            <CtaButton {...cta('s-bankrotstvo-hero')} label="Получить разбор конкурентов" className="btn--wrap" />
+            <CtaButton {...cta('s-bankrotstvo-hero')} label="Получить бесплатный разбор" className="btn--wrap" />
             <p className="hero__help">Бесплатно. Оставьте номер телефона, я уточню ваш город. Отвечу в течение 30 минут</p>
             <TrustRow />
           </div>

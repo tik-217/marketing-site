@@ -1,3 +1,4 @@
+import { Navigate } from "react-router-dom";
 import { siteConfig } from '../../../shared/config/site'
 import { Seo } from '../../../shared/lib/seo'
 import { CtaButton } from '../../../features/contact-cta'
@@ -16,6 +17,7 @@ import { StickyCta } from '../../../widgets/sticky-cta'
 export function HomePage() {
   return (
     <>
+      <Navigate to="/bankrotstvo" replace />;
       <Seo path="/" description={siteConfig.homeDescription} />
       <div>
         <Header />

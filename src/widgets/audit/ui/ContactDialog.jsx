@@ -35,7 +35,7 @@ export function ContactDialog() {
   return (
     <dialog ref={dialogRef} className="contact-dialog" aria-labelledby="contact-dialog-title" onClose={() => setOpen(false)}>
       <button type="button" className="contact-dialog__close" aria-label="Закрыть" onClick={() => dialogRef.current.close()}>×</button>
-      <h2 id="contact-dialog-title" className="contact-dialog__title">Оставьте заявку</h2>
+      <h2 id="contact-dialog-title" className="contact-dialog__title">Получить бесплатный разбор</h2>
       {open && <ContactForm id="contact-dialog" pageName={pageName} />}
     </dialog>
   )

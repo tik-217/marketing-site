@@ -26,7 +26,7 @@ test('главная: предложение и кнопка плана рекл
   const html = render('/')
   const page = text('/')
   assert.ok(page.includes('Приведу вашей юридической фирме клиентов, которые уже ищут юриста в Яндексе'))
-  assert.ok(page.includes('Получить разбор конкурентов'))
+  assert.ok(page.includes('Получить бесплатный разбор'))
   assert.ok(page.includes('Бесплатно. Оставьте номер телефона'))
   assert.ok(html.includes('data-cta="hero"'))
   assert.ok(html.includes('href="/#razbor"'))
@@ -39,7 +39,7 @@ test('строка доверия соответствует странице', 
       assert.ok(page.includes(part), `${url}: ${part}`)
     }
   }
-  assert.ok(text('/bankrotstvo').includes('Получить разбор конкурентов'))
+  assert.ok(text('/bankrotstvo').includes('Получить бесплатный разбор'))
 })
 
 test('карточки кейсов показывают результаты и ведут на страницы', () => {

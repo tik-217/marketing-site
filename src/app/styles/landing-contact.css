@@ -41,7 +41,6 @@
   padding: var(--space-5);
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
   min-width: 0;
 }
 
@@ -52,7 +51,7 @@
 }
 
 @media (min-width: 861px) {
-  .audit-form { padding: var(--space-6); box-shadow: var(--shadow-sm); gap: var(--space-5); }
+  .audit-form { padding: var(--space-6); box-shadow: var(--shadow-sm); gap: var(--space-4); }
 }
 
 .audit-form__title { font-size: var(--text-lg); }
