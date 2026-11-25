@@ -150,7 +150,7 @@ function Process() {
 /** Тот же блок и те же классы, что "Со мной вы работаете напрямую" на главной: видео слева, справа заголовок и список. */
 function Who() {
   return (
-    <Section containerClassName="about">
+    <Section id="who" containerClassName="about">
       <div className="about__body">
         <h2 className="section-heading">Со мной вы работаете напрямую, без менеджера между нами</h2>
         <ul className="about__list">
