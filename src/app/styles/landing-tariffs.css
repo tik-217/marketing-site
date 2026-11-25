@@ -174,8 +174,8 @@
   border-top: 1px solid var(--gray-700);
 }
 
-.hero-trust__title { font-size: 13px; font-weight: 600; color: var(--gray-200); }
+.hero-trust__title { font-size: 16px; font-weight: 600; color: var(--gray-200); }
 .hero-trust__star { color: oklch(84% 0.16 86); }
-.hero-trust__caption { font-size: 12px; line-height: 1.35; color: var(--gray-300); }
+.hero-trust__caption { font-size: 14px; line-height: 1.35; color: var(--gray-300); }
 .hero-trust__link { text-decoration: underline; text-underline-offset: 3px; }
 .hero-trust__link:hover { color: var(--white); }

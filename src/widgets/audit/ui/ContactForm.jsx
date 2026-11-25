@@ -4,7 +4,7 @@ import { sendTelegramMessage } from '../../../shared/api/telegram'
 import { reachGoal } from '../../../shared/lib/analytics/goals'
 import { Button } from '../../../shared/ui'
 
-export function ContactForm({ id, help = 'Отвечу в течение 30 минут.', pageName }) {
+export function ContactForm({ id, btnText = 'Получить беслатный разбор', help = 'Отвечу в течение 30 минут.', pageName }) {
   const [sent, setSent] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState('')
@@ -61,7 +61,7 @@ export function ContactForm({ id, help = 'Отвечу в течение 30 ми
               </span>
             </label>
             <Button as="button" type="submit" block className="audit-form__submit" disabled={isSubmitting}>
-              {isSubmitting ? 'Отправляю…' : 'Получить беслатный разбор'}
+              {isSubmitting ? 'Отправляю…' : btnText}
             </Button>
             {error ? (
               <p className="audit-form__help" style={{ color: 'var(--accent-700, var(--accent))' }}>

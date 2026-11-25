@@ -3,5 +3,5 @@ export const contacts = {
   chatUrl: '/#razbor',
   ctaLabel: 'Получить план рекламы для вашей фирмы',
   bankruptcyChatUrl: '/bankrotstvo#audit',
-  bankruptcyCtaLabel: 'Получить план рекламы по банкротству',
+  bankruptcyCtaLabel: 'Получить бесплатный разбор\n',
 }

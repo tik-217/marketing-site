@@ -76,7 +76,7 @@ test('тарифы на главной и /bankrotstvo соответствую�
       assert.ok(page.includes(value), value)
     }
   }
-  assert.ok(page.includes('Получить план рекламы по банкротству'))
+  assert.ok(page.includes('Получить бесплатный разбор\n'))
 })
 
 test('логотипы ведут на главную, а из каталога шапка ведет к банкротствам', () => {
